@@ -1,5 +1,5 @@
 <?php
-namespace Eduardokum\LaravelBoleto;
+namespace VinicciusGuedes\LaravelCnab;
 
 use const PHP_EOL;
 
@@ -167,12 +167,12 @@ class CalculoDV
 			}else{
 				$dv1++;
 			}
-			
-			$dv2 = Util::modulo11($campo . $dv1, 2, 7, 0, 10);				
+
+			$dv2 = Util::modulo11($campo . $dv1, 2, 7, 0, 10);
 		}elseif($dv2 != 0){
 			$dv2 = (11 - $dv2);
 		}
-			
+
 		return $dv1 . $dv2;
     }
 
@@ -197,7 +197,7 @@ class CalculoDV
     {
         return Util::modulo11($nossoNumero);
     }
-	
+
     /*
     |--------------------------------------------------------------------------
     | 136 - Unicred
@@ -229,7 +229,7 @@ class CalculoDV
         $dv = Util::modulo11($agencia, 2, 9, 0, 'P');
         return $dv == 11 ? 0 : $dv;
     }
-    
+
     public static function bradescoContaCorrente($contaCorrente)
     {
         return Util::modulo11($contaCorrente, 2, 9, 0, 'P');
@@ -277,13 +277,13 @@ class CalculoDV
         }
         return 10 - $sum%10;
     }
-	
+
     /*
     |--------------------------------------------------------------------------
     | 435 - Delcred (Delbank)
     |--------------------------------------------------------------------------
     */
-	
+
     public static function delcredNossoNumero($carteira, $nossoNumero)
     {
 		$agencia = "0019";
@@ -291,7 +291,7 @@ class CalculoDV
 		$digitoVerificador = Util::modulo10($agencia.$carteira.$numeroFormatado);
         return $digitoVerificador;
     }
-	
+
     /*
     |--------------------------------------------------------------------------
     | 341 - Itau

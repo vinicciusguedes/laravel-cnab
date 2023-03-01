@@ -1,5 +1,5 @@
 <?php
-namespace Eduardokum\LaravelBoleto\Tests;
+namespace VinicciusGuedes\LaravelCnab\Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use PHPUnit\Framework\Constraint\IsType;

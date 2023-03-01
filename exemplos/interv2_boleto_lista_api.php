@@ -1,10 +1,10 @@
 <?php
 
-use Eduardokum\LaravelBoleto\Boleto\Banco\Inter;
+use VinicciusGuedes\LaravelCnab\Boleto\Banco\Inter;
 
 require 'autoload.php';
 
-$beneficiario = new \Eduardokum\LaravelBoleto\Pessoa(
+$beneficiario = new \VinicciusGuedes\LaravelCnab\Pessoa(
     [
         'nome' => 'ACME',
         'endereco' => 'Rua um, 123',
@@ -15,7 +15,7 @@ $beneficiario = new \Eduardokum\LaravelBoleto\Pessoa(
     ]
 );
 
-$api = new Eduardokum\LaravelBoleto\Api\Banco\Inter([
+$api = new VinicciusGuedes\LaravelCnab\Api\Banco\Inter([
     'versao' => 2,
     'beneficiario' => $beneficiario,
     'client_id' => 'id',
@@ -26,6 +26,6 @@ $api = new Eduardokum\LaravelBoleto\Api\Banco\Inter([
 $retorno = $api->retrieveList();
 
 dd($retorno);
-//$pdf = new Eduardokum\LaravelBoleto\Boleto\Render\Pdf();
+//$pdf = new VinicciusGuedes\LaravelCnab\Boleto\Render\Pdf();
 //$pdf->addBoletos($retorno);
 //$pdf->gerarBoleto($pdf::OUTPUT_SAVE, __DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . 'inter_lista_v2.pdf');

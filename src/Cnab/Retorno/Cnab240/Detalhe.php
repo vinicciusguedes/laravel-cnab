@@ -1,12 +1,12 @@
 <?php
 
-namespace Eduardokum\LaravelBoleto\Cnab\Retorno\Cnab240;
+namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240;
 
 use Carbon\Carbon;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab240\Detalhe as DetalheContract;
-use Eduardokum\LaravelBoleto\Contracts\Pessoa as PessoaContract;
-use Eduardokum\LaravelBoleto\MagicTrait;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Detalhe as DetalheContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Pessoa as PessoaContract;
+use VinicciusGuedes\LaravelCnab\MagicTrait;
+use VinicciusGuedes\LaravelCnab\Util;
 use Exception;
 
 class Detalhe implements DetalheContract

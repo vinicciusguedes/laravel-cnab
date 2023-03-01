@@ -1,10 +1,10 @@
 <?php
-namespace Eduardokum\LaravelBoleto\Api;
+namespace VinicciusGuedes\LaravelCnab\Api;
 
-use Eduardokum\LaravelBoleto\Contracts\Boleto\BoletoAPI as BoletoAPIContract;
-use Eduardokum\LaravelBoleto\Contracts\Pessoa as PessoaContract;
-use Eduardokum\LaravelBoleto\Pessoa;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\BoletoAPI as BoletoAPIContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Pessoa as PessoaContract;
+use VinicciusGuedes\LaravelCnab\Pessoa;
+use VinicciusGuedes\LaravelCnab\Util;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 

@@ -1,6 +1,6 @@
 <?php
 require 'autoload.php';
-$beneficiario = new \Eduardokum\LaravelBoleto\Pessoa(
+$beneficiario = new \VinicciusGuedes\LaravelCnab\Pessoa(
     [
         'nome'      => 'ACME',
         'endereco'  => 'Rua um, 123',
@@ -11,7 +11,7 @@ $beneficiario = new \Eduardokum\LaravelBoleto\Pessoa(
     ]
 );
 
-$pagador = new \Eduardokum\LaravelBoleto\Pessoa(
+$pagador = new \VinicciusGuedes\LaravelCnab\Pessoa(
     [
         'nome'      => 'Cliente',
         'endereco'  => 'Rua um, 123',
@@ -23,7 +23,7 @@ $pagador = new \Eduardokum\LaravelBoleto\Pessoa(
     ]
 );
 
-$boleto = new Eduardokum\LaravelBoleto\Boleto\Banco\Banrisul(
+$boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Banrisul(
     [
         'logo'                   => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '041.png',
         'dataVencimento'         => new \Carbon\Carbon(),
@@ -44,6 +44,6 @@ $boleto = new Eduardokum\LaravelBoleto\Boleto\Banco\Banrisul(
     ]
 );
 
-$pdf = new Eduardokum\LaravelBoleto\Boleto\Render\Pdf();
+$pdf = new VinicciusGuedes\LaravelCnab\Boleto\Render\Pdf();
 $pdf->addBoleto($boleto);
 $pdf->gerarBoleto($pdf::OUTPUT_SAVE, __DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . 'banrisul.pdf');

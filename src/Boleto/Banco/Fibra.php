@@ -1,10 +1,10 @@
 <?php
-namespace Eduardokum\LaravelBoleto\Boleto\Banco;
+namespace VinicciusGuedes\LaravelCnab\Boleto\Banco;
 
-use Eduardokum\LaravelBoleto\Boleto\AbstractBoleto;
-use Eduardokum\LaravelBoleto\CalculoDV;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Boleto\AbstractBoleto;
+use VinicciusGuedes\LaravelCnab\CalculoDV;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Util;
 
 class Fibra extends AbstractBoleto implements BoletoContract
 {

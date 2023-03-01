@@ -1,11 +1,11 @@
 <?php
 
-namespace Eduardokum\LaravelBoleto\Tests\Boleto;
+namespace VinicciusGuedes\LaravelCnab\Tests\Boleto;
 
-use Eduardokum\LaravelBoleto\Boleto\Banco as Boleto;
-use Eduardokum\LaravelBoleto\Boleto\Render\Pdf;
-use Eduardokum\LaravelBoleto\Pessoa;
-use Eduardokum\LaravelBoleto\Tests\TestCase;
+use VinicciusGuedes\LaravelCnab\Boleto\Banco as Boleto;
+use VinicciusGuedes\LaravelCnab\Boleto\Render\Pdf;
+use VinicciusGuedes\LaravelCnab\Pessoa;
+use VinicciusGuedes\LaravelCnab\Tests\TestCase;
 use Exception;
 use PHPUnit\Framework\Constraint\IsType;
 
@@ -456,7 +456,7 @@ class BoletoTest extends TestCase
         $this->assertNotNull($boleto->renderHTML());
         $this->assertNotNull($boleto->renderPDF());
     }
-    
+
     public function testBoletoBnb()
     {
         $boleto = new Boleto\Bnb(

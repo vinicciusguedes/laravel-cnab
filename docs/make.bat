@@ -9,7 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=source
 set BUILDDIR=build
-set SPHINXPROJ=LaravelBoleto
+set SPHINXPROJ=LaravelCnab
 
 if "%1" == "" goto help
 

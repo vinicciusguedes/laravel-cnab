@@ -1,5 +1,5 @@
 <?php
-namespace Eduardokum\LaravelBoleto;
+namespace VinicciusGuedes\LaravelCnab;
 
 use Illuminate\Support\Str;
 

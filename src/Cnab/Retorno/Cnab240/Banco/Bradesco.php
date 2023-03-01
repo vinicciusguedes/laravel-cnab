@@ -1,11 +1,11 @@
 <?php
 
-namespace Eduardokum\LaravelBoleto\Cnab\Retorno\Cnab240\Banco;
+namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco;
 
-use Eduardokum\LaravelBoleto\Cnab\Retorno\Cnab240\AbstractRetorno;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\RetornoCnab240;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\AbstractRetorno;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\RetornoCnab240;
+use VinicciusGuedes\LaravelCnab\Util;
 use Illuminate\Support\Arr;
 
 class Bradesco extends AbstractRetorno implements RetornoCnab240

@@ -1,11 +1,11 @@
 <?php
-namespace Eduardokum\LaravelBoleto\Cnab\Remessa\Cnab400\Banco;
+namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco;
 
-use Eduardokum\LaravelBoleto\CalculoDV;
-use Eduardokum\LaravelBoleto\Cnab\Remessa\Cnab400\AbstractRemessa;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\Remessa as RemessaContract;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\CalculoDV;
+use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\AbstractRemessa;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Remessa as RemessaContract;
+use VinicciusGuedes\LaravelCnab\Util;
 
 class Itau extends AbstractRemessa implements RemessaContract
 {
@@ -164,7 +164,7 @@ class Itau extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @param \Eduardokum\LaravelBoleto\Boleto\Banco\Itau $boleto
+     * @param \VinicciusGuedes\LaravelCnab\Boleto\Banco\Itau $boleto
      *
      * @return Itau
      * @throws \Exception

@@ -6,16 +6,16 @@
  * Time: 07:31
  */
 
-namespace Eduardokum\LaravelBoleto\Cnab\Retorno;
+namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno;
 
-use Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab240\Detalhe as Detalhe240Contract;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab240\Header as Header240Contract;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab240\Trailer as Trailer240Contract;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab400\Detalhe as Detalhe400Contract;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab400\Trailer as Trailer400Contract;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab400\Header as Header400Contract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Detalhe as Detalhe240Contract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Header as Header240Contract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Trailer as Trailer240Contract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Detalhe as Detalhe400Contract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Trailer as Trailer400Contract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Header as Header400Contract;
 use Illuminate\Support\Collection;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Util;
 
 abstract class AbstractRetorno implements \Countable, \SeekableIterator
 {
@@ -87,7 +87,7 @@ abstract class AbstractRetorno implements \Countable, \SeekableIterator
             throw new \Exception("Arquivo: não existe");
         }
 
-        $r = new \ReflectionClass('\Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto');
+        $r = new \ReflectionClass('\VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto');
         $constantNames = $r->getConstants();
         $bancosDisponiveis = [];
         foreach ($constantNames as $constantName => $codigoBanco) {

@@ -1,9 +1,9 @@
 <?php
-namespace Eduardokum\LaravelBoleto\Boleto\Render;
+namespace VinicciusGuedes\LaravelCnab\Boleto\Render;
 
-use Eduardokum\LaravelBoleto\Blade;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
-use \Eduardokum\LaravelBoleto\Contracts\Boleto\Render\Html as HtmlContract;
+use VinicciusGuedes\LaravelCnab\Blade;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
+use \VinicciusGuedes\LaravelCnab\Contracts\Boleto\Render\Html as HtmlContract;
 
 class Html implements HtmlContract
 {
@@ -127,7 +127,7 @@ class Html implements HtmlContract
                 $barcodes[$f] = $texto;
             }
         }
-        
+
         // Guarda inicial
         $retorno = '<div class="barcode">' .
             '<div class="black thin"></div>' .

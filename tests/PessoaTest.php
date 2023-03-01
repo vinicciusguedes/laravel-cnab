@@ -1,9 +1,9 @@
 <?php
 
-namespace Eduardokum\LaravelBoleto\Tests;
+namespace VinicciusGuedes\LaravelCnab\Tests;
 
-use Eduardokum\LaravelBoleto\Pessoa;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Pessoa;
+use VinicciusGuedes\LaravelCnab\Util;
 use Exception;
 use PHPUnit\Framework\Constraint\StringContains;
 

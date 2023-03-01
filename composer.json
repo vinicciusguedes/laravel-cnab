@@ -1,16 +1,16 @@
 {
-    "name": "eduardokum/laravel-boleto",
-    "description": "Biblioteca com boletos para o laravel",
+    "name": "vinicciusguedes/laravel-cnab",
+    "description": "Biblioteca para gerar boletos, remessas e leitura de retorno em laravel",
     "keywords": [
-        "eduardokum",
-        "laravel-boleto"
+        "vinicciusguedes",
+        "laravel-cnab"
     ],
-    "homepage": "https://github.com/eduardokum/laravel-boleto",
+    "homepage": "https://github.com/vinicciusguedes/laravel-cnab",
     "license": "MIT",
     "authors": [
         {
-            "name": "Eduardo Gusmão",
-            "email": "eduguscontra3@hotmail.com"
+            "name": "Viníccius Guedes",
+            "email": "vgndevcode@gmail.com"
         }
     ],
     "require": {
@@ -30,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Eduardokum\\LaravelBoleto\\": "src"
+            "VinicciusGuedes\\LaravelCnab\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Eduardokum\\LaravelBoleto\\Tests\\": "tests"
+            "VinicciusGuedes\\LaravelCnab\\Tests\\": "tests"
         }
     },
     "config": {

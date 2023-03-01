@@ -1,10 +1,10 @@
 <?php
-namespace Eduardokum\LaravelBoleto\Cnab\Retorno\Cnab400\Banco;
+namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco;
 
-use Eduardokum\LaravelBoleto\Cnab\Retorno\Cnab400\AbstractRetorno;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\RetornoCnab400;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\AbstractRetorno;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\RetornoCnab400;
+use VinicciusGuedes\LaravelCnab\Util;
 use Illuminate\Support\Arr;
 
 class Caixa extends AbstractRetorno implements RetornoCnab400

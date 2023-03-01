@@ -1,10 +1,10 @@
 <?php
-namespace Eduardokum\LaravelBoleto\Boleto\Banco;
+namespace VinicciusGuedes\LaravelCnab\Boleto\Banco;
 
-use Eduardokum\LaravelBoleto\Boleto\AbstractBoleto;
-use Eduardokum\LaravelBoleto\CalculoDV;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Boleto\AbstractBoleto;
+use VinicciusGuedes\LaravelCnab\CalculoDV;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Util;
 
 class Sicredi extends AbstractBoleto implements BoletoContract
 {
@@ -87,7 +87,7 @@ class Sicredi extends AbstractBoleto implements BoletoContract
      */
     protected $byte = 2;
     /**
-     * Código do cliente (é código do cedente, também chamado de código do beneficiário) é o código do emissor junto ao banco, geralmente é o próprio número da conta sem o dígito verificador. 
+     * Código do cliente (é código do cedente, também chamado de código do beneficiário) é o código do emissor junto ao banco, geralmente é o próprio número da conta sem o dígito verificador.
      * O código do cliente/cedente/beneficiário será diferente desse padrão em casos como quando um cliente bancário faz a migração da sua conta entre agências.
      *
      * @var string

@@ -1,11 +1,11 @@
 <?php
-namespace Eduardokum\LaravelBoleto\Boleto\Banco;
+namespace VinicciusGuedes\LaravelCnab\Boleto\Banco;
 
 use Carbon\Carbon;
-use Eduardokum\LaravelBoleto\Boleto\AbstractBoleto;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\BoletoAPI as BoletoAPIContract;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Boleto\AbstractBoleto;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\BoletoAPI as BoletoAPIContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto;
+use VinicciusGuedes\LaravelCnab\Util;
 use Illuminate\Support\Arr;
 
 class Inter extends AbstractBoleto implements BoletoAPIContract
@@ -280,7 +280,7 @@ class Inter extends AbstractBoleto implements BoletoAPIContract
             'VENCIDO' => AbstractBoleto::SITUACAO_ABERTO,
             'EXPIRADO' => AbstractBoleto::SITUACAO_BAIXADO,
         ];
-        
+
         $dateUS = preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}.*/', $boleto->dataHoraSituacao);
 
         return new self(array_merge(array_filter([

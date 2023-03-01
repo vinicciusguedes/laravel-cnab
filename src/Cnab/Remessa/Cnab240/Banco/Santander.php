@@ -13,13 +13,13 @@
  * Time: 23:11
  */
 
-namespace Eduardokum\LaravelBoleto\Cnab\Remessa\Cnab240\Banco;
+namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Banco;
 
-use Eduardokum\LaravelBoleto\CalculoDV;
-use Eduardokum\LaravelBoleto\Cnab\Remessa\Cnab240\AbstractRemessa;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\Remessa as RemessaContract;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\CalculoDV;
+use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\AbstractRemessa;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Remessa as RemessaContract;
+use VinicciusGuedes\LaravelCnab\Util;
 
 class Santander extends AbstractRemessa implements RemessaContract
 {

@@ -1,7 +1,7 @@
 <?php
-namespace Eduardokum\LaravelBoleto;
+namespace VinicciusGuedes\LaravelCnab;
 
-use Eduardokum\LaravelBoleto\Contracts\Pessoa as PessoaContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Pessoa as PessoaContract;
 
 class Pessoa implements PessoaContract
 {
@@ -271,7 +271,7 @@ class Pessoa implements PessoaContract
         } elseif (strlen($cpf_cnpj_cei) == 10) {
             return 'CEI';
         }
-        
+
         return 'CNPJ';
     }
     /**
@@ -299,7 +299,7 @@ class Pessoa implements PessoaContract
         $dados = array_filter(array($this->getEndereco(), $this->getBairro(), $this->getCidade(), $this->getUf(), $this->getCep()));
         return implode(' - ', $dados);
     }
-	
+
     /**
      * @return bool
      */

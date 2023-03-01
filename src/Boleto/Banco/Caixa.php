@@ -1,10 +1,10 @@
 <?php
-namespace Eduardokum\LaravelBoleto\Boleto\Banco;
+namespace VinicciusGuedes\LaravelCnab\Boleto\Banco;
 
-use Eduardokum\LaravelBoleto\Boleto\AbstractBoleto;
-use Eduardokum\LaravelBoleto\CalculoDV;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
-use Eduardokum\LaravelBoleto\Util;
+use VinicciusGuedes\LaravelCnab\Boleto\AbstractBoleto;
+use VinicciusGuedes\LaravelCnab\CalculoDV;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Util;
 
 class Caixa  extends AbstractBoleto implements BoletoContract
 {
@@ -112,8 +112,8 @@ class Caixa  extends AbstractBoleto implements BoletoContract
      * @return [type] [description]
      */
     public function getAgenciaCodigoBeneficiario(){
-        return $this->getAgencia() . ' / ' . 
-               $this->getCodigoCliente() . '-' . 
+        return $this->getAgencia() . ' / ' .
+               $this->getCodigoCliente() . '-' .
                Util::modulo11($this->getCodigoCliente());
     }
 

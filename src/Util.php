@@ -1,9 +1,9 @@
 <?php
-namespace Eduardokum\LaravelBoleto;
+namespace VinicciusGuedes\LaravelCnab;
 
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 use Illuminate\Support\Str;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
  * @TODO validar processar
  * @TODO validar float nos numeros
  *
- * @package Eduardokum\LaravelBoleto
+ * @package VinicciusGuedes\LaravelCnab
  */
 final class Util
 {
@@ -1020,7 +1020,7 @@ final class Util
      */
     public static function addPessoa(&$property, $obj)
     {
-        if (is_subclass_of($obj, 'Eduardokum\\LaravelBoleto\\Contracts\\Pessoa')) {
+        if (is_subclass_of($obj, 'VinicciusGuedes\\LaravelCnab\\Contracts\\Pessoa')) {
             $property = $obj;
             return $obj;
         } elseif (is_array($obj)) {
