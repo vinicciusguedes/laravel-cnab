@@ -11,6 +11,20 @@ Pacote para gerar boletos, remessas e leitura de retorno.
 
 [Documentação do Projeto](https://laravel-cnab.readthedocs.io/)
 
+## Instalação
+
+Via linha de comando:
+```composer
+composer require vinicciusguedes/laravel-cnab
+```
+Ou, coloque em seu arquivo composer.json:
+
+```json
+{
+  "vinicciusguedes/laravel-cnab": "~1.0"
+}
+```
+
 ## Doações
 
 **Estamos em busca de *doadores* e *patrocinadores* para ajudar a financiar parte do desenvolvimento deste pacote** 
