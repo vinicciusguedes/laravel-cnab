@@ -8,6 +8,8 @@ interface Pessoa
     public function getDocumento();
     public function getBairro();
     public function getEndereco();
+    public function getNumero();
+    public function getComplemento();
     public function getCepCidadeUf();
     public function getEnderecoCompleto();
     public function getCep();
