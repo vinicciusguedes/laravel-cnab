@@ -80,6 +80,8 @@ class PessoaTest extends TestCase
 
         $nome = 'Cliente';
         $endereco = 'Rua um, 123';
+        $numero = '123';
+        $complemento = 'Casa B';
         $bairro = 'Bairro';
         $cep = '99999999';
         $uf = 'UF';
@@ -90,6 +92,8 @@ class PessoaTest extends TestCase
             [
                 'nome' => $nome,
                 'endereco' => $endereco,
+                'numero' => $numero,
+                'complemento' => $complemento,
                 'bairro' => $bairro,
                 'cep' => $cep,
                 'uf' => $uf,
@@ -98,7 +102,7 @@ class PessoaTest extends TestCase
             ]
         );
 
-        $pessoa2 = Pessoa::create($nome, $documento, $endereco, $bairro, $cep, $cidade, $uf);
+        $pessoa2 = Pessoa::create($nome, $documento, $endereco, $numero, $complemento, $bairro, $cep, $cidade, $uf);
 
         $pessoa_contrutor = new \ReflectionClass($pessoa);
         $pessoa_create = new \ReflectionClass($pessoa2);

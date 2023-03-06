@@ -350,6 +350,14 @@ abstract class AbstractBoleto implements BoletoContract
     private $pixQrCode = null;
 
     /**
+     *
+     * Código PIX - TXID
+     *
+     * @var ?string
+     */
+    private $pixTxid = null;
+
+    /**
      * AbstractBoleto constructor.
      *
      * @param array $params
@@ -1251,10 +1259,10 @@ abstract class AbstractBoleto implements BoletoContract
     {
         $diasProtesto = (int)$diasProtesto;
         $this->diasProtesto = $diasProtesto > 0 ? $diasProtesto : 0;
-        
+
         if (!empty($diasProtesto) && $this->getDiasBaixaAutomatica() > 0) {
             throw new \Exception('Você deve usar dias de protesto ou dias de baixa, nunca os 2');
-        }       
+        }
 
         return $this;
     }
@@ -1694,6 +1702,22 @@ abstract class AbstractBoleto implements BoletoContract
     }
 
     /**
+     * @return ?string
+     */
+    public function getPixTxid(): ?string
+    {
+        return $this->pixTxid;
+    }
+
+    /**
+     * @param string $pixTxid
+     */
+    public function setPixTxid(string $pixTxid): void
+    {
+        $this->pixTxid = $pixTxid;
+    }
+
+    /**
      * @param $situacao
      *
      * @return bool
@@ -1827,6 +1851,8 @@ abstract class AbstractBoleto implements BoletoContract
                 'beneficiario' => [
                     'nome' => $this->getBeneficiario()->getNome(),
                     'endereco' => $this->getBeneficiario()->getEndereco(),
+                    'numero' => $this->getBeneficiario()->getNumero(),
+                    'complemento' => $this->getBeneficiario()->getComplemento(),
                     'bairro' => $this->getBeneficiario()->getBairro(),
                     'cep' => $this->getBeneficiario()->getCep(),
                     'uf' => $this->getBeneficiario()->getUf(),
@@ -1858,6 +1884,8 @@ abstract class AbstractBoleto implements BoletoContract
                         ? [
                         'nome' => $this->getSacadorAvalista()->getNome(),
                         'endereco' => $this->getSacadorAvalista()->getEndereco(),
+                        'numero' => $this->getSacadorAvalista()->getNumero(),
+                        'complemento' => $this->getSacadorAvalista()->getComplemento(),
                         'bairro' => $this->getSacadorAvalista()->getBairro(),
                         'cep' => $this->getSacadorAvalista()->getCep(),
                         'uf' => $this->getSacadorAvalista()->getUf(),
@@ -1871,6 +1899,8 @@ abstract class AbstractBoleto implements BoletoContract
                 'pagador' => [
                     'nome' => $this->getPagador()->getNome(),
                     'endereco' => $this->getPagador()->getEndereco(),
+                    'numero' => $this->getPagador()->getNumero(),
+                    'complemento' => $this->getPagador()->getComplemento(),
                     'bairro' => $this->getPagador()->getBairro(),
                     'cep' => $this->getPagador()->getCep(),
                     'uf' => $this->getPagador()->getUf(),
@@ -1899,6 +1929,7 @@ abstract class AbstractBoleto implements BoletoContract
                 'status' => $this->getStatus(),
                 'mostrar_endereco_ficha_compensacao' => $this->getMostrarEnderecoFichaCompensacao(),
                 'pix_qrcode' => $this->getPixQrCode(),
+                'pix_txid' => $this->getPixTxid(),
             ], $this->variaveis_adicionais
         );
     }

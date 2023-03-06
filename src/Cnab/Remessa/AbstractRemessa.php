@@ -95,6 +95,12 @@ abstract class AbstractRemessa
      */
     protected $dataRemessa = null;
     /**
+     * A hora que será informada no header da remessa
+     *
+     * @var Carbon;
+     */
+    protected $horaRemessa = null;
+    /**
      * Agência
      *
      * @var int
@@ -139,6 +145,13 @@ abstract class AbstractRemessa
     protected $beneficiario;
 
     /**
+     * Entidade pagador (quem esta gerando a remessa)
+     *
+     * @var PessoaContract
+     */
+    protected $pagador;
+
+    /**
      * Construtor
      *
      * @param array $params Parâmetros iniciais para construção do objeto
@@ -180,6 +193,32 @@ abstract class AbstractRemessa
         }
         return $this->dataRemessa->format($format);
     }
+
+    /**
+     * Informa a hora da remessa a ser gerada
+     *
+     * @param $hora
+     */
+    public function setHoraRemessa($hora)
+    {
+        $this->horaRemessa = $hora;
+    }
+
+    /**
+     * Retorna a hora da remessa a ser gerada
+     *
+     * @param $format
+     *
+     * @return string;
+     */
+    public function getHoraRemessa($format)
+    {
+        if (is_null($this->horaRemessa)) {
+            return Carbon::now()->format($format);
+        }
+        return $this->horaRemessa->format($format);
+    }
+
     /**
      * Seta os campos obrigatórios
      *
@@ -259,6 +298,27 @@ abstract class AbstractRemessa
     public function setBeneficiario($beneficiario)
     {
         Util::addPessoa($this->beneficiario, $beneficiario);
+
+        return $this;
+    }
+
+    /**
+     * @return PessoaContract
+     */
+    public function getPagador()
+    {
+        return $this->pagador;
+    }
+
+    /**
+     * @param $pagador
+     *
+     * @return AbstractRemessa
+     * @throws \Exception
+     */
+    public function setPagador($pagador)
+    {
+        Util::addPessoa($this->pagador, $pagador);
 
         return $this;
     }

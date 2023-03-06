@@ -16,6 +16,14 @@ class Pessoa implements PessoaContract
     /**
      * @var string
      */
+    protected $numero;
+    /**
+     * @var string
+     */
+    protected $complemento;
+    /**
+     * @var string
+     */
     protected $bairro;
     /**
      * @var string
@@ -43,6 +51,8 @@ class Pessoa implements PessoaContract
      * @param      $nome
      * @param      $documento
      * @param null $endereco
+     * @param null $numero
+     * @param null $complemento
      * @param null $bairro
      * @param null $cep
      * @param null $cidade
@@ -50,11 +60,13 @@ class Pessoa implements PessoaContract
      *
      * @return Pessoa
      */
-    public static function create($nome, $documento, $endereco = null, $bairro = null, $cep = null, $cidade = null, $uf = null)
+    public static function create($nome, $documento, $endereco = null, $numero = null, $complemento = null, $bairro = null, $cep = null, $cidade = null, $uf = null)
     {
         return new static([
             'nome' => $nome,
             'endereco' => $endereco,
+            'numero' => $numero,
+            'complemento' => $complemento,
             'bairro' => $bairro,
             'cep' => $cep,
             'uf' => $uf,
@@ -174,6 +186,52 @@ class Pessoa implements PessoaContract
     public function getEndereco()
     {
         return $this->endereco;
+    }
+
+    /**
+     * Define o numero
+     *
+     * @param string $numero
+     *
+     * @return Pessoa
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+    /**
+     * Retorna o numero
+     *
+     * @return string
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * Define o complemento
+     *
+     * @param string $complemento
+     *
+     * @return Pessoa
+     */
+    public function setComplemento($complemento)
+    {
+        $this->complemento = $complemento;
+
+        return $this;
+    }
+    /**
+     * Retorna o complemento
+     *
+     * @return string
+     */
+    public function getComplemento()
+    {
+        return $this->complemento;
     }
 
     /**
@@ -325,6 +383,8 @@ class Pessoa implements PessoaContract
         return [
             'nome' => $this->getNome(),
             'endereco' => $this->getEndereco(),
+            'numero' => $this->getNumero(),
+            'complemento' => $this->getComplemento(),
             'bairro' => $this->getBairro(),
             'cep' => $this->getCep(),
             'uf' => $this->getUf(),
