@@ -64,7 +64,9 @@ class Itau extends AbstractRemessa implements RemessaContract
         $this->boletos[] = $boleto;
         $this->segmentoJ($boleto);
         $this->segmentoJ52($boleto);
-        $this->segmentoJ52Pix($boleto);
+        if($boleto->getPixQrCode()) {
+            $this->segmentoJ52Pix($boleto);
+        }
         return $this;
     }
 
