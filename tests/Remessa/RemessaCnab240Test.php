@@ -3,7 +3,7 @@
 namespace VinicciusGuedes\LaravelCnab\Tests\Remessa;
 
 use VinicciusGuedes\LaravelCnab\Boleto\Banco as Boleto;
-use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Banco as Remessa;
+use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Cobranca\Banco as Remessa;
 use VinicciusGuedes\LaravelCnab\Pessoa;
 use VinicciusGuedes\LaravelCnab\Tests\TestCase;
 
