@@ -304,6 +304,13 @@ abstract class AbstractBoleto implements BoletoContract
     protected $campoCodigoBarras;
 
     /**
+     * Ccodigo de barras inserido
+     *
+     * @var string
+     */
+    protected $codigoBarrasInserido = null;
+
+    /**
      * Status do boleto, se vai criar alterar ou baixa no banco.
      *
      * @var int
@@ -1557,6 +1564,31 @@ abstract class AbstractBoleto implements BoletoContract
         return $this->campoCodigoBarras = substr($codigo, 0, 4) . $dv . substr($codigo, 4);
     }
 
+
+    /**
+     * Retorna código de barras inserido
+     *
+     * @return string
+     */
+    public function getCodigoBarrasInserido()
+    {
+        return $this->codigoBarrasInserido;
+    }
+
+    /**
+     * Define código de barras inserido
+     *
+     * @param  string $agenciaDv
+     *
+     * @return AbstractBoleto
+     */
+    public function setCodigoBarrasInserido($codigoBarrasInserido)
+    {
+        $this->codigoBarrasInserido = $codigoBarrasInserido;
+
+        return $this;
+    }
+
     /**
      * Retorna o código do banco com o dígito verificador
      *
@@ -1848,6 +1880,7 @@ abstract class AbstractBoleto implements BoletoContract
             [
                 'linha_digitavel' => $linha_digitavel,
                 'codigo_barras' => $codigo_barras,
+                'codigo_barras_inserido' => $this->getCodigoBarrasInserido(),
                 'beneficiario' => [
                     'nome' => $this->getBeneficiario()->getNome(),
                     'endereco' => $this->getBeneficiario()->getEndereco(),

@@ -79,18 +79,27 @@ class Itau extends AbstractRemessa implements RemessaContract
     public function segmentoJ(BoletoContract $boleto)
     {
         $this->iniciaDetalhe();
+
+        $ipte['dv'] = Util::formatCnab('9', $this->getContaDv(), 1);
+        $ipte['fator_vencimento'] = Util::fatorVencimento('9', $boleto->getDataVencimento(), 4);
+        $ipte['valor'] = Util::formatCnab('9', $boleto->getValor(), 13, 2);
+        $ipte['campo_livre'] = '';
+        if(!empty($boleto->getCodigoBarrasInserido())) {
+            $ipte = Util::IPTE2Variveis($boleto->getCodigoBarrasInserido());
+        }
+
         $this->add(1, 3, Util::onlyNumbers($this->getCodigoBanco()));
         $this->add(4, 7, '0001');
         $this->add(8, 8, '3');
         $this->add(9, 13, Util::formatCnab('9', $this->iRegistrosLote, 5));
         $this->add(14, 14, 'J');
-        $this->add(15, 17, ''); //TIPO DE MOVIMENTO
-        $this->add(18, 20, ''); //BANCO FAVORECIDO - CÓD. DE BARRAS – CÓDIGO BANCO FAVORECIDO
-        $this->add(21, 21, ''); //MOEDA - CÓD. DE BARRAS – CÓDIGO DA MOEDA
-        $this->add(22, 22, ''); //DV - CÓD. DE BARRAS – DÍGITO VERIF. DO CÓD. BARRAS
-        $this->add(23, 26, ''); //VENCIMENTO - CÓD. DE BARRAS – FATOR DE VENCIMENTO
-        $this->add(27, 36, ''); //VALOR - CÓD. DE BARRAS – VALOR
-        $this->add(37, 61, ''); //CAMPO LIVRE CÓD. DE BARRAS - 'CAMPO LIVRE'
+        $this->add(15, 17, '000'); //TIPO DE MOVIMENTO
+        $this->add(18, 20, Util::onlyNumbers($boleto->getCodigoBanco())); //BANCO FAVORECIDO - CÓD. DE BARRAS – CÓDIGO BANCO FAVORECIDO
+        $this->add(21, 21, Util::formatCnab('9', $boleto->getMoeda(), 1)); //MOEDA - CÓD. DE BARRAS – CÓDIGO DA MOEDA
+        $this->add(22, 22, Util::formatCnab('9', $ipte['dv'], 1)); //DV - CÓD. DE BARRAS – DÍGITO VERIF. DO CÓD. BARRAS
+        $this->add(23, 26, Util::formatCnab('9', $ipte['fator_vencimento'], 4)); //VENCIMENTO - CÓD. DE BARRAS – FATOR DE VENCIMENTO
+        $this->add(27, 36, Util::formatCnab('9', $ipte['valor'], 8, 2)); //VALOR - CÓD. DE BARRAS – VALOR
+        $this->add(37, 61, Util::formatCnab('9', $ipte['campo_livre'], 25)); //CAMPO LIVRE CÓD. DE BARRAS - 'CAMPO LIVRE'
         $this->add(62, 91, Util::formatCnab('X', $boleto->getBeneficiario()->getNome(), 30)); // NOME DO FAVORECIDO
         $this->add(92, 99, $boleto->getDataVencimento()->format('dmY')); //DATA DO VENCIMENTO (NOMINAL)
         $this->add(100, 114, Util::formatCnab('9', $boleto->getValor(), 13, 2)); //VALOR DO TÍTULO (NOMINAL)
@@ -121,7 +130,7 @@ class Itau extends AbstractRemessa implements RemessaContract
         $this->add(8, 8, '3');
         $this->add(9, 13, Util::formatCnab('9', $this->iRegistrosLote, 5));
         $this->add(14, 14, 'J');
-        $this->add(15, 17, ''); //TIPO DE MOVIMENTO
+        $this->add(15, 17, '000'); //TIPO DE MOVIMENTO
         $this->add(18, 19, ''); //CÓDIGO DO REGISTRO IDENTIFICAÇÃO DO REGISTRO OPCIONAL
         $this->add(20, 20, strlen(Util::onlyNumbers($boleto->getPagador()->getDocumento())) == 14 ? 2 : 1); //TIPO DE INSCRIÇÃO DO SACADO 1=CPF|2=CNPJ
         $this->add(21, 35, Util::formatCnab('X', $boleto->getPagador()->getDocumento(), 15)); //NÚMERO DE INSCRIÇÃO DO SACADO
@@ -157,7 +166,7 @@ class Itau extends AbstractRemessa implements RemessaContract
         $this->add(8, 8, '3');
         $this->add(9, 13, Util::formatCnab('9', $this->iRegistrosLote, 5));
         $this->add(14, 14, 'J');
-        $this->add(15, 17, ''); //TIPO DE MOVIMENTO
+        $this->add(15, 17, '000'); //TIPO DE MOVIMENTO
         $this->add(18, 19, ''); //IDENTIFICAÇÃO DO REGISTRO OPCIONAL
         $this->add(20, 20, strlen(Util::onlyNumbers($boleto->getPagador()->getDocumento())) == 14 ? 2 : 1); //TIPO DE INSCRIÇÃO DO SACADO 1=CPF|2=CNPJ
         $this->add(21, 35, Util::formatCnab('X', $boleto->getPagador()->getDocumento(), 15)); //NÚMERO DE INSCRIÇÃO DO SACADO
