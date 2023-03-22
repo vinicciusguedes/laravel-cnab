@@ -81,7 +81,7 @@ class Itau extends AbstractRemessa implements RemessaContract
         $this->iniciaDetalhe();
 
         $ipte['dv'] = Util::formatCnab('9', $this->getContaDv(), 1);
-        $ipte['fator_vencimento'] = Util::fatorVencimento('9', $boleto->getDataVencimento(), 4);
+        $ipte['fator_vencimento'] = Util::fatorVencimento($boleto->getDataVencimento());
         $ipte['valor'] = Util::formatCnab('9', $boleto->getValor(), 13, 2);
         $ipte['campo_livre'] = '';
         if(!empty($boleto->getCodigoBarrasInserido())) {
@@ -105,7 +105,7 @@ class Itau extends AbstractRemessa implements RemessaContract
         $this->add(100, 114, Util::formatCnab('9', $boleto->getValor(), 13, 2)); //VALOR DO TÍTULO (NOMINAL)
         $this->add(115, 129, Util::formatCnab('9', $boleto->getDesconto(), 13, 2)); //DESCONTOS - VALOR DO DESCONTO + ABATIMENTO
         $this->add(130, 144, Util::formatCnab('9', $boleto->getMulta(), 13, 2)); //ACRÉSCIMOS - VALOR DA MORA + MULTA
-        $this->add(145, 152, $boleto->getDataVencimento()->format('dmy')); //DATA DO PAGAMENTO
+        $this->add(145, 152, $boleto->getDataVencimento()->format('dmY')); //DATA DO PAGAMENTO
         $this->add(153, 167, Util::formatCnab('9', $boleto->getValor(), 13, 2)); //VALOR DO PAGAMENTO
         $this->add(168, 182, Util::formatCnab('9', 0, 15));
         $this->add(183, 202, $boleto->getNumeroDocumento()); //SEU NÚMERO - Nº DOCTO ATRIBUÍDO PELA EMPRESA
@@ -131,12 +131,12 @@ class Itau extends AbstractRemessa implements RemessaContract
         $this->add(9, 13, Util::formatCnab('9', $this->iRegistrosLote, 5));
         $this->add(14, 14, 'J');
         $this->add(15, 17, '000'); //TIPO DE MOVIMENTO
-        $this->add(18, 19, ''); //CÓDIGO DO REGISTRO IDENTIFICAÇÃO DO REGISTRO OPCIONAL
+        $this->add(18, 19, '52'); //CÓDIGO DO REGISTRO IDENTIFICAÇÃO DO REGISTRO OPCIONAL
         $this->add(20, 20, strlen(Util::onlyNumbers($boleto->getPagador()->getDocumento())) == 14 ? 2 : 1); //TIPO DE INSCRIÇÃO DO SACADO 1=CPF|2=CNPJ
-        $this->add(21, 35, Util::formatCnab('X', $boleto->getPagador()->getDocumento(), 15)); //NÚMERO DE INSCRIÇÃO DO SACADO
+        $this->add(21, 35, Util::formatCnab('9', Util::onlyNumbers($boleto->getPagador()->getDocumento()), 15)); //NÚMERO DE INSCRIÇÃO DO SACADO
         $this->add(36, 75, Util::formatCnab('X', $boleto->getPagador()->getNome(), 40)); //NOME DO SACADO
         $this->add(76, 76, strlen(Util::onlyNumbers($boleto->getBeneficiario()->getDocumento())) == 14 ? 2 : 1); //TIPO DE INSCRIÇÃO DO CEDENTE 1=CPF|2=CNPJ
-        $this->add(77, 91, Util::formatCnab('X', $boleto->getBeneficiario()->getDocumento(), 15)); //NÚMERO DE INSCRIÇÃO DO CEDENTE
+        $this->add(77, 91, Util::formatCnab('9', Util::onlyNumbers($boleto->getBeneficiario()->getDocumento()), 15)); //NÚMERO DE INSCRIÇÃO DO CEDENTE
         $this->add(92, 131, Util::formatCnab('X', $boleto->getBeneficiario()->getNome(), 40)); //NOME DO CEDENTE
         $this->add(132, 132, '0'); //TIPO DE INSCRIÇÃO DO SACADOR AVALISTA
         $this->add(133, 147, '000000000000000'); //NÚMERO DE INSCRIÇÃO DO SACADOR AVALISTA
@@ -167,12 +167,12 @@ class Itau extends AbstractRemessa implements RemessaContract
         $this->add(9, 13, Util::formatCnab('9', $this->iRegistrosLote, 5));
         $this->add(14, 14, 'J');
         $this->add(15, 17, '000'); //TIPO DE MOVIMENTO
-        $this->add(18, 19, ''); //IDENTIFICAÇÃO DO REGISTRO OPCIONAL
+        $this->add(18, 19, '52'); //IDENTIFICAÇÃO DO REGISTRO OPCIONAL
         $this->add(20, 20, strlen(Util::onlyNumbers($boleto->getPagador()->getDocumento())) == 14 ? 2 : 1); //TIPO DE INSCRIÇÃO DO SACADO 1=CPF|2=CNPJ
-        $this->add(21, 35, Util::formatCnab('X', $boleto->getPagador()->getDocumento(), 15)); //NÚMERO DE INSCRIÇÃO DO SACADO
+        $this->add(21, 35, Util::formatCnab('9', Util::onlyNumbers($boleto->getPagador()->getDocumento()), 15)); //NÚMERO DE INSCRIÇÃO DO SACADO
         $this->add(36, 75, Util::formatCnab('X', $boleto->getPagador()->getNome(), 40)); //NOME DO SACADO
         $this->add(76, 76, strlen(Util::onlyNumbers($boleto->getBeneficiario()->getDocumento())) == 14 ? 2 : 1); //TIPO DE INSCRIÇÃO DO CEDENTE 1=CPF|2=CNPJ
-        $this->add(77, 91, Util::formatCnab('X', $boleto->getBeneficiario()->getDocumento(), 15)); //NÚMERO DE INSCRIÇÃO DO CEDENTE
+        $this->add(77, 91, Util::formatCnab('9', Util::onlyNumbers($boleto->getBeneficiario()->getDocumento()), 15)); //NÚMERO DE INSCRIÇÃO DO CEDENTE
         $this->add(92, 131, Util::formatCnab('X', $boleto->getBeneficiario()->getNome(), 40)); //NOME DO CEDENTE
         $this->add(132, 208, Util::formatCnab('X', $boleto->getPixQrCode(), 77)); //CHAVE DE PAGAMENTO - URL / CHAVE PIX
         $this->add(209, 240, Util::formatCnab('X', $boleto->getPixTxid(), 32)); //TXID - CÓDIGO DE IDENTIFICAÇÃO DO QR-CODE
@@ -197,15 +197,15 @@ class Itau extends AbstractRemessa implements RemessaContract
         $this->add(8, 8, '0');
         $this->add(9, 14, '');
         $this->add(15, 17, '80'); //LAYOUT DE ARQUIVO - NUM DA VERSÃO DO LAYOUT DO ARQUIVO
-        $this->add(18, 18, strlen(Util::onlyNumbers($this->getBeneficiario()->getDocumento())) == 14 ? 2 : 1); //EMPRESA – INSCRIÇÃO - TIPO DE INSCRIÇÃO DA EMPRESA
-        $this->add(19, 32, Util::formatCnab('9', Util::onlyNumbers($this->getBeneficiario()->getDocumento()), 14)); //INSCRIÇÃO NÚMERO - CNPJ EMPRESA DEBITADA
+        $this->add(18, 18, strlen(Util::onlyNumbers($this->getPagador()->getDocumento())) == 14 ? 2 : 1); //EMPRESA – INSCRIÇÃO - TIPO DE INSCRIÇÃO DA EMPRESA
+        $this->add(19, 32, Util::formatCnab('9', Util::onlyNumbers($this->getPagador()->getDocumento()), 14)); //INSCRIÇÃO NÚMERO - CNPJ EMPRESA DEBITADA
         $this->add(33, 52, '');
         $this->add(53, 57, Util::formatCnab('9', $this->getAgencia(), 5)); //AGÊNCIA - NÚMERO AGÊNCIA DEBITADA
         $this->add(58, 58, '');
         $this->add(59, 70, Util::formatCnab('9', $this->getConta(), 12)); //CONTA - NÚMERO DE C/C DEBITADA
         $this->add(71, 71, '');
         $this->add(72, 72, CalculoDV::itauContaCorrente($this->getAgencia(), $this->getConta())); //DAC - DAC DA AGÊNCIA/CONTA DEBITADA
-        $this->add(73, 102, Util::formatCnab('X', $this->getBeneficiario()->getNome(), 30)); //NOME DA EMPRESA
+        $this->add(73, 102, Util::formatCnab('X', $this->getPagador()->getNome(), 30)); //NOME DA EMPRESA
         $this->add(103, 132, Util::formatCnab('X', Util::$bancos[Util::onlyNumbers($this->getCodigoBanco())], 30)); //NOME DO BANCO
 
         $this->add(133, 142, '');
