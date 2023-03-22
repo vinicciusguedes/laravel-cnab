@@ -61,6 +61,11 @@ interface Boleto
     public function getCodigoBarras();
 
     /**
+     * @return mixed
+     */
+    public function getCodigoBarrasInserido();
+
+    /**
      * @return PessoaContract
      */
     public function getBeneficiario();
