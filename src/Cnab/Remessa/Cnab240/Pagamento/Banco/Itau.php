@@ -108,9 +108,9 @@ class Itau extends AbstractRemessa implements RemessaContract
         $this->add(145, 152, $boleto->getDataVencimento()->format('dmY')); //DATA DO PAGAMENTO
         $this->add(153, 167, Util::formatCnab('9', $boleto->getValor(), 13, 2)); //VALOR DO PAGAMENTO
         $this->add(168, 182, Util::formatCnab('9', 0, 15));
-        $this->add(183, 202, $boleto->getNumeroDocumento()); //SEU NÚMERO - Nº DOCTO ATRIBUÍDO PELA EMPRESA
+        $this->add(183, 202, Util::formatCnab('X', $boleto->getNumeroDocumento(),20)); //SEU NÚMERO - Nº DOCTO ATRIBUÍDO PELA EMPRESA
         $this->add(203, 215, Util::formatCnab('X', '', 13));
-        $this->add(216, 230, Util::formatCnab('X', 0, 15)); //NOSSO NÚMERO - NÚMERO ATRIBUÍDO PELO BANCO
+        $this->add(216, 230, Util::formatCnab('X', $boleto->getNossoNumero(), 15)); //NOSSO NÚMERO - NÚMERO ATRIBUÍDO PELO BANCO
         $this->add(231, 240, Util::formatCnab('X', 0, 10));
 
         return $this;
