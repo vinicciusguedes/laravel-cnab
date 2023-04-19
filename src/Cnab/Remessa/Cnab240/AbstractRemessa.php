@@ -144,6 +144,16 @@ abstract class AbstractRemessa extends AbstractRemessaGeneric
     }
 
     /**
+     * Função que mostra a quantidade de trailer Lote do arquivo.
+     *
+     * @return int
+     */
+    protected function getCountTrailerLote()
+    {
+        return count($this->aRegistros[self::TRAILER_LOTE]);
+    }
+
+    /**
      * Gera o arquivo, retorna a string.
      *
      * @return string
