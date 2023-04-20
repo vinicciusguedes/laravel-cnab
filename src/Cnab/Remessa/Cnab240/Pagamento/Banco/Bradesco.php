@@ -153,7 +153,8 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(8, 8, '3');
         $this->add(9, 13, Util::formatCnab('9', $this->iRegistrosLote, 5));
         $this->add(14, 14, 'J');
-        $this->add(15, 17, '000'); //TIPO DE MOVIMENTO
+        $this->add(15, 15, '0'); //TIPO DE MOVIMENTO
+        $this->add(16, 17, '14'); //CÓDIGO DE MOVIMENTO
         $this->add(18, 61, Util::formatCnab('X', $boleto->getCodigoBarrasInserido(), 44)); //CÓD. DE BARRAS
         $this->add(62, 91, Util::formatCnab('X', $boleto->getBeneficiario()->getNome(), 30)); // NOME DO FAVORECIDO
         $this->add(92, 99, $boleto->getDataVencimento()->format('dmY')); //DATA DO VENCIMENTO (NOMINAL)
@@ -165,7 +166,7 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(168, 182, Util::formatCnab('9', 0, 15));
         $this->add(183, 202, Util::formatCnab('X', $boleto->getNumeroDocumento(),20)); //SEU NÚMERO - Nº DOCTO ATRIBUÍDO PELA EMPRESA
         $this->add(203, 222, Util::formatCnab('X', $boleto->getNossoNumero(), 20)); //NOSSO NÚMERO - NÚMERO ATRIBUÍDO PELO BANCO
-        $this->add(223, 224, Util::formatCnab('9', $boleto->getMoeda(), 2)  );
+        $this->add(223, 224, Util::formatCnab('9', $boleto->getMoeda(), 2));
         $this->add(225, 230, '');
         $this->add(231, 240, Util::formatCnab('X', 0, 10));
 
@@ -187,7 +188,7 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(9, 13, Util::formatCnab('9', $this->iRegistrosLote, 5));
         $this->add(14, 14, 'J');
         $this->add(15, 15, '');
-        $this->add(16, 17, '000'); //TIPO DE MOVIMENTO
+        $this->add(16, 17, '00'); //TIPO DE MOVIMENTO
         $this->add(18, 19, '52'); //CÓDIGO DO REGISTRO IDENTIFICAÇÃO DO REGISTRO OPCIONAL
         $this->add(20, 20, strlen(Util::onlyNumbers($boleto->getPagador()->getDocumento())) == 14 ? 2 : 1); //TIPO DE INSCRIÇÃO DO SACADO 1=CPF|2=CNPJ
         $this->add(21, 35, Util::formatCnab('9', Util::onlyNumbers($boleto->getPagador()->getDocumento()), 15)); //NÚMERO DE INSCRIÇÃO DO SACADO
