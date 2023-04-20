@@ -148,15 +148,6 @@ class Bradesco extends AbstractRemessa implements RemessaContract
     public function segmentoJ(BoletoContract $boleto)
     {
         $this->iniciaDetalhe();
-
-        $ipte['dv'] = Util::formatCnab('9', $this->getContaDv(), 1);
-        $ipte['fator_vencimento'] = Util::fatorVencimento($boleto->getDataVencimento());
-        $ipte['valor'] = Util::formatCnab('9', $boleto->getValor(), 13, 2);
-        $ipte['campo_livre'] = '';
-        if(!empty($boleto->getCodigoBarrasInserido())) {
-            $ipte = Util::IPTE2Variveis($boleto->getCodigoBarrasInserido());
-        }
-
         $this->add(1, 3, Util::onlyNumbers($this->getCodigoBanco()));
         $this->add(4, 7, '0001');
         $this->add(8, 8, '3');
