@@ -154,7 +154,7 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(9, 13, Util::formatCnab('9', $this->iRegistrosLote, 5));
         $this->add(14, 14, 'J');
         $this->add(15, 15, '0'); //TIPO DE MOVIMENTO
-        $this->add(16, 17, '14'); //CÓDIGO DE MOVIMENTO
+        $this->add(16, 17, '00'); //CÓDIGO DE MOVIMENTO
         $this->add(18, 61, Util::formatCnab('X', $boleto->getCodigoBarrasInserido(), 44)); //CÓD. DE BARRAS
         $this->add(62, 91, Util::formatCnab('X', $boleto->getBeneficiario()->getNome(), 30)); // NOME DO FAVORECIDO
         $this->add(92, 99, $boleto->getDataVencimento()->format('dmY')); //DATA DO VENCIMENTO (NOMINAL)
@@ -165,7 +165,7 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(153, 167, Util::formatCnab('9', $boleto->getValor(), 13, 2)); //VALOR DO PAGAMENTO
         $this->add(168, 182, Util::formatCnab('9', 0, 15));
         $this->add(183, 202, Util::formatCnab('X', $boleto->getNumeroDocumento(),20)); //SEU NÚMERO - Nº DOCTO ATRIBUÍDO PELA EMPRESA
-        $this->add(203, 222, Util::formatCnab('X', $boleto->getNossoNumero(), 20)); //NOSSO NÚMERO - NÚMERO ATRIBUÍDO PELO BANCO
+        $this->add(203, 222, ''); //NOSSO NÚMERO - NÚMERO ATRIBUÍDO PELO BANCO
         $this->add(223, 224, Util::formatCnab('9', $boleto->getMoeda(), 2));
         $this->add(225, 230, '');
         $this->add(231, 240, Util::formatCnab('X', 0, 10));
@@ -199,7 +199,7 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(132, 132, '0'); //TIPO DE INSCRIÇÃO DO SACADOR AVALISTA
         $this->add(133, 147, '000000000000000'); //NÚMERO DE INSCRIÇÃO DO SACADOR AVALISTA
         $this->add(148, 187, Util::formatCnab('X', '', 40)); //NOME DO SACADOR AVALISTA
-        $this->add(188, 240, Util::formatCnab('X', 0, 53)); //COMPLEMENTO DE REGISTRO
+        $this->add(188, 240, Util::formatCnab('X', '', 53)); //COMPLEMENTO DE REGISTRO
 
         if($boleto->getSacadorAvalista()) {
             $this->add(132, 132, strlen(Util::onlyNumbers($boleto->getSacadorAvalista()->getDocumento())) == 14 ? 2 : 1);
@@ -263,17 +263,17 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(8, 8, '1');
         $this->add(9, 9, 'C');
         $this->add(10, 11, '20'); //TIPO DE PAGAMENTO - TIPO DE PAGTO
-        $this->add(12, 13, '00'); //FORMA DE PAGAMENTO - FORMA DE PAGAMENTO
-        $this->add(14, 16, '040');
+        $this->add(12, 13, '11'); //FORMA DE PAGAMENTO - FORMA DE PAGAMENTO
+        $this->add(14, 16, '030');
         $this->add(17, 17, '');
         $this->add(18, 18, strlen(Util::onlyNumbers($this->getPagador()->getDocumento())) == 14 ? 2 : 1); //EMPRESA - INSCRIÇÃO TIPO INSCRIÇÃO EMPRESA DEBITADA
         $this->add(19, 32, Util::formatCnab('9', Util::onlyNumbers($this->getPagador()->getDocumento()), 14)); //INSCRIÇÃO NÚMERO - CNPJ EMPRESA OU CPF DEBITADO
-        $this->add(33, 52, Util::formatCnab('9', Util::onlyNumbers($this->getCodigoCliente()), 20));
+        $this->add(33, 52, Util::formatCnab('X', $this->getCodigoCliente(), 20));
         $this->add(53, 57, Util::formatCnab('9', $this->getAgencia(), 5)); //AGÊNCIA - NÚMERO AGÊNCIA DEBITADA
         $this->add(58, 58, CalculoDV::bradescoAgencia($this->getAgencia()));
         $this->add(59, 70, Util::formatCnab('9', $this->getConta(), 12)); //CONTA - NÚMERO DE C/C DEBITADA
         $this->add(71, 71, CalculoDV::bradescoContaCorrente($this->getConta()));
-        $this->add(72, 72, Util::formatCnab('9', $this->getContaDv() ?: CalculoDV::itauContaCorrente($this->getConta()), 1)); //DAC - DAC DA AGÊNCIA/CONTA DEBITADA
+        $this->add(72, 72, ''); //DAC - DAC DA AGÊNCIA/CONTA DEBITADA
         $this->add(73, 102, Util::formatCnab('X', $this->getPagador()->getNome(), 30)); //NOME DA EMPRESA - NOME DA EMPRESA DEBITADA
         $this->add(103, 142, ''); //MENSAGEM
         $this->add(143, 172, Util::formatCnab('X', $this->getPagador()->getEndereco(), 30)); //ENDEREÇO DA EMPRESA - NOME DA RUA, AV, PÇA, ETC...
@@ -307,8 +307,9 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(18, 23, Util::formatCnab('9', $this->getCountDetalhes() + 2, 6));
         $this->add(24, 41, Util::formatCnab('9', $valor, 16, 2));
         $this->add(42, 59, Util::formatCnab('9', 0, 18));
-        $this->add(60, 230, '');
-        $this->add(231, 240, '0'); //OCORRENCIA
+        $this->add(60, 65, Util::formatCnab('9', 0, 6));
+        $this->add(66, 230, '');
+        $this->add(231, 240, ''); //OCORRENCIA
 
         return $this;
     }
