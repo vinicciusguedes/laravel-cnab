@@ -155,7 +155,7 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(14, 14, 'J');
         $this->add(15, 15, '0'); //TIPO DE MOVIMENTO
         $this->add(16, 17, '00'); //CÓDIGO DE MOVIMENTO
-        $this->add(18, 61, Util::formatCnab('X', $boleto->getCodigoBarrasInserido(), 44)); //CÓD. DE BARRAS
+        $this->add(18, 61, Util::formatCnab('X', $boleto->getCodigoBarras(), 44)); //CÓD. DE BARRAS
         $this->add(62, 91, Util::formatCnab('X', $boleto->getBeneficiario()->getNome(), 30)); // NOME DO FAVORECIDO
         $this->add(92, 99, $boleto->getDataVencimento()->format('dmY')); //DATA DO VENCIMENTO (NOMINAL)
         $this->add(100, 114, Util::formatCnab('9', $boleto->getValor(), 13, 2)); //VALOR DO TÍTULO (NOMINAL)
@@ -225,15 +225,15 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(4, 7, '0000');
         $this->add(8, 8, '0');
         $this->add(9, 17, '');
-        $this->add(18, 18, strlen(Util::onlyNumbers($this->getBeneficiario()->getDocumento())) == 14 ? 2 : 1);
-        $this->add(19, 32, Util::formatCnab('9', Util::onlyNumbers($this->getBeneficiario()->getDocumento()), 14));
+        $this->add(18, 18, strlen(Util::onlyNumbers($this->getPagador()->getDocumento())) == 14 ? 2 : 1);
+        $this->add(19, 32, Util::formatCnab('9', Util::onlyNumbers($this->getPagador()->getDocumento()), 14));
         $this->add(33, 52, Util::formatCnab('9', Util::onlyNumbers($this->getCodigoCliente()), 20));
         $this->add(53, 57, Util::formatCnab('9', $this->getAgencia(), 5));
         $this->add(58, 58, CalculoDV::bradescoAgencia($this->getAgencia()));
         $this->add(59, 70, Util::formatCnab('9', $this->getConta(), 12));
         $this->add(71, 71, CalculoDV::bradescoContaCorrente($this->getConta()));
         $this->add(72, 72, '');
-        $this->add(73, 102, Util::formatCnab('X', $this->getBeneficiario()->getNome(), 30));
+        $this->add(73, 102, Util::formatCnab('X', $this->getPagador()->getNome(), 30));
         $this->add(103, 132, Util::formatCnab('X', Util::$bancos[Util::onlyNumbers($this->getCodigoBanco())], 30));
         $this->add(133, 142, '');
         $this->add(143, 143, 1);
@@ -241,9 +241,11 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(152, 157, date('His'));
         $this->add(158, 163, Util::formatCnab('9', $this->getIdremessa(), 6));
         $this->add(164, 166, '089');
-        $this->add(167, 171, '01600');
-        $this->add(172, 211, '');
-        $this->add(212, 240, '');
+        $this->add(167, 171, '06250');
+        $this->add(172, 191, '');
+        $this->add(192, 211, '');
+        $this->add(212, 230, '');
+        $this->add(231, 240, '');
         return $this;
     }
     /**
@@ -257,14 +259,13 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         /**
          * HEADER DE LOTE
          */
-
         $this->add(1, 3, Util::onlyNumbers($this->getCodigoBanco()));
         $this->add(4, 7, '0001');
         $this->add(8, 8, '1');
         $this->add(9, 9, 'C');
         $this->add(10, 11, '20'); //TIPO DE PAGAMENTO - TIPO DE PAGTO
-        $this->add(12, 13, '11'); //FORMA DE PAGAMENTO - FORMA DE PAGAMENTO
-        $this->add(14, 16, '030');
+        $this->add(12, 13, '30'); //FORMA DE PAGAMENTO - FORMA DE PAGAMENTO
+        $this->add(14, 16, '040');
         $this->add(17, 17, '');
         $this->add(18, 18, strlen(Util::onlyNumbers($this->getPagador()->getDocumento())) == 14 ? 2 : 1); //EMPRESA - INSCRIÇÃO TIPO INSCRIÇÃO EMPRESA DEBITADA
         $this->add(19, 32, Util::formatCnab('9', Util::onlyNumbers($this->getPagador()->getDocumento()), 14)); //INSCRIÇÃO NÚMERO - CNPJ EMPRESA OU CPF DEBITADO
@@ -305,8 +306,8 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(8, 8, '5');
         $this->add(9, 17, '');
         $this->add(18, 23, Util::formatCnab('9', $this->getCountDetalhes() + 2, 6));
-        $this->add(24, 41, Util::formatCnab('9', $valor, 16, 2));
-        $this->add(42, 59, Util::formatCnab('9', 0, 18));
+        $this->add(24, 41, Util::formatCnab('9', $valor, 18, 2));
+        $this->add(42, 59, Util::formatCnab('9', 0, 18, 5));
         $this->add(60, 65, Util::formatCnab('9', 0, 6));
         $this->add(66, 230, '');
         $this->add(231, 240, ''); //OCORRENCIA

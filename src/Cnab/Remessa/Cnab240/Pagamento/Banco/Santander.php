@@ -120,7 +120,7 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(14, 14, 'J');
         $this->add(15, 15, '0'); //TIPO DE MOVIMENTO
         $this->add(16, 17, '00'); //CÓDIGO DE INSTRUÇÃO PARA MOVIMENTO
-        $this->add(18, 61, Util::formatCnab('X', $boleto->getCodigoBarrasInserido(), 44)); //CÓD. DE BARRAS
+        $this->add(18, 61, Util::formatCnab('X', $boleto->getCodigoBarras(), 44)); //CÓD. DE BARRAS
         $this->add(62, 91, Util::formatCnab('X', $boleto->getBeneficiario()->getNome(), 30)); // NOME DO FAVORECIDO
         $this->add(92, 99, $boleto->getDataVencimento()->format('dmY')); //DATA DO VENCIMENTO (NOMINAL)
         $this->add(100, 114, Util::formatCnab('9', $boleto->getValor(), 13, 2)); //VALOR DO TÍTULO (NOMINAL)
@@ -204,9 +204,9 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(143, 143, 1); //ARQUIVO-CÓDIGO - CÓDIGO 1:REMESSA/2:RETORNO
         $this->add(144, 151, $this->getDataRemessa('dmY')); //DATA DE GERAÇÃO DO ARQUIVO
         $this->add(152, 157, $this->getHoraRemessa('His')); //HORA DE GERAÇÃO DO ARQUIVO
-        $this->add(158, 163, Util::formatCnab('9', 0, 6));
+        $this->add(158, 163, Util::formatCnab('9', $this->getIdremessa(), 6));
         $this->add(164, 166, Util::formatCnab('9', '060', 3));
-        $this->add(167, 171, '0'); //UNIDADE DE DENSIDADE - DENSIDADE DE GRAVAÇÃO DO ARQUIVO
+        $this->add(167, 171, ''); //UNIDADE DE DENSIDADE - DENSIDADE DE GRAVAÇÃO DO ARQUIVO
         $this->add(172, 191, '');
         $this->add(192, 211, '');
         $this->add(212, 230, '');
@@ -244,7 +244,7 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(8, 8, '1');
         $this->add(9, 9, 'C');
         $this->add(10, 11, '20'); //TIPO DE PAGAMENTO - TIPO DE PAGTO
-        $this->add(12, 13, '11'); //FORMA DE PAGAMENTO - FORMA DE PAGAMENTO
+        $this->add(12, 13, '30'); //FORMA DE PAGAMENTO - FORMA DE PAGAMENTO
         $this->add(14, 16, '030');
         $this->add(17, 17, '');
         $this->add(18, 18, strlen(Util::onlyNumbers($this->getPagador()->getDocumento())) == 14 ? 2 : 1); //EMPRESA - INSCRIÇÃO TIPO INSCRIÇÃO EMPRESA DEBITADA
