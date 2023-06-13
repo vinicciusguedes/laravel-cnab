@@ -31,6 +31,12 @@ class Bradesco  extends AbstractBoleto implements BoletoContract
      */
     protected $cip = '000';
     /**
+     * Código do cliente.
+     *
+     * @var int
+     */
+    protected $codigoCliente;
+    /**
      * Variaveis adicionais.
      *
      * @var array
@@ -180,5 +186,29 @@ class Bradesco  extends AbstractBoleto implements BoletoContract
     public function getCip()
     {
         return Util::numberFormatGeral($this->cip, 3);
+    }
+
+    /**
+     * Retorna o código do cliente.
+     *
+     * @return int
+     */
+    public function getCodigoCliente()
+    {
+        return $this->codigoCliente;
+    }
+
+    /**
+     * Define o código do cliente.
+     *
+     * @param int $codigoCliente
+     *
+     * @return AbstractBoleto
+     */
+    public function setCodigoCliente($codigoCliente)
+    {
+        $this->codigoCliente = $codigoCliente;
+
+        return $this;
     }
 }
