@@ -120,7 +120,7 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(14, 14, 'J');
         $this->add(15, 15, '0'); //TIPO DE MOVIMENTO
         $this->add(16, 17, '00'); //CÓDIGO DE INSTRUÇÃO PARA MOVIMENTO
-        $this->add(18, 61, Util::formatCnab('X', $boleto->getCodigoBarrasInserido(), 44)); //CÓD. DE BARRAS
+        $this->add(18, 61, Util::formatCnab('X', $boleto->getCodigoBarras(), 44)); //CÓD. DE BARRAS
         $this->add(62, 91, Util::formatCnab('X', $boleto->getBeneficiario()->getNome(), 30)); // NOME DO FAVORECIDO
         $this->add(92, 99, $boleto->getDataVencimento()->format('dmY')); //DATA DO VENCIMENTO (NOMINAL)
         $this->add(100, 114, Util::formatCnab('9', $boleto->getValor(), 13, 2)); //VALOR DO TÍTULO (NOMINAL)
@@ -130,8 +130,8 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(153, 167, Util::formatCnab('9', $boleto->getValor(), 13, 2)); //VALOR DO PAGAMENTO
         $this->add(168, 182, Util::formatCnab('9', 0, 15));
         $this->add(183, 202, Util::formatCnab('X', $boleto->getNumeroDocumento(),20)); //SEU NÚMERO - Nº DOCTO ATRIBUÍDO PELA EMPRESA
-        $this->add(203, 222, Util::formatCnab('X', $boleto->getNossoNumero(), 20)); //NOSSO NÚMERO - NÚMERO ATRIBUÍDO PELO BANCO
-        $this->add(223, 224, Util::formatCnab('9', 0, 2));
+        $this->add(203, 222, ''); //NOSSO NÚMERO - NÚMERO ATRIBUÍDO PELO BANCO
+        $this->add(223, 224, Util::formatCnab('9', $boleto->getMoeda(), 2));
         $this->add(225, 230, '');
         $this->add(231, 240, Util::formatCnab('X', 0, 10));
 
@@ -164,7 +164,7 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(132, 132, '0'); //TIPO DE INSCRIÇÃO DO SACADOR AVALISTA
         $this->add(133, 147, '000000000000000'); //NÚMERO DE INSCRIÇÃO DO SACADOR AVALISTA
         $this->add(148, 187, Util::formatCnab('X', '', 40)); //NOME DO SACADOR AVALISTA
-        $this->add(188, 240, Util::formatCnab('X', 0, 53)); //COMPLEMENTO DE REGISTRO
+        $this->add(188, 240, Util::formatCnab('X', '', 53)); //COMPLEMENTO DE REGISTRO
 
         if($boleto->getSacadorAvalista()) {
             $this->add(132, 132, strlen(Util::onlyNumbers($boleto->getSacadorAvalista()->getDocumento())) == 14 ? 2 : 1);
@@ -204,9 +204,9 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(143, 143, 1); //ARQUIVO-CÓDIGO - CÓDIGO 1:REMESSA/2:RETORNO
         $this->add(144, 151, $this->getDataRemessa('dmY')); //DATA DE GERAÇÃO DO ARQUIVO
         $this->add(152, 157, $this->getHoraRemessa('His')); //HORA DE GERAÇÃO DO ARQUIVO
-        $this->add(158, 163, Util::formatCnab('9', 0, 6));
+        $this->add(158, 163, Util::formatCnab('9', $this->getIdremessa(), 6));
         $this->add(164, 166, Util::formatCnab('9', '060', 3));
-        $this->add(167, 171, '0'); //UNIDADE DE DENSIDADE - DENSIDADE DE GRAVAÇÃO DO ARQUIVO
+        $this->add(167, 171, ''); //UNIDADE DE DENSIDADE - DENSIDADE DE GRAVAÇÃO DO ARQUIVO
         $this->add(172, 191, '');
         $this->add(192, 211, '');
         $this->add(212, 230, '');
@@ -244,12 +244,12 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(8, 8, '1');
         $this->add(9, 9, 'C');
         $this->add(10, 11, '20'); //TIPO DE PAGAMENTO - TIPO DE PAGTO
-        $this->add(12, 13, '11'); //FORMA DE PAGAMENTO - FORMA DE PAGAMENTO
+        $this->add(12, 13, '30'); //FORMA DE PAGAMENTO - FORMA DE PAGAMENTO
         $this->add(14, 16, '030');
         $this->add(17, 17, '');
         $this->add(18, 18, strlen(Util::onlyNumbers($this->getPagador()->getDocumento())) == 14 ? 2 : 1); //EMPRESA - INSCRIÇÃO TIPO INSCRIÇÃO EMPRESA DEBITADA
         $this->add(19, 32, Util::formatCnab('9', Util::onlyNumbers($this->getPagador()->getDocumento()), 14)); //INSCRIÇÃO NÚMERO - CNPJ EMPRESA OU CPF DEBITADO
-        $this->add(33, 52, Util::formatCnab('9', $this->getCodigoCliente(), 20));
+        $this->add(33, 52, Util::formatCnab('X', $this->getCodigoCliente(), 20));
         $this->add(53, 57, Util::formatCnab('9', $this->getAgencia(), 5)); //AGÊNCIA - NÚMERO AGÊNCIA DEBITADA
         $this->add(58, 58, '');
         $this->add(59, 70, Util::formatCnab('9', $this->getConta(), 12)); //CONTA - NÚMERO DE C/C DEBITADA
@@ -290,7 +290,7 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(42, 59, Util::formatCnab('9', 0, 18));
         $this->add(60, 65, Util::formatCnab('9', 0, 6));
         $this->add(65, 230, '');
-        $this->add(231, 240, '0'); //OCORRENCIA
+        $this->add(231, 240, ''); //OCORRENCIA
 
         return $this;
     }
