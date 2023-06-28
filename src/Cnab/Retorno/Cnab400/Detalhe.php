@@ -45,6 +45,15 @@ class Detalhe implements DetalheContract
      */
     protected $ocorrenciaDescricao;
     /**
+     * @var array
+     */
+    protected $ocorrenciaArray = [];
+
+    /**
+     * @var string
+     */
+    protected $ocorrenciaArrayString;
+    /**
      * @var Carbon
      */
     protected $dataOcorrencia;
@@ -259,6 +268,27 @@ class Detalhe implements DetalheContract
     public function setOcorrenciaDescricao($ocorrenciaDescricao)
     {
         $this->ocorrenciaDescricao = $ocorrenciaDescricao;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOcorrenciaArray()
+    {
+        return $this->ocorrenciaArray;
+    }
+
+    /**
+     * @param array $value
+     *
+     * @return Detalhe
+     */
+    public function setOcorrenciaArray($value, $separator = ' | ')
+    {
+        $this->ocorrenciaArray = $value;
+        $this->ocorrenciaArrayString = implode($separator, $value);
 
         return $this;
     }
