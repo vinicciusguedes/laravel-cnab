@@ -65,10 +65,10 @@ Bancoob
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Bancoob($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Bancoob($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Bancoob($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Bancoob($argument)
 
     // To process the file
     $return->processar();
@@ -79,10 +79,10 @@ Banrisul
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Banrisul($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Banrisul($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Banrisul($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Banrisul($argument)
 
      // To process the file
     $return->processar();
@@ -93,10 +93,10 @@ Banco do Brasil
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Bb($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Bb($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Bb($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Bb($argument)
 
      // To process the file
     $return->processar();
@@ -107,10 +107,10 @@ Banco do Nordeste
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Bnb($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Bnb($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Bnb($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Bnb($argument)
 
      // To process the file
     $return->processar();
@@ -121,10 +121,10 @@ Bradesco
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Bradesco($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Bradesco($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Bradesco($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Bradesco($argument)
 
      // To process the file
     $return->processar();
@@ -135,10 +135,10 @@ Caixa Econônica Federal
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Caixa($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Caixa($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Caixa($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Caixa($argument)
 
      // To process the file
     $return->processar();
@@ -149,10 +149,10 @@ HSBC
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Hsbc($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Hsbc($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Hsbc($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Hsbc($argument)
 
      // To process the file
     $return->processar();
@@ -163,10 +163,10 @@ Itaú
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Itau($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Itau($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Itau($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Itau($argument)
 
      // To process the file
     $return->processar();
@@ -177,10 +177,10 @@ Santander
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Santander($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Santander($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Santander($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Santander($argument)
 
      // To process the file
     $return->processar();
@@ -191,10 +191,10 @@ Sicredi
 .. code-block:: php
 
     // 400 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Sicredi($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Sicredi($argument)
 
     // 240 positions
-    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Banco\Sicredi($argument)
+    $return = new \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Cobranca\Banco\Sicredi($argument)
 
      // To process the file
     $return->processar();

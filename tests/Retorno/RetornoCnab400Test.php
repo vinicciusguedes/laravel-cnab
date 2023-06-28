@@ -2,7 +2,7 @@
 
 namespace VinicciusGuedes\LaravelCnab\Tests\Retorno;
 
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Banco\Bradesco;
+use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Bradesco;
 use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Detalhe;
 use VinicciusGuedes\LaravelCnab\Tests\TestCase;
 use Exception;
