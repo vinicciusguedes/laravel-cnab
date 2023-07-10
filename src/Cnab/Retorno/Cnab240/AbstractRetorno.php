@@ -126,7 +126,7 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
             } elseif ($recordType == '1') {
                 $this->processarHeaderLote($linha);
             } elseif ($recordType == '3') {
-                if ($this->getSegmentType($linha) == 'T') {
+                if ($this->getSegmentType($linha) == 'T' || $this->getSegmentType($linha) == 'J') {
                     $this->incrementDetalhe();
                 }
 
