@@ -145,8 +145,8 @@ class Santander extends AbstractRetorno implements RetornoCnab240
         'ZD' => 'Competência Inválida',
         'ZE' => 'Título Bloqueado na base',
         'ZF' => 'Sistema em Contingência – Título com valor maior que referência',
-        'ZG' => 'Sistema em Contingência – Título vencido (pagamento de cobrança)',
-        'ZG' => 'Banco destino não Recebe DOC/Pix (pagamentos/transferências)',
+        'ZG' => 'Sistema em Contingência – Título vencido (pagamento de cobrança) / Banco destino não Recebe DOC/Pix (pagamentos/transferências)',
+        //'ZG' => 'Banco destino não Recebe DOC/Pix (pagamentos/transferências)',
         'ZH' => 'Sistema em contingência - Título indexado',
         'ZI' => 'Beneficiário divergente',
         'ZJ' => 'Limite de pagamentos parciais excedido',
@@ -206,13 +206,13 @@ class Santander extends AbstractRetorno implements RetornoCnab240
             ->setCodBanco($this->rem(1, 3, $header))
             ->setLoteServico($this->rem(4, 7, $header))
             ->setTipoRegistro($this->rem(8, 8, $header))
-            ->setTipoInscricao($this->rem(17, 17, $header))
-            ->setNumeroInscricao($this->rem(18, 32, $header))
-            ->setAgencia($this->rem(33, 36, $header))
-            ->setAgenciaDv($this->rem(37, 37, $header))
-            ->setConta($this->rem(38, 46, $header))
-            ->setContaDv($this->rem(47, 47, $header))
-            ->setCodigoCedente($this->rem(53, 61, $header))
+            ->setTipoInscricao($this->rem(18, 18, $header))
+            ->setNumeroInscricao($this->rem(19, 32, $header))
+            ->setCodigoCedente($this->rem(33, 52, $header))
+            ->setAgencia($this->rem(53, 57, $header))
+            ->setAgenciaDv($this->rem(58, 58, $header))
+            ->setConta($this->rem(59, 70, $header))
+            ->setContaDv($this->rem(71, 71, $header))
             ->setNomeEmpresa($this->rem(73, 102, $header))
             ->setNomeBanco($this->rem(103, 132, $header))
             ->setCodigoRemessaRetorno($this->rem(143, 143, $header))
@@ -238,15 +238,15 @@ class Santander extends AbstractRetorno implements RetornoCnab240
             ->setTipoOperacao($this->rem(9, 9, $headerLote))
             ->setTipoServico($this->rem(10, 11, $headerLote))
             ->setVersaoLayoutLote($this->rem(14, 16, $headerLote))
-            ->setNumeroInscricao($this->rem(19, 33, $headerLote))
-            ->setAgencia($this->rem(54, 57, $headerLote))
+            ->setNumeroInscricao($this->rem(19, 32, $headerLote))
+            ->setCodigoCedente($this->rem(33, 52, $headerLote))
+            ->setAgencia($this->rem(53, 57, $headerLote))
             ->setAgenciaDv($this->rem(58, 58, $headerLote))
-            ->setConta($this->rem(59, 67, $headerLote))
-            ->setContaDv($this->rem(68, 68, $headerLote))
-            ->setCodigoCedente($this->rem(34, 42, $headerLote))
-            ->setNomeEmpresa($this->rem(74, 103, $headerLote))
-            ->setNumeroRetorno($this->rem(184, 191, $headerLote))
-            ->setDataGravacao($this->rem(192, 199, $headerLote));
+            ->setConta($this->rem(59, 70, $headerLote))
+            ->setContaDv($this->rem(71, 71, $headerLote))
+            ->setNomeEmpresa($this->rem(73, 102, $headerLote));
+            //->setNumeroRetorno($this->rem(184, 191, $headerLote))
+            //->setDataGravacao($this->rem(192, 199, $headerLote));
 
         return true;
     }
@@ -263,69 +263,60 @@ class Santander extends AbstractRetorno implements RetornoCnab240
         if ($this->getSegmentType($detalhe) == 'J') {
             $d->setOcorrencia($this->rem(16, 17, $detalhe))
                 ->setOcorrenciaDescricao(Arr::get($this->ocorrencias, $this->detalheAtual()->getOcorrencia(), 'Desconhecida'))
-                ->setNossoNumero($this->rem(41, 53, $detalhe))
-                ->setCarteira($this->rem(54, 54, $detalhe))
-                ->setNumeroDocumento($this->rem(55, 69, $detalhe))
-                ->setDataVencimento($this->rem(70, 77, $detalhe))
-                ->setValor(Util::nFloat($this->rem(78, 92, $detalhe)/100, 2, false))
-                ->setNumeroControle($this->rem(101, 125, $detalhe))
-                ->setPagador([
+                ->setNossoNumero($this->rem(203, 222, $detalhe))
+                //->setCarteira($this->rem(54, 54, $detalhe))
+                //->setNumeroDocumento($this->rem(55, 69, $detalhe))
+                ->setDataVencimento($this->rem(92, 99, $detalhe))
+                ->setValor(Util::nFloat($this->rem(153, 167, $detalhe)/100, 2, false))
+                ->setNumeroControle($this->rem(183, 202, $detalhe));
+                /*->setPagador([
                     'nome' => $this->rem(144, 183, $detalhe),
                     'documento' => $this->rem(129, 143, $detalhe),
-                ])
-                ->setValorTarifa(Util::nFloat($this->rem(194, 208, $detalhe)/100, 2, false));
+                ])*/
+                //->setValorTarifa(Util::nFloat($this->rem(194, 208, $detalhe)/100, 2, false));
 
             /**
              * ocorrencias
             */
-            $msgAdicional = str_split(sprintf('%010s', $this->rem(209, 218, $detalhe)), 2) + array_fill(0, 5, '');
-            if ($d->hasOcorrencia('06', '09', '17')) {
+            $msgAdicional = str_split(sprintf('%08s', $this->rem(231, 240, $detalhe)), 2) + array_fill(0, 5, '');
+            if ($d->hasOcorrencia('00','14')) { //Valiação referente aos campos 16 e 17 Do J
                 $this->totais['liquidados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
-            } elseif ($d->hasOcorrencia('02')) {
+            } elseif ($d->hasOcorrencia('09')) {
                 $this->totais['entradas']++;
                 if(array_search('a4', array_map('strtolower', $msgAdicional)) !== false) {
                     $d->getPagador()->setDda(true);
                 }
                 $d->setOcorrenciaTipo($d::OCORRENCIA_ENTRADA);
-            } elseif ($d->hasOcorrencia('09')) {
+            } elseif ($d->hasOcorrencia('99')) {
                 $this->totais['baixados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_BAIXADA);
-            } elseif ($d->hasOcorrencia('19')) {
+            } elseif ($d->hasOcorrencia('98')) {
                 $this->totais['protestados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_PROTESTADA);
-            } elseif ($d->hasOcorrencia('27', '30')) {
+            } elseif ($d->hasOcorrencia('10','11')) {
                 $this->totais['alterados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_ALTERACAO);
-            } elseif ($d->hasOcorrencia('03', '26', '30')) {
+            } elseif ($d->hasOcorrencia('33')) {
                 $this->totais['erros']++;
                 $error = Util::appendStrings(
-                    Arr::get($this->rejeicoes, $msgAdicional[0], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[1], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[2], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[3], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[4], '')
+                    Arr::get($this->ocorrencias, $msgAdicional[0], ''),
+                    Arr::get($this->ocorrencias, $msgAdicional[1], ''),
+                    Arr::get($this->ocorrencias, $msgAdicional[2], ''),
+                    Arr::get($this->ocorrencias, $msgAdicional[3], ''),
+                    Arr::get($this->ocorrencias, $msgAdicional[4], '')
                 );
-                $ocorrenciaArray[$msgAdicional[0]] = Arr::get($this->rejeicoes, $msgAdicional[0], '');
-                $ocorrenciaArray[$msgAdicional[1]] = Arr::get($this->rejeicoes, $msgAdicional[1], '');
-                $ocorrenciaArray[$msgAdicional[2]] = Arr::get($this->rejeicoes, $msgAdicional[2], '');
-                $ocorrenciaArray[$msgAdicional[3]] = Arr::get($this->rejeicoes, $msgAdicional[3], '');
-                $ocorrenciaArray[$msgAdicional[4]] = Arr::get($this->rejeicoes, $msgAdicional[4], '');
-                $d->setOcorrenciaArray($ocorrenciaArray);
                 $d->setError($error);
             } else {
                 $d->setOcorrenciaTipo($d::OCORRENCIA_OUTROS);
             }
-        }
 
-        if ($this->getSegmentType($detalhe) == 'U') {
-            $d->setValorMulta(Util::nFloat($this->rem(18, 32, $detalhe)/100, 2, false))
-                ->setValorDesconto(Util::nFloat($this->rem(33, 47, $detalhe)/100, 2, false))
-                ->setValorAbatimento(Util::nFloat($this->rem(48, 62, $detalhe)/100, 2, false))
-                ->setValorIOF(Util::nFloat($this->rem(63, 77, $detalhe)/100, 2, false))
-                ->setValorRecebido(Util::nFloat($this->rem(78, 92, $detalhe)/100, 2, false))
-                ->setDataOcorrencia($this->rem(138, 145, $detalhe))
-                ->setDataCredito($this->rem(146, 153, $detalhe));
+            $ocorrenciaArray[$msgAdicional[0]] = Arr::get($this->ocorrencias, $msgAdicional[0], 'Código Inválido');
+            $ocorrenciaArray[$msgAdicional[1]] = Arr::get($this->ocorrencias, $msgAdicional[1], 'Código Inválido');
+            $ocorrenciaArray[$msgAdicional[2]] = Arr::get($this->ocorrencias, $msgAdicional[2], 'Código Inválido');
+            $ocorrenciaArray[$msgAdicional[3]] = Arr::get($this->ocorrencias, $msgAdicional[3], 'Código Inválido');
+            $ocorrenciaArray[$msgAdicional[4]] = Arr::get($this->ocorrencias, $msgAdicional[4], 'Código Inválido');
+            $d->setOcorrenciaArray($ocorrenciaArray);
         }
 
         if ($this->getSegmentType($detalhe) == 'Y') {
@@ -354,15 +345,15 @@ class Santander extends AbstractRetorno implements RetornoCnab240
             ->setLoteServico($this->rem(4, 7, $trailer))
             ->setTipoRegistro($this->rem(8, 8, $trailer))
             ->setQtdRegistroLote((int) $this->rem(18, 23, $trailer))
-            ->setQtdTitulosCobrancaSimples((int) $this->rem(24, 29, $trailer))
-            ->setValorTotalTitulosCobrancaSimples(Util::nFloat($this->rem(30, 46, $trailer)/100, 2, false))
-            ->setQtdTitulosCobrancaVinculada((int) $this->rem(47, 52, $trailer))
-            ->setValorTotalTitulosCobrancaVinculada(Util::nFloat($this->rem(53, 69, $trailer)/100, 2, false))
-            ->setQtdTitulosCobrancaCaucionada((int) $this->rem(70, 75, $trailer))
-            ->setValorTotalTitulosCobrancaCaucionada(Util::nFloat($this->rem(76, 92, $trailer)/100, 2, false))
-            ->setQtdTitulosCobrancaDescontada((int) $this->rem(93, 98, $trailer))
-            ->setValorTotalTitulosCobrancaDescontada(Util::nFloat($this->rem(99, 115, $trailer)/100, 2, false))
-            ->setNumeroAvisoLancamento($this->rem(116, 123, $trailer));
+            //->setQtdTitulosCobrancaSimples((int) $this->rem(24, 29, $trailer))
+            ->setValorTotalTitulosCobrancaSimples(Util::nFloat($this->rem(24, 41, $trailer)/100, 2, false));
+            //->setQtdTitulosCobrancaVinculada((int) $this->rem(47, 52, $trailer))
+            //->setValorTotalTitulosCobrancaVinculada(Util::nFloat($this->rem(53, 69, $trailer)/100, 2, false))
+            //->setQtdTitulosCobrancaCaucionada((int) $this->rem(70, 75, $trailer))
+            //->setValorTotalTitulosCobrancaCaucionada(Util::nFloat($this->rem(76, 92, $trailer)/100, 2, false))
+            //->setQtdTitulosCobrancaDescontada((int) $this->rem(93, 98, $trailer))
+            //->setValorTotalTitulosCobrancaDescontada(Util::nFloat($this->rem(99, 115, $trailer)/100, 2, false))
+            //->setNumeroAvisoLancamento($this->rem(116, 123, $trailer));
 
         return true;
     }

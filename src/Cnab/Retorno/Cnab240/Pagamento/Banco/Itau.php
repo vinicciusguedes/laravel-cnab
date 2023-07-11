@@ -245,7 +245,7 @@ class Itau extends AbstractRetorno implements RetornoCnab240
             /**
              * ocorrencias
             */
-            $msgAdicional = str_split(sprintf('%08s', $this->rem(231, 240, $detalhe)), 3) + array_fill(0, 5, '');
+            $msgAdicional = str_split(sprintf('%08s', $this->rem(231, 240, $detalhe)), 2) + array_fill(0, 5, '');
             if ($d->hasOcorrencia('000')) { //Valiação referente aos campos 16 e 17 Do J
                 $this->totais['liquidados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
@@ -265,7 +265,7 @@ class Itau extends AbstractRetorno implements RetornoCnab240
                 $this->totais['alterados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_ALTERACAO);
             } elseif ($d->hasOcorrencia('998','999')) {
-                $this->totais['Exclusão']++;
+                $this->totais['erros']++;
                 $error = Util::appendStrings(
                     Arr::get($this->ocorrencias, $msgAdicional[0], ''),
                     Arr::get($this->ocorrencias, $msgAdicional[1], ''),
