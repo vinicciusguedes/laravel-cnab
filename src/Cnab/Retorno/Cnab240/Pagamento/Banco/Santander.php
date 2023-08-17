@@ -23,32 +23,151 @@ class Santander extends AbstractRetorno implements RetornoCnab240
      * @var array
      */
     private $ocorrencias = [
-        '02' => 'Entrada confirmada',
-        '03' => 'Entrada rejeitada',
-        '04' => 'transferência de carteira/entrada',
-        '05' => 'transferência de carteira/baixa',
-        '06' => 'Liquidação',
-        '09' => 'Baixa',
-        '11' => 'títulos em carteira (em ser)',
-        '12' => 'confirmação recebimento instrução de abatimento',
-        '13' => 'confirmação recebimento instrução de cancelamento abatimento',
-        '14' => 'confirmação recebimento instrução alteração de vencimento',
-        '17' => 'liquidação após baixa ou liquidação título não registrado',
-        '19' => 'confirmação recebimento instrução de protesto',
-        '20' => 'confirmação recebimento instrução de sustação/Não Protestar',
-        '23' => 'remessa a cartorio (aponte em cartorio)',
-        '24' => 'retirada de cartorio e manutenção em carteira',
-        '25' => 'protestado e baixado (baixa por ter sido protestado)',
-        '26' => 'instrução rejeitada',
-        '27' => 'confirmação do pedido de alteração de outros dado',
-        '28' => 'debito de tarifas/custas',
-        '29' => 'ocorrências do Pagador',
-        '30' => 'alteração de dados rejeitada',
-        '32' => 'Código de IOF inválido',
-        '51' => 'Título DDA reconhecido pelo Pagador',
-        '52' => 'Título DDA não reconhecido pelo Pagador',
-        '53' => 'Título DDA recusado pela CIP',
-        'A4' => 'Pagador DDA',
+        '00' => 'Crédito ou Débito Efetivado',
+        '01' => 'Insuficiência de Fundos - Débito Não Efetuado',
+        '02' => 'Crédito ou Débito Cancelado pelo Pagador/Credor',
+        '03' => 'Débito Autorizado pela Agência - Efetuado',
+        'AA' => 'Controle Inválido',
+        'AB' => 'Tipo de Operação Inválido',
+        'AC' => 'Tipo de Serviço Inválido',
+        'AD' => 'Forma de Lançamento Inválida',
+        'AE' => 'Tipo/Número de Inscrição Inválido (gerado na crítica ou para informar rejeição)*',
+        'AF' => 'Código de Convênio Inválido',
+        'AG' => 'Agência/Conta Corrente/DV Inválido',
+        'AH' => 'Número Sequencial do Registro no Lote Inválido',
+        'AI' => 'Código de Segmento de Detalhe Inválido',
+        'AJ' => 'Tipo de Movimento Inválido',
+        'AK' => 'Código da Câmara de Compensação do Banco do Favorecido/Depositário Inválido',
+        'AL' => 'Código do Banco do Favorecido, Instituição de Pagamento ou Depositário Inválido',
+        'AM' => 'Agência Mantenedora da Conta Corrente do Favorecido Inválida',
+        'AN' => 'Conta Corrente/DV /Conta de Pagamento do Favorecido Inválido',
+        'AO' => 'Nome do Favorecido não Informado',
+        'AP' => 'Data Lançamento Inválida/Vencimento Inválido/Data de Pagamento não permitida.',
+        'AQ' => 'Tipo/Quantidade da Moeda Inválido',
+        'AR' => 'Valor do Lançamento Inválido/Divergente/Zerado',
+        'AS' => 'Aviso ao Favorecido - Identificação Inválida',
+        'AT' => 'Tipo/Número de Inscrição do Favorecido/Contribuinte Inválido',
+        'AU' => 'Logradouro do Favorecido não Informado',
+        'AV' => 'Número do Local do Favorecido não Informado',
+        'AW' => 'Cidade do Favorecido não Informada',
+        'AX' => 'CEP/Complemento do Favorecido Inválido',
+        'AY' => 'Sigla do Estado do Favorecido Inválido',
+        'AZ' => 'Código/Nome do Banco Depositário Inválido',
+        'A1' => 'Sequencial De Arq. Diverge Do Esperado',
+        'A2' => 'Finalidade Do Doc/Ted Invalida',
+        'A3' => 'Banco/Tipo Registro/Cod Rem-Ret Invalido',
+        'A4' => 'Registro Do Arquivo Remessa Não Identificado',
+        'A5' => 'Registro Header Não Encontrado',
+        'A6' => 'Registro Trailler Não Encontrado',
+        'A7' => 'Remessa Sem Registros Detalhe',
+        'A8' => 'Arquivo Com Mais De Um Registro Header',
+        'A9' => 'Arquivo Com Mais De Um Registro Trailler',
+        'BB' => 'Número do Documento Inválido(Seu Número)',
+        'BC' => 'Nosso Número Invalido',
+        'BD' => 'Inclusão Efetuada com Sucesso',
+        'BE' => 'Alteração Efetuada com Sucesso',
+        'BF' => 'Exclusão Efetuada com Sucesso',
+        'BG' => 'Agência/Conta Impedida Legalmente',
+        'B1' => 'Bloqueado Pendente de Autorização',
+        'B3' => 'Bloqueado pelo cliente',
+        'B4' => 'Bloqueado pela captura de título da cobrança',
+        'B8' => 'Bloqueado pela Validação de Tributos',
+        'CA' => 'Código de barras - Código do Banco Inválido',
+        'CB' => 'Código de barras - Código da Moeda Inválido',
+        'CC' => 'Código de barras - Dígito Verificador Geral Inválido',
+        'CD' => 'Código de barras - Valor do Título Inválido',
+        'CE' => 'Código de barras - Campo Livre Inválido',
+        'CF' => 'Valor do Documento/Principal/menor que o mínimo Inválido',
+        'CH' => 'Valor do Desconto Inválido',
+        'CI' => 'Valor de Mora Inválido',
+        'CJ' => 'Valor da Multa Inválido',
+        'CK' => 'Valor do IR Inválido',
+        'CL' => 'Valor do ISS Inválido',
+        'CG' => 'Valor do Abatimento inválido',
+        'CM' => 'Valor do IOF Inválido',
+        'CN' => 'Valor de Outras Deduções Inválido',
+        'CO' => 'Valor de Outros Acréscimos Inválido',
+        'HA' => 'Lote Não Aceito',
+        'HB' => 'Inscrição da Empresa Inválida para o Contrato',
+        'HC' => 'Convênio com a Empresa Inexistente/Inválido para o Contrato',
+        'HD' => 'Agência/Conta Corrente da Empresa Inexistente/Inválida para o Contrato',
+        'HE' => 'Tipo de Serviço Inválido para o Contrato',
+        'HF' => 'Conta Corrente da Empresa com Saldo Insuficiente',
+        'HG' => 'Lote de Serviço fora de Sequência',
+        'HH' => 'Lote de Serviço Inválido',
+        'HI' => 'Arquivo não aceito',
+        'HJ' => 'Tipo de Registro Inválido',
+        'HL' => 'Versão de Layout Inválida',
+        'HU' => 'Data / hora de Envio Inválida',
+        'IA' => 'Pagamento exclusive em Cartório.',
+        'IJ' => 'Competência ou Período de Referência ou Número da Parcela invalido',
+        'IL' => 'Código Pagamento / Receita não numérico ou com zeros',
+        'IM' => 'Município Invalido',
+        'IN' => 'Número Declaração Invalido',
+        'IO' => 'Número Etiqueta invalido',
+        'IP' => 'Número Notificação invalido',
+        'IQ' => 'Inscrição Estadual invalida',
+        'IR' => 'Dívida Ativa Invalida',
+        'IS' => 'Valor Honorários ou Outros Acréscimos invalido',
+        'IT' => 'Período Apuração invalido',
+        'IU' => 'Valor ou Percentual da Receita invalido',
+        'IV' => 'Número referência invalida',
+        'PA' => 'Pix não efetivado',
+        'PB' => 'Transação interrompida devido a erro no PSP do Recebedor',
+        'PC' => 'Número da conta transacional encerrada no PSP do Recebedor',
+        'PD' => 'Tipo incorreto para a conta transacional especificada',
+        'PE' => 'Tipo de transação não é suportado/autorizado na conta transacional especificada',
+        'PF' => 'CPF/CNPJ do usuário recebedor não é consistente com o titular da conta transacional especificada',
+        'PG' => 'CPF/CNPJ do usuário recebedor incorreto',
+        'PH' => 'Ordem rejeitada pelo PSP do Recebedor',
+        'PI' => 'ISPB do PSP do Pagador inválido ou inexistente',
+        'PJ' => 'Chave não cadastrada no DICT',
+        'PK' => 'Qr Code Invalido/Vencido',
+        'PL' => 'Forma De Iniciação Invalida',
+        'PM' => 'Chave inválida ou inválida para o Favorecido',
+        'PN' => 'Chave De Pagamento Não Informada',
+        'SC' => 'Validação parcial',
+        'TA' => 'Lote não Aceito - Totais do Lote com Diferença',
+        'W1' => 'Sequencial De Arq. Diverge Do Esperado',
+        'WW' => 'Duplicidade De Sequencial De Arquivo',
+        'XB' => 'Número de Inscrição do Contribuinte Inválido',
+        'XC' => 'Código do Pagamento ou Competência ou Número de Inscrição Inválido',
+        'XF' => 'Código do Pagamento, Competência não Numérico ou igual a zeros',
+        'YA' => 'Título não Encontrado',
+        'YB' => 'Identificação Registro Opcional Inválido',
+        'YC' => 'Código Padrão Inválido',
+        'YD' => 'Código de Ocorrência Inválido',
+        'YE' => 'Complemento de Ocorrência Inválido',
+        'YF' => 'Alegação já Informada',
+        'ZA' => 'Transferência Devolvida',
+        'ZB' => 'Transferência mesma titularidade não permitida',
+        'ZC' => 'Código pagamento Tributo inválido',
+        'ZD' => 'Competência Inválida',
+        'ZE' => 'Título Bloqueado na base',
+        'ZF' => 'Sistema em Contingência – Título com valor maior que referência',
+        'ZG' => 'Sistema em Contingência – Título vencido (pagamento de cobrança) / Banco destino não Recebe DOC/Pix (pagamentos/transferências)',
+        //'ZG' => 'Banco destino não Recebe DOC/Pix (pagamentos/transferências)',
+        'ZH' => 'Sistema em contingência - Título indexado',
+        'ZI' => 'Beneficiário divergente',
+        'ZJ' => 'Limite de pagamentos parciais excedido',
+        'ZK' => 'Título já liquidado',
+        'ZT' => 'Valor “outras entidades” inválido',
+        'ZU' => 'Sistema Origem Inválido',
+        'ZW' => 'Banco Destino não recebe DOC',
+        'ZX' => 'Banco Destino inoperante para DOC',
+        'ZY' => 'Código do Histórico de Crédito Invalido',
+        'ZV' => 'Autorização iniciada no Internet Banking',
+        'Z0' => 'Conta com bloqueio*',
+        'Z1' => 'Conta fechada. É necessário ativar a conta*',
+        'Z2' => 'Conta com movimento controlado*',
+        'Z3' => 'Conta cancelada*',
+        'Z4' => 'Registro inconsistente (Título)*',
+        'Z5' => 'Apresentação indevida (Título)*',
+        'Z6' => 'Dados do destinatário inválidos*',
+        'Z7' => 'Agência ou conta destinatária do crédito inválida*',
+        'Z8' => 'Divergência na titularidade*',
+        'Z9' => 'Conta destinatária do crédito encerrada*',
+        '99' => 'Bloqueado Outros Motivos',
     ];
 
     /**
@@ -57,71 +176,7 @@ class Santander extends AbstractRetorno implements RetornoCnab240
      * @var array
      */
     private $rejeicoes = [
-        '01' => 'código do banco invalido',
-        '02' => 'código do registro detalhe inválido',
-        '03' => 'código do segmento invalido',
-        '04' => 'código do movimento não permitido para carteira',
-        '05' => 'código de movimento invalido',
-        '06' => 'tipo/numero de inscrição do Beneficiário inválidos',
-        '07' => 'agencia/conta/DV invalido',
-        '08' => 'nosso numero invalido',
-        '09' => 'nosso numero duplicado',
-        '10' => 'carteira invalida',
-        '11' => 'forma de cadastramento do titulo invalida',
-        '12' => 'tipo de documento invalido',
-        '13' => 'identificação da emissão do Boleto invalida',
-        '14' => 'identificação da distribuição do Boleto invalida',
-        '15' => 'características da cobrança incompatíveis',
-        '16' => 'data de vencimento invalida',
-        '17' => 'data de vencimento anterior a data de emissão',
-        '18' => 'vencimento fora do prazo de operação',
-        '19' => 'titulo a cargo de bancos correspondentes com vencimento inferior a xx dias',
-        '20' => 'valor do título invalido',
-        '21' => 'espécie do titulo invalida',
-        '22' => 'espécie não permitida para a carteira',
-        '23' => 'aceite invalido',
-        '24' => 'Data de emissão inválida',
-        '25' => 'Data de emissão posterior a data de entrada',
-        '26' => 'Código de juros de mora inválido',
-        '27' => 'Valor/Taxa de juros de mora inválido',
-        '28' => 'Código de desconto inválido',
-        '29' => 'Valor do desconto maior ou igual ao valor do título',
-        '30' => 'Desconto a conceder não confere',
-        '31' => 'Concessão de desconto - já existe desconto anterior',
-        '32' => 'Valor do IOF',
-        '33' => 'Valor do abatimento inválido',
-        '34' => 'Valor do abatimento maior ou igual ao valor do título',
-        '35' => 'Abatimento a conceder não confere',
-        '36' => 'Concessão de abatimento - já existe abatimento anterior',
-        '37' => 'Código para protesto inválido',
-        '38' => 'Prazo para protesto inválido',
-        '39' => 'Pedido de protesto não permitido para o título',
-        '40' => 'Título com ordem de protesto emitida',
-        '41' => 'Pedido de cancelamento/sustação para títulos sem instrução de protesto',
-        '42' => 'Código para baixa/devolução inválido',
-        '43' => 'Prazo para baixa/devolução inválido',
-        '44' => 'Código de moeda inválido',
-        '45' => 'Nome do Pagador não informado',
-        '46' => 'Tipo /Número de inscrição do Pagador inválidos',
-        '47' => 'Endereço do Pagador não informado',
-        '48' => 'CEP inválido',
-        '49' => 'CEP sem praça de cobrança (não localizado)',
-        '50' => 'CEP referente a um Banco Correspondente',
-        '51' => 'CEP incompatível com a unidade de federação',
-        '52' => 'Unidade de federação inválida',
-        '53' => 'Tipo/Número de inscrição do sacador/avalista inválidos',
-        '54' => 'Sacador/Avalista não informado',
-        '55' => 'Nosso número no Banco Correspondente não informado',
-        '56' => 'Código do Banco Correspondente não informado',
-        '57' => 'Código da multa inválido',
-        '58' => 'Data da multa inválida',
-        '59' => 'Valor/Percentual da multa inválido',
-        '60' => 'Movimento para título não cadastrado',
-        '61' => 'Alteração de agência cobradora/dv inválida',
-        '62' => 'Tipo de impressão inválido',
-        '63' => 'Entrada para título já cadastrado',
-        '64' => 'Número da linha inválido',
-        '90' => 'Identificador/Quantidade de Parcelas de carnê invalido',
+
     ];
 
     /**
@@ -151,13 +206,13 @@ class Santander extends AbstractRetorno implements RetornoCnab240
             ->setCodBanco($this->rem(1, 3, $header))
             ->setLoteServico($this->rem(4, 7, $header))
             ->setTipoRegistro($this->rem(8, 8, $header))
-            ->setTipoInscricao($this->rem(17, 17, $header))
-            ->setNumeroInscricao($this->rem(18, 32, $header))
-            ->setAgencia($this->rem(33, 36, $header))
-            ->setAgenciaDv($this->rem(37, 37, $header))
-            ->setConta($this->rem(38, 46, $header))
-            ->setContaDv($this->rem(47, 47, $header))
-            ->setCodigoCedente($this->rem(53, 61, $header))
+            ->setTipoInscricao($this->rem(18, 18, $header))
+            ->setNumeroInscricao($this->rem(19, 32, $header))
+            ->setCodigoCedente($this->rem(33, 52, $header))
+            ->setAgencia($this->rem(53, 57, $header))
+            ->setAgenciaDv($this->rem(58, 58, $header))
+            ->setConta($this->rem(59, 70, $header))
+            ->setContaDv($this->rem(71, 71, $header))
             ->setNomeEmpresa($this->rem(73, 102, $header))
             ->setNomeBanco($this->rem(103, 132, $header))
             ->setCodigoRemessaRetorno($this->rem(143, 143, $header))
@@ -183,15 +238,15 @@ class Santander extends AbstractRetorno implements RetornoCnab240
             ->setTipoOperacao($this->rem(9, 9, $headerLote))
             ->setTipoServico($this->rem(10, 11, $headerLote))
             ->setVersaoLayoutLote($this->rem(14, 16, $headerLote))
-            ->setNumeroInscricao($this->rem(19, 33, $headerLote))
-            ->setAgencia($this->rem(54, 57, $headerLote))
+            ->setNumeroInscricao($this->rem(19, 32, $headerLote))
+            ->setCodigoCedente($this->rem(33, 52, $headerLote))
+            ->setAgencia($this->rem(53, 57, $headerLote))
             ->setAgenciaDv($this->rem(58, 58, $headerLote))
-            ->setConta($this->rem(59, 67, $headerLote))
-            ->setContaDv($this->rem(68, 68, $headerLote))
-            ->setCodigoCedente($this->rem(34, 42, $headerLote))
-            ->setNomeEmpresa($this->rem(74, 103, $headerLote))
-            ->setNumeroRetorno($this->rem(184, 191, $headerLote))
-            ->setDataGravacao($this->rem(192, 199, $headerLote));
+            ->setConta($this->rem(59, 70, $headerLote))
+            ->setContaDv($this->rem(71, 71, $headerLote))
+            ->setNomeEmpresa($this->rem(73, 102, $headerLote));
+            //->setNumeroRetorno($this->rem(184, 191, $headerLote))
+            //->setDataGravacao($this->rem(192, 199, $headerLote));
 
         return true;
     }
@@ -205,72 +260,63 @@ class Santander extends AbstractRetorno implements RetornoCnab240
     protected function processarDetalhe(array $detalhe)
     {
         $d = $this->detalheAtual();
-        if ($this->getSegmentType($detalhe) == 'T') {
+        if ($this->getSegmentType($detalhe) == 'J') {
             $d->setOcorrencia($this->rem(16, 17, $detalhe))
                 ->setOcorrenciaDescricao(Arr::get($this->ocorrencias, $this->detalheAtual()->getOcorrencia(), 'Desconhecida'))
-                ->setNossoNumero($this->rem(41, 53, $detalhe))
-                ->setCarteira($this->rem(54, 54, $detalhe))
-                ->setNumeroDocumento($this->rem(55, 69, $detalhe))
-                ->setDataVencimento($this->rem(70, 77, $detalhe))
-                ->setValor(Util::nFloat($this->rem(78, 92, $detalhe)/100, 2, false))
-                ->setNumeroControle($this->rem(101, 125, $detalhe))
-                ->setPagador([
+                ->setNossoNumero($this->rem(203, 222, $detalhe))
+                //->setCarteira($this->rem(54, 54, $detalhe))
+                //->setNumeroDocumento($this->rem(55, 69, $detalhe))
+                ->setDataVencimento($this->rem(92, 99, $detalhe))
+                ->setValor(Util::nFloat($this->rem(153, 167, $detalhe)/100, 2, false))
+                ->setNumeroControle($this->rem(183, 202, $detalhe));
+                /*->setPagador([
                     'nome' => $this->rem(144, 183, $detalhe),
                     'documento' => $this->rem(129, 143, $detalhe),
-                ])
-                ->setValorTarifa(Util::nFloat($this->rem(194, 208, $detalhe)/100, 2, false));
+                ])*/
+                //->setValorTarifa(Util::nFloat($this->rem(194, 208, $detalhe)/100, 2, false));
 
             /**
              * ocorrencias
             */
-            $msgAdicional = str_split(sprintf('%010s', $this->rem(209, 218, $detalhe)), 2) + array_fill(0, 5, '');
-            if ($d->hasOcorrencia('06', '09', '17')) {
+            $msgAdicional = str_split(sprintf('%08s', $this->rem(231, 240, $detalhe)), 2) + array_fill(0, 5, '');
+            if ($d->hasOcorrencia('00','14')) { //Valiação referente aos campos 16 e 17 Do J
                 $this->totais['liquidados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
-            } elseif ($d->hasOcorrencia('02')) {
+            } elseif ($d->hasOcorrencia('09')) {
                 $this->totais['entradas']++;
                 if(array_search('a4', array_map('strtolower', $msgAdicional)) !== false) {
                     $d->getPagador()->setDda(true);
                 }
                 $d->setOcorrenciaTipo($d::OCORRENCIA_ENTRADA);
-            } elseif ($d->hasOcorrencia('09')) {
+            } elseif ($d->hasOcorrencia('99')) {
                 $this->totais['baixados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_BAIXADA);
-            } elseif ($d->hasOcorrencia('19')) {
+            } elseif ($d->hasOcorrencia('98')) {
                 $this->totais['protestados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_PROTESTADA);
-            } elseif ($d->hasOcorrencia('27', '30')) {
+            } elseif ($d->hasOcorrencia('10','11')) {
                 $this->totais['alterados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_ALTERACAO);
-            } elseif ($d->hasOcorrencia('03', '26', '30')) {
+            } elseif ($d->hasOcorrencia('33')) {
                 $this->totais['erros']++;
                 $error = Util::appendStrings(
-                    Arr::get($this->rejeicoes, $msgAdicional[0], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[1], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[2], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[3], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[4], '')
+                    Arr::get($this->ocorrencias, $msgAdicional[0], ''),
+                    Arr::get($this->ocorrencias, $msgAdicional[1], ''),
+                    Arr::get($this->ocorrencias, $msgAdicional[2], ''),
+                    Arr::get($this->ocorrencias, $msgAdicional[3], ''),
+                    Arr::get($this->ocorrencias, $msgAdicional[4], '')
                 );
-                $ocorrenciaArray[$msgAdicional[0]] = Arr::get($this->rejeicoes, $msgAdicional[0], '');
-                $ocorrenciaArray[$msgAdicional[1]] = Arr::get($this->rejeicoes, $msgAdicional[1], '');
-                $ocorrenciaArray[$msgAdicional[2]] = Arr::get($this->rejeicoes, $msgAdicional[2], '');
-                $ocorrenciaArray[$msgAdicional[3]] = Arr::get($this->rejeicoes, $msgAdicional[3], '');
-                $ocorrenciaArray[$msgAdicional[4]] = Arr::get($this->rejeicoes, $msgAdicional[4], '');
-                $d->setOcorrenciaArray($ocorrenciaArray);
                 $d->setError($error);
             } else {
                 $d->setOcorrenciaTipo($d::OCORRENCIA_OUTROS);
             }
-        }
 
-        if ($this->getSegmentType($detalhe) == 'U') {
-            $d->setValorMulta(Util::nFloat($this->rem(18, 32, $detalhe)/100, 2, false))
-                ->setValorDesconto(Util::nFloat($this->rem(33, 47, $detalhe)/100, 2, false))
-                ->setValorAbatimento(Util::nFloat($this->rem(48, 62, $detalhe)/100, 2, false))
-                ->setValorIOF(Util::nFloat($this->rem(63, 77, $detalhe)/100, 2, false))
-                ->setValorRecebido(Util::nFloat($this->rem(78, 92, $detalhe)/100, 2, false))
-                ->setDataOcorrencia($this->rem(138, 145, $detalhe))
-                ->setDataCredito($this->rem(146, 153, $detalhe));
+            $ocorrenciaArray[$msgAdicional[0]] = Arr::get($this->ocorrencias, $msgAdicional[0], 'Código Inválido');
+            $ocorrenciaArray[$msgAdicional[1]] = Arr::get($this->ocorrencias, $msgAdicional[1], 'Código Inválido');
+            $ocorrenciaArray[$msgAdicional[2]] = Arr::get($this->ocorrencias, $msgAdicional[2], 'Código Inválido');
+            $ocorrenciaArray[$msgAdicional[3]] = Arr::get($this->ocorrencias, $msgAdicional[3], 'Código Inválido');
+            $ocorrenciaArray[$msgAdicional[4]] = Arr::get($this->ocorrencias, $msgAdicional[4], 'Código Inválido');
+            $d->setOcorrenciaArray($ocorrenciaArray);
         }
 
         if ($this->getSegmentType($detalhe) == 'Y') {
@@ -299,15 +345,15 @@ class Santander extends AbstractRetorno implements RetornoCnab240
             ->setLoteServico($this->rem(4, 7, $trailer))
             ->setTipoRegistro($this->rem(8, 8, $trailer))
             ->setQtdRegistroLote((int) $this->rem(18, 23, $trailer))
-            ->setQtdTitulosCobrancaSimples((int) $this->rem(24, 29, $trailer))
-            ->setValorTotalTitulosCobrancaSimples(Util::nFloat($this->rem(30, 46, $trailer)/100, 2, false))
-            ->setQtdTitulosCobrancaVinculada((int) $this->rem(47, 52, $trailer))
-            ->setValorTotalTitulosCobrancaVinculada(Util::nFloat($this->rem(53, 69, $trailer)/100, 2, false))
-            ->setQtdTitulosCobrancaCaucionada((int) $this->rem(70, 75, $trailer))
-            ->setValorTotalTitulosCobrancaCaucionada(Util::nFloat($this->rem(76, 92, $trailer)/100, 2, false))
-            ->setQtdTitulosCobrancaDescontada((int) $this->rem(93, 98, $trailer))
-            ->setValorTotalTitulosCobrancaDescontada(Util::nFloat($this->rem(99, 115, $trailer)/100, 2, false))
-            ->setNumeroAvisoLancamento($this->rem(116, 123, $trailer));
+            //->setQtdTitulosCobrancaSimples((int) $this->rem(24, 29, $trailer))
+            ->setValorTotalTitulosCobrancaSimples(Util::nFloat($this->rem(24, 41, $trailer)/100, 2, false));
+            //->setQtdTitulosCobrancaVinculada((int) $this->rem(47, 52, $trailer))
+            //->setValorTotalTitulosCobrancaVinculada(Util::nFloat($this->rem(53, 69, $trailer)/100, 2, false))
+            //->setQtdTitulosCobrancaCaucionada((int) $this->rem(70, 75, $trailer))
+            //->setValorTotalTitulosCobrancaCaucionada(Util::nFloat($this->rem(76, 92, $trailer)/100, 2, false))
+            //->setQtdTitulosCobrancaDescontada((int) $this->rem(93, 98, $trailer))
+            //->setValorTotalTitulosCobrancaDescontada(Util::nFloat($this->rem(99, 115, $trailer)/100, 2, false))
+            //->setNumeroAvisoLancamento($this->rem(116, 123, $trailer));
 
         return true;
     }
