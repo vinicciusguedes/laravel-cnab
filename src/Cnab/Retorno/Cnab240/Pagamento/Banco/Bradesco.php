@@ -251,7 +251,7 @@ class Bradesco extends AbstractRetorno implements RetornoCnab240
     {
         $d = $this->detalheAtual();
 
-        if ($this->getSegmentType($detalhe) == 'J') {
+        if ($this->getSegmentType($detalhe) == 'J' && $this->getSegmentAndRegisterType($detalhe) !== 'J52') {
             $d->setOcorrencia($this->rem(16, 17, $detalhe))
                 ->setOcorrenciaDescricao(Arr::get($this->ocorrencias, $this->detalheAtual()->getOcorrencia(), 'Desconhecida'))
                 ->setNossoNumero($this->rem(203, 222, $detalhe))
