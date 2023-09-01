@@ -173,4 +173,9 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
     {
         return strtoupper($this->rem(14, 14, $line));
     }
+
+    protected function getSegmentAndRegisterType($line)
+    {
+        return strtoupper($this->rem(14, 14, $line).$this->rem(18, 19, $line));
+    }
 }
