@@ -2,15 +2,15 @@ version: '3.7'
 
 services:
 
-  laravel-cnab:
+  laravel-boleto:
     build: .
-    container_name: laravel-cnab
+    container_name: laravel-boleto
     tty: true
     volumes:
       - .:/var/www
     networks:
-      - laravel-cnab-network
+      - laravel-boleto-network
 
 networks:
-  laravel-cnab-network:
+  laravel-boleto-network:
     driver: bridge

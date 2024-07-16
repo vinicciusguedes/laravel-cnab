@@ -1,19 +1,21 @@
 <?php
-namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240;
 
-use \VinicciusGuedes\LaravelCnab\Cnab\Retorno\AbstractRetorno as AbstractRetornoGeneric;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\HeaderLote as HeaderLoteContract;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\TrailerLote as TrailerLoteContract;
+namespace Eduardokum\LaravelBoleto\Cnab\Retorno\Cnab240;
+
 use Illuminate\Support\Collection;
+use Eduardokum\LaravelBoleto\Exception\ValidationException;
+use Eduardokum\LaravelBoleto\Cnab\Retorno\AbstractRetorno as AbstractRetornoGeneric;
+use Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab240\HeaderLote as HeaderLoteContract;
+use Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab240\TrailerLote as TrailerLoteContract;
 
 /**
  * Class AbstractRetorno
  *
- * @method  \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Detalhe getDetalhe($i)
- * @method  \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Header getHeader()
- * @method  \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Trailer getTrailer()
- * @method  \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Detalhe detalheAtual()
- * @package VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240
+ * @method  Detalhe[] getDetalhes()
+ * @method  Detalhe getDetalhe($i)
+ * @method  Header getHeader()
+ * @method  Trailer getTrailer()
+ * @method  Detalhe detalheAtual()
  */
 abstract class AbstractRetorno extends AbstractRetornoGeneric
 {
@@ -28,8 +30,8 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
     private $trailerLote;
 
     /**
-     * @param String $file
-     * @throws \Exception
+     * @param string $file
+     * @throws ValidationException
      */
     public function __construct($file)
     {
@@ -60,35 +62,35 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
     /**
      * @param array $header
      *
-     * @return boolean
+     * @return bool
      */
     abstract protected function processarHeader(array $header);
 
     /**
      * @param array $headerLote
      *
-     * @return boolean
+     * @return bool
      */
     abstract protected function processarHeaderLote(array $headerLote);
 
     /**
      * @param array $detalhe
      *
-     * @return boolean
+     * @return bool
      */
     abstract protected function processarDetalhe(array $detalhe);
 
     /**
      * @param array $trailer
      *
-     * @return boolean
+     * @return bool
      */
     abstract protected function processarTrailerLote(array $trailer);
 
     /**
      * @param array $trailer
      *
-     * @return boolean
+     * @return bool
      */
     abstract protected function processarTrailer(array $trailer);
 
@@ -106,7 +108,7 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
      * Processa o arquivo
      *
      * @return $this
-     * @throws \Exception
+     * @throws ValidationException
      */
     public function processar()
     {
@@ -126,7 +128,7 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
             } elseif ($recordType == '1') {
                 $this->processarHeaderLote($linha);
             } elseif ($recordType == '3') {
-                if ($this->getSegmentType($linha) == 'T' || $this->getSegmentType($linha) == 'J') {
+                if ($this->getSegmentType($linha) == 'T') {
                     $this->incrementDetalhe();
                 }
 
@@ -156,26 +158,22 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
     public function toArray()
     {
         $array = [
-            'header' => $this->header->toArray(),
-            'headerLote' => $this->headerLote->toArray(),
+            'header'      => $this->header->toArray(),
+            'headerLote'  => $this->headerLote->toArray(),
             'trailerLote' => $this->trailerLote->toArray(),
-            'trailer' => $this->trailer->toArray(),
-            'detalhes' => new Collection()
+            'trailer'     => $this->trailer->toArray(),
+            'detalhes'    => new Collection(),
         ];
 
         foreach ($this->detalhe as $detalhe) {
             $array['detalhes']->push($detalhe->toArray());
         }
+
         return $array;
     }
 
     protected function getSegmentType($line)
     {
         return strtoupper($this->rem(14, 14, $line));
-    }
-
-    protected function getSegmentAndRegisterType($line)
-    {
-        return strtoupper($this->rem(14, 14, $line).$this->rem(18, 19, $line));
     }
 }

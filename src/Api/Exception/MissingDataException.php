@@ -1,9 +1,10 @@
 <?php
-namespace VinicciusGuedes\LaravelCnab\Api\Exception;
 
-use Exception;
+namespace Eduardokum\LaravelBoleto\Api\Exception;
 
-class MissingDataException extends Exception
+use Eduardokum\LaravelBoleto\Exception\BaseException;
+
+class MissingDataException extends BaseException
 {
     private $data;
 

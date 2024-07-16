@@ -1,27 +1,25 @@
 <?php
-namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400;
 
-use VinicciusGuedes\LaravelCnab\Util;
-use \VinicciusGuedes\LaravelCnab\Cnab\Retorno\AbstractRetorno as AbstractRetornoGeneric;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Header as HeaderContract;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Detalhe as DetalheContract;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Trailer as TrailerContract;
+namespace Eduardokum\LaravelBoleto\Cnab\Retorno\Cnab400;
+
 use Illuminate\Support\Collection;
+use Eduardokum\LaravelBoleto\Exception\ValidationException;
+use Eduardokum\LaravelBoleto\Cnab\Retorno\AbstractRetorno as AbstractRetornoGeneric;
 
 /**
  * Class AbstractRetorno
  *
- * @method  \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Detalhe getDetalhe($i)
- * @method  \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Header getHeader()
- * @method  \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Trailer getTrailer()
- * @method  \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Detalhe detalheAtual()
- * @package VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400
+ * @method  Detalhe[] getDetalhes()
+ * @method  Detalhe getDetalhe($i)
+ * @method  Header getHeader()
+ * @method  Trailer getTrailer()
+ * @method  Detalhe detalheAtual()
  */
 abstract class AbstractRetorno extends AbstractRetornoGeneric
 {
     /**
-     * @param String $file
-     * @throws \Exception
+     * @param string $file
+     * @throws ValidationException
      */
     public function __construct($file)
     {
@@ -34,21 +32,21 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
     /**
      * @param array $header
      *
-     * @return boolean
+     * @return bool
      */
     abstract protected function processarHeader(array $header);
 
     /**
      * @param array $detalhe
      *
-     * @return boolean
+     * @return bool
      */
     abstract protected function processarDetalhe(array $detalhe);
 
     /**
      * @param array $trailer
      *
-     * @return boolean
+     * @return bool
      */
     abstract protected function processarTrailer(array $trailer);
 
@@ -65,7 +63,7 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
      * Processa o arquivo
      *
      * @return $this
-     * @throws \Exception
+     * @throws ValidationException
      */
     public function processar()
     {
@@ -107,13 +105,14 @@ abstract class AbstractRetorno extends AbstractRetornoGeneric
     public function toArray()
     {
         $array = [
-            'header' => $this->header->toArray(),
-            'trailer' => $this->trailer->toArray(),
-            'detalhes' => new Collection()
+            'header'   => $this->header->toArray(),
+            'trailer'  => $this->trailer->toArray(),
+            'detalhes' => new Collection(),
         ];
         foreach ($this->detalhe as $detalhe) {
             $array['detalhes']->push($detalhe->toArray());
         }
+
         return $array;
     }
 }

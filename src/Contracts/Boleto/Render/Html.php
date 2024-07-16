@@ -1,9 +1,12 @@
 <?php
-namespace VinicciusGuedes\LaravelCnab\Contracts\Boleto\Render;
+
+namespace Eduardokum\LaravelBoleto\Contracts\Boleto\Render;
 
 interface Html
 {
     public function getImagemCodigoDeBarras($codigo_barras);
 
     public function gerarBoleto();
+
+    public function setLocalizacaoPix($localizacao);
 }

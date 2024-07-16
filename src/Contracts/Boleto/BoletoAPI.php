@@ -1,7 +1,8 @@
 <?php
-namespace VinicciusGuedes\LaravelCnab\Contracts\Boleto;
 
-use VinicciusGuedes\LaravelCnab\Boleto\AbstractBoleto;
+namespace Eduardokum\LaravelBoleto\Contracts\Boleto;
+
+use Eduardokum\LaravelBoleto\Boleto\AbstractBoleto;
 
 interface BoletoAPI extends Boleto
 {
@@ -20,4 +21,3 @@ interface BoletoAPI extends Boleto
      */
     public static function fromAPI($boleto, $appends);
 }
-

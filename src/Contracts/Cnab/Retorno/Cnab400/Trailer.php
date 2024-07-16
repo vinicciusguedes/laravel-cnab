@@ -1,5 +1,6 @@
 <?php
-namespace VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400;
+
+namespace Eduardokum\LaravelBoleto\Contracts\Cnab\Retorno\Cnab400;
 
 interface Trailer
 {
