@@ -1,9 +1,10 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab\Api\Exception;
 
-use Exception;
+use VinicciusGuedes\LaravelCnab\Exception\BaseException;
 
-class MissingDataException extends Exception
+class MissingDataException extends BaseException
 {
     private $data;
 

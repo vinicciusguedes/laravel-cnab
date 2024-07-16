@@ -1,14 +1,19 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab\Api\Exception;
 
-use Exception;
+use VinicciusGuedes\LaravelCnab\Exception\BaseException;
 
-class UnauthorizedException extends Exception
+class UnauthorizedException extends BaseException
 {
     private $baseUrl;
+
     private $conta;
+
     private $certificado;
+
     private $certificadoChave;
+
     /**
      * @var null
      */
