@@ -1,15 +1,16 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab;
 
-use Illuminate\Container\Container;
+use Illuminate\View\Factory;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Container\Container;
+use Illuminate\View\FileViewFinder;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Engines\PhpEngine;
 use Illuminate\View\Engines\CompilerEngine;
 use Illuminate\View\Engines\EngineResolver;
-use Illuminate\View\FileViewFinder;
-use Illuminate\View\Factory;
+use Illuminate\View\Compilers\BladeCompiler;
 
 class Blade
 {
@@ -26,12 +27,12 @@ class Blade
     public $cachePath = null;
 
     /**
-     * @var \Illuminate\Container\Container
+     * @var Container
      */
     protected $container;
 
     /**
-     * @var \Illuminate\View\Factory
+     * @var Factory
      */
     protected $instance;
 
@@ -40,8 +41,8 @@ class Blade
      * @param array  $viewPaths
      * @param string $cachePath
      */
-    function __construct($viewPaths = array(), $cachePath = null) {
-
+    public function __construct($viewPaths = [], $cachePath = null)
+    {
         $this->container = new Container;
         $this->viewPaths = (array) $viewPaths;
         $this->cachePath = $cachePath;
@@ -78,6 +79,7 @@ class Blade
             $resolver = new EngineResolver;
             $self->registerPhpEngine($resolver);
             $self->registerBladeEngine($resolver);
+
             return $resolver;
         });
     }
@@ -85,18 +87,20 @@ class Blade
     /**
      * Register the PHP engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
+     * @param EngineResolver $resolver
      * @return void
      */
     public function registerPhpEngine($resolver)
     {
-        $resolver->register('php', function() { return new PhpEngine; });
+        $resolver->register('php', function () {
+            return new PhpEngine;
+        });
     }
 
     /**
      * Register the Blade engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
+     * @param EngineResolver $resolver
      * @return void
      */
     public function registerBladeEngine($resolver)
@@ -106,6 +110,7 @@ class Blade
 
         $this->container->singleton('blade.compiler', function($app) use ($self) {
             $cache = $self->cachePath;
+
             return new BladeCompiler($app['files'], $cache);
         });
 
@@ -131,7 +136,6 @@ class Blade
 
     /**
      * Register the view environment.
-     *
      */
     public function registerFactory()
     {

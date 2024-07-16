@@ -1,40 +1,49 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400;
 
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Trailer as TrailerContract;
 use VinicciusGuedes\LaravelCnab\MagicTrait;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Trailer as TrailerContract;
 
 class Trailer implements TrailerContract
 {
     use MagicTrait;
+
     /**
      * @var float
      */
     protected $valorTitulos;
+
     /**
      * @var int
      */
     protected $avisos = 0;
+
     /**
      * @var int
      */
     protected $quantidadeTitulos;
+
     /**
      * @var int
      */
     protected $quantidadeLiquidados = 0;
+
     /**
      * @var int
      */
     protected $quantidadeBaixados = 0;
+
     /**
      * @var int
      */
     protected $quantidadeEntradas = 0;
+
     /**
      * @var int
      */
     protected $quantidadeAlterados = 0;
+
     /**
      * @var int
      */

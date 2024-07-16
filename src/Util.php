@@ -1,4 +1,5 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab;
 
 use Exception;

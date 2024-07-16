@@ -1,4 +1,5 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab;
 
 use Illuminate\Support\Str;
@@ -6,6 +7,17 @@ use Illuminate\Support\Str;
 trait MagicTrait
 {
     protected $trash = [];
+
+    public function __call($name, $arguments)
+    {
+        if (method_exists($this, $name)) {
+            return $this->{$name}($arguments);
+        }
+
+        $property = lcfirst(str_replace(['get', 'set'], ['', ''], $name));
+
+        return $this->{$property};
+    }
 
     /**
      * Fast set method.
@@ -33,6 +45,7 @@ trait MagicTrait
     {
         if (property_exists($this, $name)) {
             $method = 'get' . Str::camel($name);
+
             return $this->{$method}();
         } elseif (isset($this->trash[$name])) {
             return $this->trash[$name];
@@ -69,6 +82,7 @@ trait MagicTrait
                 $aRet[$var] = $aRet[$var]->toArray();
             }
         }
+
         return $aRet;
     }
 }

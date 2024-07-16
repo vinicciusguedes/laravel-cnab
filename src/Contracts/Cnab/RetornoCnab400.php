@@ -1,4 +1,5 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab\Contracts\Cnab;
 
 use Illuminate\Support\Collection;

@@ -1,4 +1,5 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240;
 
 interface Header

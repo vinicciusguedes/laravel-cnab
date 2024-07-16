@@ -2,24 +2,25 @@
 
 namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240;
 
-use \VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Trailer as TrailerContract;
 use VinicciusGuedes\LaravelCnab\MagicTrait;
+use \VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Trailer as TrailerContract;
 
 class Trailer implements TrailerContract
 {
     use MagicTrait;
+
     /**
-     * @var integer
+     * @var int
      */
     protected $numeroLote;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $tipoRegistro;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $qtdLotesArquivo;
 
@@ -39,7 +40,7 @@ class Trailer implements TrailerContract
     /**
      * @param mixed $numeroLote
      *
-     * @return $this
+     * @return Trailer
      */
     public function setNumeroLote($numeroLote)
     {
@@ -59,7 +60,7 @@ class Trailer implements TrailerContract
     /**
      * @param mixed $qtdLotesArquivo
      *
-     * @return $this
+     * @return Trailer
      */
     public function setQtdLotesArquivo($qtdLotesArquivo)
     {
@@ -79,7 +80,7 @@ class Trailer implements TrailerContract
     /**
      * @param mixed $qtdRegistroArquivo
      *
-     * @return $this
+     * @return Trailer
      */
     public function setQtdRegistroArquivo($qtdRegistroArquivo)
     {
@@ -99,7 +100,7 @@ class Trailer implements TrailerContract
     /**
      * @param mixed $tipoRegistro
      *
-     * @return $this
+     * @return Trailer
      */
     public function setTipoRegistro($tipoRegistro)
     {
