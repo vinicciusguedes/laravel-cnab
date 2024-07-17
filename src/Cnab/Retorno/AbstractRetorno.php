@@ -92,7 +92,7 @@ abstract class AbstractRetorno implements Countable, SeekableIterator
             throw new ValidationException('Arquivo: não existe');
         }
 
-        $r = new \ReflectionClass('\VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto');
+        $r = new ReflectionClass('\VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto');
         $constantNames = $r->getConstants();
         $bancosDisponiveis = [];
         foreach ($constantNames as $constantName => $codigoBanco) {

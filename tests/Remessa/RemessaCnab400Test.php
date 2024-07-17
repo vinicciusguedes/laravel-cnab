@@ -2,34 +2,31 @@
 
 namespace VinicciusGuedes\LaravelCnab\Tests\Remessa;
 
-use VinicciusGuedes\LaravelCnab\Boleto\Banco as Boleto;
-use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco as Remessa;
+use Exception;
+use VinicciusGuedes\LaravelCnab\Util;
 use VinicciusGuedes\LaravelCnab\Pessoa;
 use VinicciusGuedes\LaravelCnab\Tests\TestCase;
-use VinicciusGuedes\LaravelCnab\Util;
-use Exception;
+use VinicciusGuedes\LaravelCnab\Boleto\Banco as Boleto;
+use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco as Remessa;
 
 class RemessaCnab400Test extends TestCase
 {
-
     protected static $pagador;
+
     protected static $beneficiario;
 
     public static function setUpBeforeClass() : void
     {
-        self::$beneficiario = new Pessoa(
-            [
+        self::$beneficiario = new Pessoa([
                 'nome' => 'ACME',
                 'endereco' => 'Rua um, 123',
                 'cep' => '99999-999',
                 'uf' => 'UF',
                 'cidade' => 'CIDADE',
                 'documento' => '99.999.999/9999-99',
-            ]
-        );
+        ]);
 
-        self::$pagador = new Pessoa(
-            [
+        self::$pagador = new Pessoa([
                 'nome' => 'Cliente',
                 'endereco' => 'Rua um, 123',
                 'bairro' => 'Bairro',
@@ -37,8 +34,7 @@ class RemessaCnab400Test extends TestCase
                 'uf' => 'UF',
                 'cidade' => 'CIDADE',
                 'documento' => '999.999.999-99',
-            ]
-        );
+        ]);
     }
 
     public static function tearDownAfterClass() : void
@@ -50,12 +46,14 @@ class RemessaCnab400Test extends TestCase
         ];
         $files = glob(implode(DIRECTORY_SEPARATOR, $aFiles) . '/*'); // get all file names
         foreach($files as $file){
-            if(is_file($file))
+            if (is_file($file)) {
                 @unlink($file);
+            }
         }
     }
 
-    public function testRemessaCamposInvalidos(){
+    public function testRemessaCamposInvalidos()
+    {
         $this->expectException(Exception::class);
         $remessa = new Remessa\Banrisul([
             'codigoCliente' => 11112222222,
@@ -64,7 +62,8 @@ class RemessaCnab400Test extends TestCase
         $remessa->gerar();
     }
 
-    public function testRemessaCarteiraIndisponivel(){
+    public function testRemessaCarteiraIndisponivel()
+    {
         $this->expectException(Exception::class);
         $remessa = new Remessa\Banrisul([
             'agencia' => 1111,
@@ -76,14 +75,14 @@ class RemessaCnab400Test extends TestCase
         $remessa->gerar();
     }
 
-    public function testRemessaAddboletosCnab400(){
-        $boleto = new Boleto\Banrisul(
-            [
+    public function testRemessaAddboletosCnab400()
+    {
+        $boleto = new Boleto\Banrisul([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '041.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100,
-                'multa' => false,
-                'juros' => false,
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
                 'numero' => 1,
                 'diasBaixaAutomatica' => 20,
                 'numeroDocumento' => 1,
@@ -96,34 +95,30 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-            ]
-        );
+        ]);
 
         $boleto2 = $boleto;
         $boleto2->setNumeroDocumento(2);
 
-        $remessa = new Remessa\Banrisul(
-            [
+        $remessa = new Remessa\Banrisul([
                 'agencia' => 1111,
                 'conta' => 22222,
                 'carteira' => 1,
                 'codigoCliente' => 11112222222,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoletos([$boleto, $boleto2]);
         $this->assertEquals(4, count(Util::file2array($remessa->gerar())));
     }
 
     public function testRemessaBanrisulCnab400()
     {
-        $boleto = new Boleto\Banrisul(
-            [
+        $boleto = new Boleto\Banrisul([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '041.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100,
-                'multa' => false,
-                'juros' => false,
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
                 'numero' => 1,
                 'diasBaixaAutomatica' => 20,
                 'numeroDocumento' => 1,
@@ -136,24 +131,21 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-            ]
-        );
-        $remessa = new Remessa\Banrisul(
-            [
+        ]);
+        $remessa = new Remessa\Banrisul([
                 'agencia' => 1111,
                 'conta' => 22222,
                 'carteira' => 1,
                 'codigoCliente' => 11112222222,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $file = implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             'files',
             'cnab400',
-            'banrisul.txt'
+            'banrisul.txt',
         ]);
         $file2 = $remessa->save($file);
 
@@ -161,14 +153,14 @@ class RemessaCnab400Test extends TestCase
         $this->assertEquals($file, $file2);
     }
 
-    public function testRemessaBBCnab400(){
-        $boleto = new Boleto\Bb(
-            [
+    public function testRemessaBBCnab400()
+    {
+        $boleto = new Boleto\Bb([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '001.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100,
-                'multa' => false,
-                'juros' => false,
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
                 'numero' => 1,
                 'numeroDocumento' => 1,
                 'pagador' => self::$pagador,
@@ -179,25 +171,22 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-            ]
-        );
+        ]);
 
-        $remessa = new Remessa\Bb(
-            [
+        $remessa = new Remessa\Bb([
                 'agencia' => 1111,
                 'carteira' => 11,
                 'conta' => 999999999,
                 'convenio' => 1234567,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $file = implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             'files',
             'cnab400',
-            'bb.txt'
+            'bb.txt',
         ]);
 
         $file2 = $remessa->save($file);
@@ -206,14 +195,14 @@ class RemessaCnab400Test extends TestCase
         $this->assertEquals($file, $file2);
     }
 
-    public function testRemessaBBCnab400Extendida(){
-        $boleto = new Boleto\Bb(
-            [
+    public function testRemessaBBCnab400Extendida()
+    {
+        $boleto = new Boleto\Bb([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '001.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100,
-                'multa' => false,
-                'juros' => false,
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
                 'numero' => 1,
                 'numeroDocumento' => 1,
                 'pagador' => self::$pagador,
@@ -224,33 +213,30 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-                'chaveNfe' => '12345678901234567890123456789012345678901234'
-            ]
-        );
+            'chaveNfe' => '12345678901234567890123456789012345678901234',
+        ]);
 
-        $remessa = new Remessa\Bb(
-            [
+        $remessa = new Remessa\Bb([
                 'agencia' => 1111,
                 'carteira' => 11,
                 'conta' => 999999999,
                 'convenio' => 1234567,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $cnab = explode($remessa->getFimLinha(), $remessa->gerar());
         $this->assertEquals(444, strlen($cnab[1]));
     }
 
-    public function testRemessaBradescoCnab400(){
-        $boleto = new Boleto\Bradesco(
-            [
+    public function testRemessaBradescoCnab400()
+    {
+        $boleto = new Boleto\Bradesco([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '237.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100,
-                'multa' => false,
-                'juros' => false,
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
                 'numero' => 1,
                 'diasBaixaAutomatica' => 2,
                 'numeroDocumento' => 1,
@@ -263,11 +249,9 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-            ]
-        );
+        ]);
 
-        $remessa = new Remessa\Bradesco(
-            [
+        $remessa = new Remessa\Bradesco([
                 'idRemessa' => 1,
                 'agencia' => 1111,
                 'carteira' => '09',
@@ -275,15 +259,14 @@ class RemessaCnab400Test extends TestCase
                 'contaDv' => 9,
                 'codigoCliente' => 12345678901234567890,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $file = implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             'files',
             'cnab400',
-            'bradesco.txt'
+            'bradesco.txt',
         ]);
 
         $file2 = $remessa->save($file);
@@ -292,14 +275,14 @@ class RemessaCnab400Test extends TestCase
         $this->assertEquals($file, $file2);
     }
 
-    public function testRemessaBradescoCnab400Extendida(){
-        $boleto = new Boleto\Bradesco(
-            [
+    public function testRemessaBradescoCnab400Extendida()
+    {
+        $boleto = new Boleto\Bradesco([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '237.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100,
-                'multa' => false,
-                'juros' => false,
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
                 'numero' => 1,
                 'diasBaixaAutomatica' => 2,
                 'numeroDocumento' => 1,
@@ -312,12 +295,10 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-                'chaveNfe' => '12345678901234567890123456789012345678901234'
-            ]
-        );
+                'chaveNfe' => '12345678901234567890123456789012345678901234',
+        ]);
 
-        $remessa = new Remessa\Bradesco(
-            [
+        $remessa = new Remessa\Bradesco([
                 'idRemessa' => 1,
                 'agencia' => 1111,
                 'carteira' => '09',
@@ -325,22 +306,21 @@ class RemessaCnab400Test extends TestCase
                 'contaDv' => 9,
                 'codigoCliente' => 12345678901234567890,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $cnab = explode($remessa->getFimLinha(), $remessa->gerar());
         $this->assertEquals(444, strlen($cnab[1]));
     }
 
-    public function testRemessaCaixaCnab400(){
-        $boleto = new Boleto\Caixa(
-            [
+    public function testRemessaCaixaCnab400()
+    {
+        $boleto = new Boleto\Caixa([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '104.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100.41,
-                'multa' => false,
-                'juros' => false,
+                'dataVencimento' => $this->vencimento(),
+                'valor' => $this->valor(),
+                'multa' => $this->multa(),
+                'juros' => $this->juros(),
                 'numero' => 1,
                 'numeroDocumento' => 1,
                 'pagador' => self::$pagador,
@@ -354,26 +334,23 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-            ]
-        );
+        ]);
 
-        $remessa = new Remessa\Caixa(
-            [
+        $remessa = new Remessa\Caixa([
                 'agencia' => 1111,
                 'conta' => 123456,
                 'idremessa' => 1,
                 'carteira' => 'RG',
                 'codigoCliente' => 999999,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $file = implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             'files',
             'cnab400',
-            'caixa.txt'
+            'caixa.txt',
         ]);
 
         $file2 = $remessa->save($file);
@@ -382,14 +359,14 @@ class RemessaCnab400Test extends TestCase
         $this->assertEquals($file, $file2);
     }
 
-    public function testRemessaHSBCCnab400(){
-        $boleto = new Boleto\Hsbc(
-            [
+    public function testRemessaHSBCCnab400()
+    {
+        $boleto = new Boleto\Hsbc([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '399.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100,
-                'multa' => false,
-                'juros' => false,
+                'dataVencimento' => $this->vencimento(),
+                'valor' => $this->valor(),
+                'multa' => $this->multa(),
+                'juros' => $this->juros(),
                 'numero' => 1,
                 'numeroDocumento' => 1,
                 'pagador' => self::$pagador,
@@ -403,25 +380,22 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-            ]
-        );
+        ]);
 
-        $remessa = new Remessa\Hsbc(
-            [
+        $remessa = new Remessa\Hsbc([
                 'agencia' => 1111,
                 'carteira' => 'CSB',
                 'conta' => 999999,
                 'contaDv' => 9,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $file = implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             'files',
             'cnab400',
-            'hsbc.txt'
+            'hsbc.txt',
         ]);
 
         $file2 = $remessa->save($file);
@@ -430,14 +404,14 @@ class RemessaCnab400Test extends TestCase
         $this->assertEquals($file, $file2);
     }
 
-    public function testRemessaItauCnab400(){
-        $boleto = new Boleto\Itau(
-            [
+    public function testRemessaItauCnab400()
+    {
+        $boleto = new Boleto\Itau([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '341.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100,
-                'multa' => false,
-                'juros' => false,
+                'dataVencimento' => $this->vencimento(),
+                'valor' => $this->valor(),
+                'multa' => $this->multa(),
+                'juros' => $this->juros(),
                 'numero' => 1,
                 'numeroDocumento' => 1,
                 'pagador' => self::$pagador,
@@ -450,25 +424,22 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-            ]
-        );
+        ]);
 
-        $remessa = new Remessa\Itau(
-            [
+        $remessa = new Remessa\Itau([
                 'agencia' => 1111,
                 'conta' => 99999,
                 'contaDv' => 9,
                 'carteira' => 112,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $file = implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             'files',
             'cnab400',
-            'itau.txt'
+            'itau.txt',
         ]);
 
         $file2 = $remessa->save($file);
@@ -477,14 +448,14 @@ class RemessaCnab400Test extends TestCase
         $this->assertEquals($file, $file2);
     }
 
-    public function testRemessaSantanderCnab400(){
-        $boleto = new Boleto\Santander(
-            [
+    public function testRemessaSantanderCnab400()
+    {
+        $boleto = new Boleto\Santander([
                 'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '033.png',
-                'dataVencimento' => new \Carbon\Carbon(),
-                'valor' => 100,
-                'multa' => false,
-                'juros' => false,
+                'dataVencimento' => $this->vencimento(),
+                'valor' => $this->valor(),
+                'multa' => $this->multa(),
+                'juros' => $this->juros(),
                 'numero' => 1,
                 'numeroDocumento' => 1,
                 'pagador' => self::$pagador,
@@ -497,25 +468,22 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes' =>  ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite' => 'S',
                 'especieDoc' => 'DM',
-            ]
-        );
+        ]);
 
-        $remessa = new Remessa\Santander(
-            [
+        $remessa = new Remessa\Santander([
                 'agencia' => 1111,
                 'carteira' => 101,
                 'conta' => 99999999,
                 'codigoCliente' => 12345678,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $file = implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             'files',
             'cnab400',
-            'santander.txt'
+            'santander.txt',
         ]);
 
         $file2 = $remessa->save($file);
@@ -526,13 +494,12 @@ class RemessaCnab400Test extends TestCase
 
     public function testRemessaSicrediCnab400()
     {
-        $boleto = new Boleto\Sicredi(
-            [
+        $boleto = new Boleto\Sicredi([
                 'logo'                   => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '748.png',
-                'dataVencimento'         => new \Carbon\Carbon(),
-                'valor'                  => 100,
-                'multa'                  => false,
-                'juros'                  => false,
+                'dataVencimento' => $this->vencimento(),
+                'valor' => $this->valor(),
+                'multa' => $this->multa(),
+                'juros' => $this->juros(),
                 'numero'                 => 1,
                 'numeroDocumento'        => 1,
                 'pagador'                => self::$pagador,
@@ -546,25 +513,22 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes'             => ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite'                 => 'S',
                 'especieDoc'             => 'DM',
-            ]
-        );
+        ]);
 
-        $remessa = new Remessa\Sicredi(
-            [
+        $remessa = new Remessa\Sicredi([
                 'agencia'      => 2606,
                 'carteira'     => '1',
                 'conta'        => 12510,
                 'idremessa'    => 1,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $file = implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             'files',
             'cnab400',
-            'sicredi.txt'
+            'sicredi.txt',
         ]);
 
         $file2 = $remessa->save($file);
@@ -575,13 +539,12 @@ class RemessaCnab400Test extends TestCase
 
     public function testRemessaBancoobCnab400()
     {
-        $boleto = new Boleto\Bancoob(
-            [
+        $boleto = new Boleto\Bancoob([
                 'logo'                   => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '748.png',
-                'dataVencimento'         => new \Carbon\Carbon(),
-                'valor'                  => 100,
-                'multa'                  => false,
-                'juros'                  => false,
+                'dataVencimento' => $this->vencimento(),
+                'valor' => $this->valor(),
+                'multa' => $this->multa(),
+                'juros' => $this->juros(),
                 'numero'                 => 1,
                 'numeroDocumento'        => 1,
                 'pagador'                => self::$pagador,
@@ -595,30 +558,249 @@ class RemessaCnab400Test extends TestCase
                 'instrucoes'             => ['instrucao 1', 'instrucao 2', 'instrucao 3'],
                 'aceite'                 => 'S',
                 'especieDoc'             => 'DM',
-            ]
-        );
+        ]);
 
-        $remessa = new Remessa\Bancoob(
-            [
+        $remessa = new Remessa\Bancoob([
                 'agencia'      => 2606,
                 'carteira'     => '1',
                 'conta'        => 12510,
                 'convenio'     => 123123,
                 'beneficiario' => self::$beneficiario,
-            ]
-        );
+        ]);
         $remessa->addBoleto($boleto);
 
         $file = implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             'files',
             'cnab400',
-            'bancoob.txt'
+            'bancoob.txt',
         ]);
 
         $file2 = $remessa->save($file);
 
         $this->assertFileExists($file);
         $this->assertEquals($file, $file2);
+    }
+
+    public function testRemessaPineCnab400()
+    {
+        $boleto = new Boleto\Pine([
+            'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '643.png',
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
+            'numero' => 1,
+            'numeroDocumento' => 1,
+            'range' => 0,
+            'pagador' => self::$pagador,
+            'beneficiario' => self::$beneficiario,
+            'carteira' => '112',
+            'agencia' => '0001',
+            'codigoCliente' => '12345',
+            'conta' => '1234',
+            'modalidadeCarteira' => '1',
+            'descricaoDemonstrativo' => ['demonstrativo 1', 'demonstrativo 2', 'demonstrativo 3'],
+            'instrucoes' => ['instrucao 1', 'instrucao 2', 'instrucao 3'],
+            'aceite' => 'N',
+            'especieDoc' => 'DM',
+        ]);
+
+        $remessa = new Remessa\Pine([
+            'agencia' => '0001',
+            'conta' => '1234',
+            'contaDv' => 9,
+            'carteira' => 112,
+            'beneficiario' => self::$beneficiario,
+            'codigoCliente' => '1234',
+        ]);
+        $remessa->addBoleto($boleto);
+
+        $file = implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            'files',
+            'cnab400',
+            'pine.txt',
+        ]);
+
+        $file2 = $remessa->save($file);
+
+        $this->assertFileExists($file);
+        $this->assertEquals($file, $file2);
+    }
+
+    public function testRemessaFibraCnab400()
+    {
+        $boleto = new Boleto\Fibra([
+            'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '224.png',
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
+            'numero' => 1,
+            'numeroDocumento' => 1,
+            'range' => 0,
+            'pagador' => self::$pagador,
+            'beneficiario' => self::$beneficiario,
+            'modalidadeCarteira' => 'D',
+            'carteira' => 112,
+            'agencia' => '0001',
+            'codigoCliente' => '12345',
+            'conta' => '1234567',
+            'descricaoDemonstrativo' => ['demonstrativo 1', 'demonstrativo 2', 'demonstrativo 3'],
+            'instrucoes' => ['instrucao 1', 'instrucao 2', 'instrucao 3'],
+            'aceite' => 'N',
+            'especieDoc' => 'DM',
+        ]);
+
+        $remessa = new Remessa\Fibra([
+            'agencia' => '0001',
+            'conta' => '1234567',
+            'contaDv' => 9,
+            'carteira' => 112,
+            'beneficiario' => self::$beneficiario,
+            'codigoCliente' => '12345',
+        ]);
+        $remessa->addBoleto($boleto);
+
+        $file = implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            'files',
+            'cnab400',
+            'fibra.txt',
+        ]);
+
+        $file2 = $remessa->save($file);
+
+        $this->assertFileExists($file);
+        $this->assertEquals($file, $file2);
+    }
+
+    public function testRemessaOurinvestCnab400()
+    {
+        $boleto = new Boleto\Ourinvest([
+            'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '712.png',
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
+            'numero' => 2,
+            'numeroDocumento' => 2,
+            'pagador' => self::$pagador,
+            'beneficiario' => self::$beneficiario,
+            'carteira' => '19',
+            'agencia' => 0001,
+            'conta' => 9999999,
+            'descricaoDemonstrativo' => ['demonstrativo 1', 'demonstrativo 2', 'demonstrativo 3'],
+            'instrucoes' => ['instrucao 1', 'instrucao 2', 'instrucao 3'],
+            'aceite' => 'S',
+            'especieDoc' => 'DM',
+            'chaveNfe' => '12345678901234567890123456789012345678901234',
+        ]);
+
+        $remessa = new Remessa\Ourinvest([
+            'idRemessa' => 1,
+            'agencia' => 1111,
+            'carteira' => '19',
+            'conta' => 1234567,
+            'contaDv' => 9,
+            'beneficiario' => self::$beneficiario,
+        ]);
+        $remessa->addBoleto($boleto);
+
+        $file = implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            'files',
+            'cnab400',
+            'ourinvest.txt',
+        ]);
+
+        $file2 = $remessa->save($file);
+
+        $this->assertFileExists($file2);
+    }
+
+    public function testRemessaRendimentoCnab400()
+    {
+        $boleto = new Boleto\Rendimento([
+            'logo' => realpath(__DIR__ . '/../../logos/') . DIRECTORY_SEPARATOR . '633.png',
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
+            'numero' => 2,
+            'numeroDocumento' => 2,
+            'pagador' => self::$pagador,
+            'beneficiario' => self::$beneficiario,
+            'carteira' => '121',
+            'agencia' => '0001',
+            'codigoCliente' => '5447390',
+            'conta' => '1234',
+            'modalidadeCarteira' => '6',
+            'descricaoDemonstrativo' => ['demonstrativo 1', 'demonstrativo 2', 'demonstrativo 3'],
+            'instrucoes' => ['instrucao 1', 'instrucao 2', 'instrucao 3'],
+            'aceite' => 'N',
+            'especieDoc' => 'DM',
+        ]);
+
+        $remessa = new Remessa\Rendimento([
+            'agencia' => '0001',
+            'conta' => '1234',
+            'contaDv' => 9,
+            'carteira' => 121,
+            'codigoCliente' => '5447390',
+            'beneficiario' => self::$beneficiario,
+        ]);
+        $remessa->addBoleto($boleto);
+
+        $file = implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            'files',
+            'cnab400',
+            'rendimento.txt',
+        ]);
+
+        $file2 = $remessa->save($file);
+
+        $this->assertFileExists($file2);
+}
+
+    public function testRemessaInterCnab400()
+    {
+        $boleto = new Boleto\Inter([
+            'logo' => realpath(__DIR__ . '/../logos/') . DIRECTORY_SEPARATOR . '077.png',
+            'dataVencimento' => $this->vencimento(),
+            'valor' => $this->valor(),
+            'multa' => $this->multa(),
+            'juros' => $this->juros(),
+            'numero' => 1,
+            'numeroDocumento' => 1,
+            'pagador' => self::$pagador,
+            'beneficiario' => self::$beneficiario,
+            'conta' => '123456789',
+            'operacao' => '1234567',
+            'aceite' => 'S',
+            'especieDoc' => 'DM',
+        ]);
+
+        $remessa = new Remessa\Inter([
+            'idRemessa' => 1,
+            'agencia' => '0001',
+            'conta' => '123456789',
+            'carteira' => 112,
+            'beneficiario' => self::$beneficiario,
+        ]);
+        $remessa->addBoleto($boleto);
+
+        $file = implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            'files',
+            'cnab400',
+            'inter.txt',
+        ]);
+
+        $file2 = $remessa->save($file);
+
+        $this->assertFileExists($file2);
     }
 }
