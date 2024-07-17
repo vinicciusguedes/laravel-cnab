@@ -1,22 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: simetriatecnologia
- * Date: 15/09/16
- * Time: 14:02
- */
 
 namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Pagamento\Banco;
 
+use VinicciusGuedes\LaravelCnab\Util;
 use VinicciusGuedes\LaravelCnab\CalculoDV;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\AbstractRemessa;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Remessa as RemessaContract;
-use VinicciusGuedes\LaravelCnab\Util;
 
 class Bradesco extends AbstractRemessa implements RemessaContract
 {
-
     const OCORRENCIA_REMESSA = '01';
     const OCORRENCIA_PEDIDO_BAIXA = '02';
     const OCORRENCIA_PROTESTO_FAMILIAR = '03';
@@ -54,7 +48,6 @@ class Bradesco extends AbstractRemessa implements RemessaContract
     const OCORRENCIA_EXC_NEGATIVACAO = '45';
     const OCORRENCIA_BAIXA_SEM_PROTESTO = '46';
     const OCORRENCIA_CANC_NEGATIVACAO = '47';
-
     const PROTESTO_DIAS_CORRIDOS = '1';
     const PROTESTO_DIAS_UTEIS = '2';
     const PROTESTO_SEM = '3';
@@ -76,15 +69,12 @@ class Bradesco extends AbstractRemessa implements RemessaContract
      */
     protected $codigoBanco = BoletoContract::COD_BANCO_BRADESCO;
 
-
     /**
      * Define as carteiras disponíveis para cada banco
      *
      * @var array
      */
-
-    protected $carteiras = ['04' ,'09', '28'];
-
+    protected $carteiras = ['04', '09', '28'];
 
     /**
      * Codigo do cliente junto ao banco.
@@ -97,7 +87,7 @@ class Bradesco extends AbstractRemessa implements RemessaContract
      * Retorna o codigo do cliente.
      *
      * @return mixed
-     * @throws \Exception
+     * @throws ValidationException
      */
     public function getCodigoCliente()
     {
@@ -105,7 +95,7 @@ class Bradesco extends AbstractRemessa implements RemessaContract
             $this->codigoCliente = Util::formatCnab('9', $this->getCarteiraNumero(), 4) .
                 Util::formatCnab('9', $this->getAgencia(), 5) .
                 Util::formatCnab('9', $this->getConta(), 7) .
-                Util::formatCnab('9', $this->getContaDv() ?: CalculoDV::bradescoContaCorrente($this->getConta()), 1);
+                Util::formatCnab('9', ! is_null($this->getContaDv()) ? $this->getContaDv() : CalculoDV::bradescoContaCorrente($this->getConta()), 1);
         }
 
         return $this->codigoCliente;
@@ -128,8 +118,8 @@ class Bradesco extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Bradesco
+     * @throws ValidationException
      */
     public function addBoleto(BoletoContract $boleto)
     {
@@ -142,8 +132,8 @@ class Bradesco extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Bradesco
+     * @throws ValidationException
      */
     public function segmentoJ(BoletoContract $boleto)
     {
@@ -176,8 +166,8 @@ class Bradesco extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Bradesco
+     * @throws ValidationException
      */
     public function segmentoJ52(BoletoContract $boleto)
     {
@@ -211,8 +201,8 @@ class Bradesco extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Bradesco
+     * @throws ValidationException
      */
     protected function header()
     {
@@ -248,9 +238,10 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(231, 240, '');
         return $this;
     }
+
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Bradesco
+     * @throws ValidationException
      */
     protected function headerLote()
     {
@@ -289,15 +280,16 @@ class Bradesco extends AbstractRemessa implements RemessaContract
 
         return $this;
     }
+
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Bradesco
+     * @throws ValidationException
      */
     protected function trailerLote()
     {
         $this->iniciaTrailerLote();
 
-        $valor = array_reduce($this->boletos, function($valor, $boleto) {
+        $valor = array_reduce($this->boletos, function ($valor, $boleto) {
             return $valor + $boleto->getValor();
         }, 0);
 
@@ -314,9 +306,10 @@ class Bradesco extends AbstractRemessa implements RemessaContract
 
         return $this;
     }
+
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Bradesco
+     * @throws ValidationException
      */
     protected function trailer()
     {

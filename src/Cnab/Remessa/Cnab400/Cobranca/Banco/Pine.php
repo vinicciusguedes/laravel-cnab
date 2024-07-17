@@ -1,11 +1,12 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco;
 
-use VinicciusGuedes\LaravelCnab\CalculoDV;
-use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\AbstractRemessa;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Remessa as RemessaContract;
-use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 use VinicciusGuedes\LaravelCnab\Util;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
+use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\AbstractRemessa;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Remessa as RemessaContract;
 
 class Pine extends AbstractRemessa implements RemessaContract
 {
@@ -18,7 +19,6 @@ class Pine extends AbstractRemessa implements RemessaContract
     const ESPECIE_DUPLICATA_SERVICO = '12';
     const ESPECIE_CARTAO_CREDITO = '31';
     const ESPECIE_OUTROS = '99';
-
     const OCORRENCIA_REMESSA = '01';
     const OCORRENCIA_PEDIDO_BAIXA = '02';
     const OCORRENCIA_CONCESSAO_ABATIMENTO = '04';
@@ -28,7 +28,6 @@ class Pine extends AbstractRemessa implements RemessaContract
     const OCORRENCIA_PEDIDO_NAO_PROTESTO = '10';
     const OCORRENCIA_SUSTAR_PROTESTO_BAIXAR_TITULO = '18';
     const OCORRENCIA_ALT_VALOR_VENCIMENTO = '47';
-
     const INSTRUCAO_SEM = '00';
 
     public function __construct(array $params = [])
@@ -36,7 +35,6 @@ class Pine extends AbstractRemessa implements RemessaContract
         parent::__construct($params);
         $this->addCampoObrigatorio('codigoCliente');
     }
-
 
     /**
      * Código do banco
@@ -50,7 +48,6 @@ class Pine extends AbstractRemessa implements RemessaContract
      *
      * @var array
      */
-
     protected $carteiras = [112, 110];
 
     /**
@@ -78,7 +75,7 @@ class Pine extends AbstractRemessa implements RemessaContract
      * Retorna o codigo do cliente.
      *
      * @return mixed
-     * @throws \Exception
+     * @throws ValidationException
      */
     public function getCodigoCliente()
     {
@@ -101,7 +98,7 @@ class Pine extends AbstractRemessa implements RemessaContract
 
     /**
      * @return Pine
-     * @throws \Exception
+     * @throws ValidationException
      */
     protected function header()
     {
@@ -127,7 +124,7 @@ class Pine extends AbstractRemessa implements RemessaContract
      * @param \VinicciusGuedes\LaravelCnab\Boleto\Banco\Pine $boleto
      *
      * @return Pine
-     * @throws \Exception
+     * @throws ValidationException
      */
     public function addBoleto(BoletoContract $boleto)
     {
@@ -164,8 +161,8 @@ class Pine extends AbstractRemessa implements RemessaContract
         $this->add(121, 126, $boleto->getDataVencimento()->format('dmy'));
         $this->add(127, 139, Util::formatCnab('9', $boleto->getValor(), 13, 2));
         $this->add(140, 142, $this->getCodigoBanco());
-        $this->add(143, 146,  Util::formatCnab('9', 0, 4));
-        $this->add(147, 147,  Util::formatCnab('9', 0, 1));
+        $this->add(143, 146, Util::formatCnab('9', 0, 4));
+        $this->add(147, 147, Util::formatCnab('9', 0, 1));
         $this->add(148, 149, $boleto->getEspecieDocCodigo());
         $this->add(150, 150, $boleto->getAceite());
         $this->add(151, 156, $boleto->getDataDocumento()->format('dmy'));
@@ -203,7 +200,7 @@ class Pine extends AbstractRemessa implements RemessaContract
 
     /**
      * @return Pine
-     * @throws \Exception
+     * @throws ValidationException
      */
     protected function trailer()
     {

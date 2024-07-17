@@ -98,12 +98,12 @@
         </td>
     </tr>
     <tr>
-        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \Eduardokum\LaravelBoleto\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}">
+        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \VinicciusGuedes\LaravelCnab\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}">
             <div class="titulo">Instruções de responsabilidade do beneficiário. Qualquer dúvida sobre este boleto,
                 contate o beneficiário
             </div>
         </td>
-        @if(isset($pix_qrcode) && $localizacao_pix == \Eduardokum\LaravelBoleto\Boleto\Render\Html::PIX_INSTRUCAO)
+        @if(isset($pix_qrcode) && $localizacao_pix == \VinicciusGuedes\LaravelCnab\Boleto\Render\Html::PIX_INSTRUCAO)
             <td colspan="1" rowspan="5">
                 <p class="conteudo" style="text-align: center">Pague com PIX</p>
                 <img src="{{ $pix_qrcode_image }}" style="height: 100%; width: 100%;" alt="QR Code PIX">
@@ -115,7 +115,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \Eduardokum\LaravelBoleto\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}" class="notopborder">
+        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \VinicciusGuedes\LaravelCnab\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}" class="notopborder">
             <div class="conteudo">{{ $instrucoes[0] }}</div>
             <div class="conteudo">{{ $instrucoes[1] }}</div>
         </td>
@@ -125,7 +125,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \Eduardokum\LaravelBoleto\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}" class="notopborder">
+        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \VinicciusGuedes\LaravelCnab\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}" class="notopborder">
             <div class="conteudo">{{ $instrucoes[2] }}</div>
             <div class="conteudo">{{ $instrucoes[3] }}</div>
         </td>
@@ -135,7 +135,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \Eduardokum\LaravelBoleto\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}" class="notopborder">
+        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \VinicciusGuedes\LaravelCnab\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}" class="notopborder">
             <div class="conteudo">{{ $instrucoes[4] }}</div>
             <div class="conteudo">{{ $instrucoes[5] }}</div>
         </td>
@@ -145,7 +145,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \Eduardokum\LaravelBoleto\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}" class="notopborder">
+        <td colspan="{{ isset($pix_qrcode) && $localizacao_pix == \VinicciusGuedes\LaravelCnab\Boleto\Render\Html::PIX_INSTRUCAO ? 6 : 7 }}" class="notopborder">
             <div class="conteudo">{{ $instrucoes[6] }}</div>
             <div class="conteudo">{{ $instrucoes[7] }}</div>
         </td>
@@ -181,7 +181,7 @@
     <tr>
         <td colspan="8" class="noborder">
             {!! $codigo_barras !!}
-            @if(isset($pix_qrcode) && $localizacao_pix == \Eduardokum\LaravelBoleto\Boleto\Render\Html::PIX_COD_BARRAS)
+            @if(isset($pix_qrcode) && $localizacao_pix == \VinicciusGuedes\LaravelCnab\Boleto\Render\Html::PIX_COD_BARRAS)
                 <table style="float: right">
                     <tr>
                         <td colspan="2" class="noborder"><div class="conteudo">Pague com PIX</div></td>

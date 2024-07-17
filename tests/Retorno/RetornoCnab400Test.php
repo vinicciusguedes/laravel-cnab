@@ -229,7 +229,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoBanrisulCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/banrisul.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/banrisul.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());
@@ -250,7 +250,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoBbCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/bb.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/bb.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());
@@ -271,7 +271,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoBnbCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/bnb.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/bnb.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());
@@ -292,7 +292,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoDellbankCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/delbank.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/delbank.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());
@@ -313,7 +313,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoFibraCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/fibra.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/fibra.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());
@@ -334,7 +334,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoInterCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/inter.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/inter.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());
@@ -355,7 +355,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoPineCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/pine.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/pine.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());
@@ -376,7 +376,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoOurinvestCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/ourinvest.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/ourinvest.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());
@@ -397,7 +397,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoPixCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/santander_pix.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/santander_pix.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());
@@ -412,7 +412,7 @@ class RetornoCnab400Test extends TestCase
 
     public function testRetornoSemPixCnab400()
     {
-        $retorno = \Eduardokum\LaravelBoleto\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/santander.ret');
+        $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/santander.ret');
         $retorno->processar();
 
         $this->assertNotNull($retorno->getHeader());

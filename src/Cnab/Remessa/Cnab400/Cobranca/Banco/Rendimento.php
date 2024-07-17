@@ -1,14 +1,15 @@
 <?php
 
-namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Pagamento\Banco;
+namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco;
 
+use Illuminate\Support\Str;
 use VinicciusGuedes\LaravelCnab\Util;
 use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\AbstractRemessa;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Remessa as RemessaContract;
 
-class Pine extends AbstractRemessa implements RemessaContract
+class Rendimento extends AbstractRemessa implements RemessaContract
 {
     const ESPECIE_DUPLICATA = '01';
     const ESPECIE_NOTA_PROMISSORIA = '02';
@@ -33,7 +34,7 @@ class Pine extends AbstractRemessa implements RemessaContract
     public function __construct(array $params = [])
     {
         parent::__construct($params);
-        $this->addCampoObrigatorio('codigoCliente');
+        $this->setCamposObrigatorios('agencia', 'beneficiario', 'codigoCliente');
     }
 
     /**
@@ -41,14 +42,14 @@ class Pine extends AbstractRemessa implements RemessaContract
      *
      * @var string
      */
-    protected $codigoBanco = BoletoContract::COD_BANCO_PINE;
+    protected $codigoBanco = BoletoContract::COD_BANCO_RENDIMENTO;
 
     /**
      * Define as carteiras disponíveis para cada banco
      *
      * @var array
      */
-    protected $carteiras = [112, 110];
+    protected $carteiras = false;
 
     /**
      * Caracter de fim de linha
@@ -87,7 +88,7 @@ class Pine extends AbstractRemessa implements RemessaContract
      *
      * @param mixed $codigoCliente
      *
-     * @return Pine
+     * @return Rendimento
      */
     public function setCodigoCliente($codigoCliente)
     {
@@ -97,11 +98,15 @@ class Pine extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return Pine
+     * @return Rendimento
      * @throws ValidationException
      */
     protected function header()
     {
+        if (! Str::startsWith($this->getCodigoCliente(), $this->getAgencia())) {
+            $this->setCodigoCliente(Util::numberFormatGeral($this->getAgencia(), 4) . Util::numberFormatGeral($this->getCodigoCliente(), 10));
+        }
+
         $this->iniciaHeader();
 
         $this->add(1, 1, '0');
@@ -109,10 +114,10 @@ class Pine extends AbstractRemessa implements RemessaContract
         $this->add(3, 9, 'REMESSA');
         $this->add(10, 11, '01');
         $this->add(12, 26, Util::formatCnab('X', 'COBRANCA', 15));
-        $this->add(27, 46, Util::formatCnab('X', Util::numberFormatGeral((int) $this->getCodigoCliente(), 8), 20));
+        $this->add(27, 46, Util::formatCnab('X', $this->getCodigoCliente(), 20));
         $this->add(47, 76, Util::formatCnab('X', $this->getBeneficiario()->getNome(), 30));
         $this->add(77, 79, $this->getCodigoBanco());
-        $this->add(80, 94, Util::formatCnab('X', 'BANCO PINE S.A', 15));
+        $this->add(80, 94, Util::formatCnab('X', 'RENDIMENTO S.A', 15));
         $this->add(95, 100, $this->getDataRemessa('dmy'));
         $this->add(101, 394, '');
         $this->add(395, 400, Util::formatCnab('9', 1, 6));
@@ -123,24 +128,28 @@ class Pine extends AbstractRemessa implements RemessaContract
     /**
      * @param \VinicciusGuedes\LaravelCnab\Boleto\Banco\Pine $boleto
      *
-     * @return Pine
+     * @return Rendimento
      * @throws ValidationException
      */
     public function addBoleto(BoletoContract $boleto)
     {
+        if (! Str::startsWith($this->getCodigoCliente(), $this->getAgencia())) {
+            $this->setCodigoCliente(Util::numberFormatGeral($this->getAgencia(), 4) . Util::numberFormatGeral($this->getCodigoCliente(), 10));
+        }
+
         $this->boletos[] = $boleto;
         $this->iniciaDetalhe();
 
         $this->add(1, 1, '1');
         $this->add(2, 3, strlen(Util::onlyNumbers($this->getBeneficiario()->getDocumento())) == 14 ? '02' : '01');
         $this->add(4, 17, Util::formatCnab('9', Util::onlyNumbers($this->getBeneficiario()->getDocumento()), 14));
-        $this->add(18, 37, Util::formatCnab('X', Util::numberFormatGeral((int) $this->getCodigoCliente(), 9), 20));
+        $this->add(18, 37, Util::formatCnab('X', $this->getCodigoCliente(), 20));
         $this->add(38, 62, Util::formatCnab('X', $boleto->getNumeroControle(), 25)); // numero de controle
         $this->add(63, 73, Util::formatCnab('9', $boleto->getNossoNumero(), 11));
-        $this->add(74, 86, Util::formatCnab('9', 0, 11));
+        $this->add(74, 86, Util::formatCnab('X', '', 11));
         $this->add(87, 89, Util::formatCnab('X', '', 3));
         $this->add(90, 90, $boleto->getMulta() > 0 ? '2' : '0');
-        $this->add(91, 103, Util::formatCnab('9', $boleto->getMulta(), 13, 2));
+        $this->add(91, 103, Util::formatCnab('9', $boleto->getMulta(), 13, 4));
         $this->add(104, 105, $boleto->getMulta() > 0 ? '01' : '00');
         $this->add(106, 107, '');
         $this->add(108, 108, Util::formatCnab('9', $boleto->getModalidadeCarteira(), 1));
@@ -199,7 +208,7 @@ class Pine extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return Pine
+     * @return Rendimento
      * @throws ValidationException
      */
     protected function trailer()
