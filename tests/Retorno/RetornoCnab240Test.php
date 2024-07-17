@@ -1,6 +1,6 @@
 <?php
 
-namespace VinicciusGuedes\LaravelCnab\Tests\Retorno;
+namespace Retorno;
 
 use Illuminate\Support\Collection;
 use VinicciusGuedes\LaravelCnab\Tests\TestCase;

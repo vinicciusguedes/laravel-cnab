@@ -1,12 +1,12 @@
 <?php
 
-namespace VinicciusGuedes\LaravelCnab\Tests\Retorno;
+namespace Retorno;
 
 use Exception;
 use Illuminate\Support\Collection;
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Bradesco;
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Detalhe;
 use VinicciusGuedes\LaravelCnab\Tests\TestCase;
+use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Detalhe;
+use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Cobranca\Banco\Bradesco;
 
 class RetornoCnab400Test extends TestCase
 {
