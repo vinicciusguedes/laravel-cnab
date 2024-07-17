@@ -9,14 +9,14 @@ use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\AbstractRetorno;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 
-class Pine extends AbstractRetorno implements RetornoCnab400
+class Rendimento extends AbstractRetorno implements RetornoCnab400
 {
     /**
      * Código do banco
      *
      * @var string
      */
-    protected $codigoBanco = BoletoContract::COD_BANCO_PINE;
+    protected $codigoBanco = BoletoContract::COD_BANCO_RENDIMENTO;
 
     /**
      * Array com as ocorrencias do banco;
@@ -26,7 +26,7 @@ class Pine extends AbstractRetorno implements RetornoCnab400
     private $ocorrencias = [
         '01' => 'Confirma Entrada Título na CIP',
         '02' => 'Entrada Confirmada',
-        '03' => '(*) Entrada Rejeitada',
+        '03' => 'Entrada Rejeitada',
         '05' => 'Campo Livre Alterado',
         '06' => 'Liquidação Normal',
         '08' => 'Liquidação em Cartório',
@@ -35,8 +35,8 @@ class Pine extends AbstractRetorno implements RetornoCnab400
         '12' => 'Confirma Abatimento',
         '13' => 'Abatimento Cancelado',
         '14' => 'Vencimento Alterado',
-        '15' => '(*) Baixa Rejeitada',
-        '16' => '(*) Instrução Rejeitada',
+        '15' => 'Baixa Rejeitada',
+        '16' => 'Instrução Rejeitada',
         '19' => 'Confirma Recebimento de Ordem de Protesto',
         '20' => 'Confirma Recebimento de Ordem de Sustação',
         '22' => 'Seu número alterado',
@@ -48,6 +48,7 @@ class Pine extends AbstractRetorno implements RetornoCnab400
         '96' => 'Tarifa Sobre Instruções – Mês anterior',
         '97' => 'Tarifa Sobre Baixas – Mês Anterior',
         '98' => 'Tarifa Sobre Entradas – Mês Anterior',
+        '99' => 'Tarifa Sobre Instruções de Protesto/Sustação – Mês Anterior',
     ];
 
     /**
@@ -159,6 +160,8 @@ class Pine extends AbstractRetorno implements RetornoCnab400
             'KC' => 'Título já Sustado',
             'KD' => 'Serviço de Cobrança não permitido para carteira',
             'KE' => 'Título possui caracteres não permitidos.',
+            'KF' => 'Operação fechada para novas entradas',
+            'KG' => 'Nosso número bancos duplicado.',
             'ZQ' => 'Sem informação da Nota Fiscal Eletrônica',
             'ZR' => 'Chave de Acesso NF Rejeitada',
             'ZS' => 'Chave de Acesso NF Duplicada',
@@ -206,8 +209,8 @@ class Pine extends AbstractRetorno implements RetornoCnab400
             'CT' => 'Título já baixado',
             'CW' => 'Título já transferido',
             'DO' => 'Título em Prejuízo',
-            'Tí' => 'lo de Cartão de Crédito não aceita instruções',
-            'JK' => 'roduto não permite alteração de valor de título',
+            'IX' => 'Título de Cartão de Crédito não aceita instruções',
+            'JK' => 'Produto não permite alteração de valor de título',
             'JQ' => 'Título em Correspondente – Não alterar Valor',
             'JS' => 'Título possui Descontos/Abto/Mora/Multa',
             'JT' => 'Título possui Agenda de Protesto/Devolução',
@@ -243,7 +246,6 @@ class Pine extends AbstractRetorno implements RetornoCnab400
             ->setServicoCodigo($this->rem(10, 11, $header))
             ->setServico($this->rem(12, 26, $header))
             ->setCodigoCliente($this->rem(27, 46, $header))
-            ->setConvenio($this->rem(41, 46, $header))
             ->setData($this->rem(95, 100, $header));
 
         return true;

@@ -2,8 +2,8 @@
 
 namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno;
 
-use Eduardokum\LaravelBoleto\Util;
-use Eduardokum\LaravelBoleto\Exception\ValidationException;
+use VinicciusGuedes\LaravelCnab\Util;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 
 class Factory
 {

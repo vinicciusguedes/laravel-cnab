@@ -1,14 +1,14 @@
 <?php
 
-namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Pagamento\Banco;
+namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Pagamento\Banco;
 
 use Illuminate\Support\Arr;
 use VinicciusGuedes\LaravelCnab\Util;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\RetornoCnab240;
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\AbstractRetorno;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\RetornoCnab400;
+use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\AbstractRetorno;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 
-class Cresol extends AbstractRetorno implements RetornoCnab240
+class Cresol extends AbstractRetorno implements RetornoCnab400
 {
     /**
      * Código do banco
@@ -195,37 +195,6 @@ class Cresol extends AbstractRetorno implements RetornoCnab240
     ];
 
     /**
-     * Array com as possiveis descricoes de baixa e liquidacao.
-     *
-     * @var array
-     */
-    private $baixa_liquidacao = [
-        '01' => 'Por Saldo',
-        '02' => 'Por Conta',
-        '03' => 'Liquidação no Guichê de Caixa em Dinheiro',
-        '04' => 'Compensação Eletrônica',
-        '05' => 'Compensação Convencional',
-        '06' => 'Por Meio Eletrônico',
-        '07' => 'Após Feriado Local',
-        '08' => 'Em Cartório',
-        '30' => 'Liquidação no Guichê de Caixa em Cheque',
-        '31' => 'Liquidação em banco correspondente',
-        '32' => 'Liquidação Terminal de Auto-Atendimento',
-        '33' => 'Liquidação na Internet (Home banking)',
-        '34' => 'Liquidado Office Banking',
-        '35' => 'Liquidado Correspondente em Dinheiro',
-        '36' => 'Liquidado Correspondente em Cheque',
-        '37' => 'Liquidado por meio de Central de Atendimento (Telefone) Baixa: PELO BANCO)',
-        '09' => 'Comandada Banco',
-        '10' => 'Comandada Cliente Arquivo',
-        '11' => 'Comandada Cliente On-line',
-        '12' => 'Decurso Prazo - Cliente',
-        '13' => 'Decurso Prazo - Banco',
-        '14' => 'Protestado',
-        '15' => 'Título Excluído',
-    ];
-
-    /**
      * Roda antes dos metodos de processar
      */
     protected function init()
@@ -249,52 +218,12 @@ class Cresol extends AbstractRetorno implements RetornoCnab240
     protected function processarHeader(array $header)
     {
         $this->getHeader()
-            ->setCodBanco($this->rem(1, 3, $header))
-            ->setLoteServico($this->rem(4, 7, $header))
-            ->setTipoRegistro($this->rem(8, 8, $header))
-            ->setTipoInscricao($this->rem(18, 18, $header))
-            ->setNumeroInscricao($this->rem(19, 32, $header))
-            ->setAgencia($this->rem(53, 57, $header))
-            ->setAgenciaDv($this->rem(58, 58, $header))
-            ->setConta($this->rem(59, 70, $header))
-            ->setContaDv($this->rem(71, 71, $header))
-//            ->setContaDv($this->rem(72, 72, $header))
-            ->setNomeEmpresa($this->rem(73, 102, $header))
-            ->setNomeBanco($this->rem(103, 132, $header))
-            ->setCodigoRemessaRetorno($this->rem(143, 143, $header))
-            ->setData($this->rem(144, 151, $header))
-            ->setNumeroSequencialArquivo($this->rem(158, 163, $header))
-            ->setVersaoLayoutArquivo($this->rem(164, 166, $header));
-
-        return true;
-    }
-
-    /**
-     * @param array $headerLote
-     *
-     * @return bool
-     * @throws \Exception
-     */
-    protected function processarHeaderLote(array $headerLote)
-    {
-        $this->getHeaderLote()
-            ->setCodBanco($this->rem(1, 3, $headerLote))
-            ->setNumeroLoteRetorno($this->rem(4, 7, $headerLote))
-            ->setTipoRegistro($this->rem(8, 8, $headerLote))
-            ->setTipoOperacao($this->rem(9, 9, $headerLote))
-            ->setTipoServico($this->rem(10, 11, $headerLote))
-            ->setVersaoLayoutLote($this->rem(14, 16, $headerLote))
-            ->setTipoInscricao($this->rem(18, 18, $headerLote))
-            ->setNumeroInscricao($this->rem(19, 33, $headerLote))
-            ->setAgencia($this->rem(54, 58, $headerLote))
-            ->setAgenciaDv($this->rem(59, 59, $headerLote))
-            ->setConta($this->rem(60, 71, $headerLote))
-            ->setContaDv($this->rem(72, 72, $headerLote))
-//            ->setContaDv($this->rem(73, 73, $headerLote))
-            ->setNomeEmpresa($this->rem(74, 103, $headerLote))
-            ->setNumeroRetorno($this->rem(184, 191, $headerLote))
-            ->setDataGravacao($this->rem(192, 199, $headerLote))
-            ->setDataCredito($this->rem(200, 207, $headerLote));
+            ->setOperacaoCodigo($this->rem(2, 2, $header))
+            ->setOperacao($this->rem(3, 9, $header))
+            ->setServicoCodigo($this->rem(10, 11, $header))
+            ->setServico($this->rem(12, 26, $header))
+            ->setCodigoCliente($this->rem(27, 46, $header))
+            ->setData($this->rem(95, 100, $header));
 
         return true;
     }
@@ -307,112 +236,67 @@ class Cresol extends AbstractRetorno implements RetornoCnab240
      */
     protected function processarDetalhe(array $detalhe)
     {
+        if ($this->count() == 1) {
+            $this->getHeader()
+                ->setAgencia($this->rem(25, 29, $detalhe))
+                ->setConta($this->rem(30, 36, $detalhe))
+                ->setContaDv($this->rem(37, 37, $detalhe));
+        }
+
         $d = $this->detalheAtual();
+        $d->setCarteira($this->rem(108, 108, $detalhe))
+            ->setNossoNumero($this->rem(71, 82, $detalhe))
+            //71 - 81 Identificação do Título no Banco / 82 Digito N/N
+            ->setNumeroDocumento($this->rem(117, 126, $detalhe))
+            ->setNumeroControle($this->rem(38, 62, $detalhe))
+            ->setOcorrencia($this->rem(109, 110, $detalhe))
+            ->setOcorrenciaDescricao(Arr::get($this->ocorrencias, $d->getOcorrencia(), 'Desconhecida'))
+            ->setDataOcorrencia($this->rem(111, 116, $detalhe))
+            ->setDataVencimento($this->rem(147, 152, $detalhe))
+            ->setDataCredito($this->rem(296, 301, $detalhe))
+            ->setValor(Util::nFloat($this->rem(153, 165, $detalhe) / 100, 2, false))
+            ->setValorTarifa(Util::nFloat($this->rem(176, 188, $detalhe) / 100, 2, false))
+            ->setValorIOF(Util::nFloat($this->rem(215, 227, $detalhe) / 100, 2, false))
+            ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe) / 100, 2, false))
+            ->setValorDesconto(Util::nFloat($this->rem(241, 253, $detalhe) / 100, 2, false))
+            ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe) / 100, 2, false))
+            ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe) / 100, 2, false))
+            ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe) / 100, 2, false)); //outros creditos
 
-        if ($this->getSegmentType($detalhe) == 'T') {
-            $d->setOcorrencia($this->rem(16, 17, $detalhe))
-                ->setOcorrenciaDescricao(Arr::get($this->ocorrencias, $this->detalheAtual()->getOcorrencia(), 'Desconhecida'))
-                ->setNossoNumero($this->rem(38, 57, $detalhe))
-                ->setCarteira($this->rem(58, 58, $detalhe))
-                ->setNumeroDocumento($this->rem(59, 73, $detalhe))
-                ->setDataVencimento($this->rem(74, 81, $detalhe))
-                ->setValor(Util::nFloat($this->rem(82, 96, $detalhe) / 100, 2, false))
-                ->setNumeroControle($this->rem(106, 130, $detalhe))
-                ->setPagador([
-                    'nome'      => $this->rem(149, 188, $detalhe),
-                    'documento' => $this->rem(134, 148, $detalhe),
-                ])
-                ->setValorTarifa(Util::nFloat($this->rem(199, 213, $detalhe) / 100, 2, false));
-
-            /**
-             * ocorrencias
-             */
-            $msgAdicional = str_split(sprintf('%08s', $this->rem(214, 223, $detalhe)), 2) + array_fill(0, 5, '');
-            if ($d->hasOcorrencia('06', '17')) {
-                $this->totais['liquidados']++;
-                $ocorrencia = Util::appendStrings(
-                    $d->getOcorrenciaDescricao(),
-                    Arr::get($this->baixa_liquidacao, $msgAdicional[0], ''),
-                    Arr::get($this->baixa_liquidacao, $msgAdicional[1], ''),
-                    Arr::get($this->baixa_liquidacao, $msgAdicional[2], ''),
-                    Arr::get($this->baixa_liquidacao, $msgAdicional[3], ''),
-                    Arr::get($this->baixa_liquidacao, $msgAdicional[4], '')
-                );
-                $d->setOcorrenciaDescricao($ocorrencia);
-                $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
-            } elseif ($d->hasOcorrencia('02')) {
-                $this->totais['entradas']++;
-                if (array_search('a4', array_map('strtolower', $msgAdicional)) !== false) {
-                    $d->getPagador()->setDda(true);
-                }
-                $d->setOcorrenciaTipo($d::OCORRENCIA_ENTRADA);
-            } elseif ($d->hasOcorrencia('09')) {
-                $this->totais['baixados']++;
-                $ocorrencia = Util::appendStrings(
-                    $d->getOcorrenciaDescricao(),
-                    Arr::get($this->rejeicoes, $msgAdicional[0], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[1], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[2], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[3], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[4], '')
-                );
-                $d->setOcorrenciaDescricao($ocorrencia);
-                $d->setOcorrenciaTipo($d::OCORRENCIA_BAIXADA);
-            } elseif ($d->hasOcorrencia('25')) {
-                $this->totais['protestados']++;
-                $d->setOcorrenciaTipo($d::OCORRENCIA_PROTESTADA);
-            } elseif ($d->hasOcorrencia('33', '38', '40', '41', '42', '43', '49')) {
-                $this->totais['alterados']++;
-                $d->setOcorrenciaTipo($d::OCORRENCIA_ALTERACAO);
-            } elseif ($d->hasOcorrencia('03', '26', '30')) {
-                $this->totais['erros']++;
-                $error = Util::appendStrings(
-                    Arr::get($this->rejeicoes, $msgAdicional[0], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[1], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[2], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[3], ''),
-                    Arr::get($this->rejeicoes, $msgAdicional[4], '')
-                );
-                $d->setError($error);
-            } else {
-                $d->setOcorrenciaTipo($d::OCORRENCIA_OUTROS);
+        $msgAdicional = str_split(sprintf('%08s', $this->rem(319, 328, $detalhe)), 2) + array_fill(0, 5, '');
+        if ($d->hasOcorrencia('06', '15', '17')) {
+            $this->totais['liquidados']++;
+            $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
+        } elseif ($d->hasOcorrencia('02')) {
+            $this->totais['entradas']++;
+            $d->setOcorrenciaTipo($d::OCORRENCIA_ENTRADA);
+        } elseif ($d->hasOcorrencia('09', '10')) {
+            $this->totais['baixados']++;
+            $d->setOcorrenciaTipo($d::OCORRENCIA_BAIXADA);
+        } elseif ($d->hasOcorrencia('23')) {
+            $this->totais['protestados']++;
+            $d->setOcorrenciaTipo($d::OCORRENCIA_PROTESTADA);
+        } elseif ($d->hasOcorrencia('14')) {
+            $this->totais['alterados']++;
+            $d->setOcorrenciaTipo($d::OCORRENCIA_ALTERACAO);
+        } elseif ($d->hasOcorrencia('03', '24', '27', '30', '32')) {
+            $this->totais['erros']++;
+            $error = Util::appendStrings(
+                Arr::get($this->rejeicoes, $msgAdicional[0], ''),
+                Arr::get($this->rejeicoes, $msgAdicional[1], ''),
+                Arr::get($this->rejeicoes, $msgAdicional[2], ''),
+                Arr::get($this->rejeicoes, $msgAdicional[3], ''),
+                Arr::get($this->rejeicoes, $msgAdicional[4], '')
+            );
+            if ($d->hasOcorrencia('03')) {
+               if (isset($this->rejeicoes[$this->rem(319, 320, $detalhe)])){
+                  $d->setRejeicao($this->rejeicoes[$this->rem(319, 320, $detalhe)]);
+               }
             }
+            $d->setError($error);
+        } else {
+            $d->setOcorrenciaTipo($d::OCORRENCIA_OUTROS);
         }
-
-        if ($this->getSegmentType($detalhe) == 'U') {
-            $d->setValorMulta(Util::nFloat($this->rem(18, 32, $detalhe) / 100, 2, false))
-                ->setValorDesconto(Util::nFloat($this->rem(33, 47, $detalhe) / 100, 2, false))
-                ->setValorAbatimento(Util::nFloat($this->rem(48, 62, $detalhe) / 100, 2, false))
-                ->setValorIOF(Util::nFloat($this->rem(63, 77, $detalhe) / 100, 2, false))
-                ->setValorRecebido(Util::nFloat($this->rem(78, 92, $detalhe) / 100, 2, false))
-                ->setValorTarifa($d->getValorRecebido() - Util::nFloat($this->rem(93, 107, $detalhe) / 100, 2, false))
-                ->setDataOcorrencia($this->rem(138, 145, $detalhe))
-                ->setDataCredito($this->rem(146, 153, $detalhe));
-        }
-
-        return true;
-    }
-
-    /**
-     * @param array $trailer
-     *
-     * @return bool
-     * @throws \Exception
-     */
-    protected function processarTrailerLote(array $trailer)
-    {
-        $this->getTrailerLote()
-            ->setLoteServico($this->rem(4, 7, $trailer))
-            ->setTipoRegistro($this->rem(8, 8, $trailer))
-            ->setQtdRegistroLote((int) $this->rem(18, 23, $trailer))
-            ->setQtdTitulosCobrancaSimples((int) $this->rem(24, 29, $trailer))
-            ->setValorTotalTitulosCobrancaSimples(Util::nFloat($this->rem(30, 46, $trailer) / 100, 2, false))
-            ->setQtdTitulosCobrancaVinculada((int) $this->rem(47, 52, $trailer))
-            ->setValorTotalTitulosCobrancaVinculada(Util::nFloat($this->rem(53, 69, $trailer) / 100, 2, false))
-            ->setQtdTitulosCobrancaCaucionada((int) $this->rem(70, 75, $trailer))
-            ->setValorTotalTitulosCobrancaCaucionada(Util::nFloat($this->rem(76, 92, $trailer) / 100, 2, false))
-            ->setQtdTitulosCobrancaDescontada((int) $this->rem(93, 98, $trailer))
-            ->setValorTotalTitulosCobrancaDescontada(Util::nFloat($this->rem(99, 115, $trailer) / 100, 2, false));
 
         return true;
     }
@@ -426,10 +310,13 @@ class Cresol extends AbstractRetorno implements RetornoCnab240
     protected function processarTrailer(array $trailer)
     {
         $this->getTrailer()
-            ->setNumeroLote($this->rem(4, 7, $trailer))
-            ->setTipoRegistro($this->rem(8, 8, $trailer))
-            ->setQtdLotesArquivo((int) $this->rem(18, 23, $trailer))
-            ->setQtdRegistroArquivo((int) $this->rem(24, 29, $trailer));
+            ->setQuantidadeTitulos($this->rem(18, 25, $trailer))
+            ->setValorTitulos(Util::nFloat($this->rem(26, 39, $trailer) / 100, 2, false))
+            ->setQuantidadeErros((int) $this->totais['erros'])
+            ->setQuantidadeEntradas((int) $this->totais['entradas'])
+            ->setQuantidadeLiquidados((int) $this->totais['liquidados'])
+            ->setQuantidadeBaixados((int) $this->totais['baixados'])
+            ->setQuantidadeAlterados((int) $this->totais['alterados']);
 
         return true;
     }

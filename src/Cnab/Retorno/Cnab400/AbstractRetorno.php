@@ -4,11 +4,7 @@ namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400;
 
 use Illuminate\Support\Collection;
 use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
-use VinicciusGuedes\LaravelCnab\Util;
-use \VinicciusGuedes\LaravelCnab\Cnab\Retorno\AbstractRetorno as AbstractRetornoGeneric;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Header as HeaderContract;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Detalhe as DetalheContract;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Trailer as TrailerContract;
+use VinicciusGuedes\LaravelCnab\Cnab\Retorno\AbstractRetorno as AbstractRetornoGeneric;
 
 /**
  * Class AbstractRetorno

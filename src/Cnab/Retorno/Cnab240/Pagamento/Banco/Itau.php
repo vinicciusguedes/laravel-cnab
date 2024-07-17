@@ -3,11 +3,11 @@
 namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Pagamento\Banco;
 
 use Illuminate\Support\Arr;
-use Eduardokum\LaravelBoleto\Util;
-use Eduardokum\LaravelBoleto\Contracts\Cnab\RetornoCnab240;
-use Eduardokum\LaravelBoleto\Exception\ValidationException;
-use Eduardokum\LaravelBoleto\Cnab\Retorno\Cnab240\AbstractRetorno;
-use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
+use VinicciusGuedes\LaravelCnab\Util;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\RetornoCnab240;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
+use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\AbstractRetorno;
+use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 
 class Itau extends AbstractRetorno implements RetornoCnab240
 {
