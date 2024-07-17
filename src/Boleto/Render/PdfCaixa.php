@@ -3,6 +3,7 @@
 namespace VinicciusGuedes\LaravelCnab\Boleto\Render;
 
 use Illuminate\Support\Str;
+use VinicciusGuedes\LaravelCnab\Util;
 use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Render\Pdf as PdfContract;
