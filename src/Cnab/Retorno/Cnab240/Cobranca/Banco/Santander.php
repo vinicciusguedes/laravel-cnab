@@ -245,7 +245,19 @@ class Santander extends AbstractRetorno implements RetornoCnab240
                 $d->setOcorrenciaTipo($d::OCORRENCIA_ALTERACAO);
             } elseif ($d->hasOcorrencia('03', '26', '30')) {
                 $this->totais['erros']++;
-                $error = Util::appendStrings(Arr::get($this->rejeicoes, $msgAdicional[0], ''), Arr::get($this->rejeicoes, $msgAdicional[1], ''), Arr::get($this->rejeicoes, $msgAdicional[2], ''), Arr::get($this->rejeicoes, $msgAdicional[3], ''), Arr::get($this->rejeicoes, $msgAdicional[4], ''));
+                $error = Util::appendStrings(
+                    Arr::get($this->rejeicoes, $msgAdicional[0], ''),
+                    Arr::get($this->rejeicoes, $msgAdicional[1], ''),
+                    Arr::get($this->rejeicoes, $msgAdicional[2], ''),
+                    Arr::get($this->rejeicoes, $msgAdicional[3], ''),
+                    Arr::get($this->rejeicoes, $msgAdicional[4], '')
+                );
+                $ocorrenciaArray[$msgAdicional[0]] = Arr::get($this->rejeicoes, $msgAdicional[0], '');
+                $ocorrenciaArray[$msgAdicional[1]] = Arr::get($this->rejeicoes, $msgAdicional[1], '');
+                $ocorrenciaArray[$msgAdicional[2]] = Arr::get($this->rejeicoes, $msgAdicional[2], '');
+                $ocorrenciaArray[$msgAdicional[3]] = Arr::get($this->rejeicoes, $msgAdicional[3], '');
+                $ocorrenciaArray[$msgAdicional[4]] = Arr::get($this->rejeicoes, $msgAdicional[4], '');
+                $d->setOcorrenciaArray($ocorrenciaArray);
                 $d->setError($error);
             } else {
                 $d->setOcorrenciaTipo($d::OCORRENCIA_OUTROS);
