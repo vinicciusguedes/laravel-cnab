@@ -10,10 +10,10 @@ Installation
 
 At the command line::
 
-    composer require "vinicciusguedes/laravel-cnab"
+    composer require "eduardokum/laravel-boleto"
 
 Or, Put in your composer.json file::
 
     {
-        "vinicciusguedes/laravel-cnab": "~1.0"
+        "eduardokum/laravel-boleto": "~0.8"
     }
