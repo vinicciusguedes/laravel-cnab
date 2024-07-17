@@ -2,11 +2,12 @@
 
 namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Pagamento\Banco;
 
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\AbstractRetorno;
-use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\RetornoCnab240;
-use VinicciusGuedes\LaravelCnab\Util;
 use Illuminate\Support\Arr;
+use Eduardokum\LaravelBoleto\Util;
+use Eduardokum\LaravelBoleto\Contracts\Cnab\RetornoCnab240;
+use Eduardokum\LaravelBoleto\Exception\ValidationException;
+use Eduardokum\LaravelBoleto\Cnab\Retorno\Cnab240\AbstractRetorno;
+use Eduardokum\LaravelBoleto\Contracts\Boleto\Boleto as BoletoContract;
 
 class Itau extends AbstractRetorno implements RetornoCnab240
 {
@@ -153,12 +154,12 @@ class Itau extends AbstractRetorno implements RetornoCnab240
     protected function init()
     {
         $this->totais = [
-            'liquidados' => 0,
-            'entradas' => 0,
-            'baixados' => 0,
+            'liquidados'  => 0,
+            'entradas'    => 0,
+            'baixados'    => 0,
             'protestados' => 0,
-            'erros' => 0,
-            'alterados' => 0,
+            'erros'       => 0,
+            'alterados'   => 0,
         ];
     }
 
@@ -166,7 +167,7 @@ class Itau extends AbstractRetorno implements RetornoCnab240
      * @param array $header
      *
      * @return bool
-     * @throws \Exception
+     * @throws ValidationException
      */
     protected function processarHeader(array $header)
     {
@@ -193,7 +194,7 @@ class Itau extends AbstractRetorno implements RetornoCnab240
      * @param array $headerLote
      *
      * @return bool
-     * @throws \Exception
+     * @throws ValidationException
      */
     protected function processarHeaderLote(array $headerLote)
     {
@@ -221,7 +222,7 @@ class Itau extends AbstractRetorno implements RetornoCnab240
      * @param array $detalhe
      *
      * @return bool
-     * @throws \Exception
+     * @throws ValidationException
      */
     protected function processarDetalhe(array $detalhe)
     {
@@ -293,7 +294,7 @@ class Itau extends AbstractRetorno implements RetornoCnab240
      * @param array $trailer
      *
      * @return bool
-     * @throws \Exception
+     * @throws ValidationException
      */
     protected function processarTrailerLote(array $trailer)
     {
@@ -313,7 +314,7 @@ class Itau extends AbstractRetorno implements RetornoCnab240
      * @param array $trailer
      *
      * @return bool
-     * @throws \Exception
+     * @throws ValidationException
      */
     protected function processarTrailer(array $trailer)
     {

@@ -15,13 +15,12 @@ use OutOfBoundsException;
 use VinicciusGuedes\LaravelCnab\Util;
 use Illuminate\Support\Collection;
 use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Detalhe as Detalhe240Contract;
 use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Header as Header240Contract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Header as Header400Contract;
+use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Detalhe as Detalhe240Contract;
 use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab240\Trailer as Trailer240Contract;
 use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Detalhe as Detalhe400Contract;
 use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Trailer as Trailer400Contract;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno\Cnab400\Header as Header400Contract;
-
 
 abstract class AbstractRetorno implements Countable, SeekableIterator
 {

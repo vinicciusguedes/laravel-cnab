@@ -300,7 +300,7 @@ class HeaderLote implements HeaderLoteContract
     /**
      * @param string $codigoCedente
      *
-     * @return $this
+     * @return HeaderLote
      */
     public function setCodigoCedente($codigoCedente)
     {

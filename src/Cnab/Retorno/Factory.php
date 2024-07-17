@@ -2,10 +2,8 @@
 
 namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno;
 
-use VinicciusGuedes\LaravelCnab\Util;
-use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
-use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno;
+use Eduardokum\LaravelBoleto\Util;
+use Eduardokum\LaravelBoleto\Exception\ValidationException;
 
 class Factory
 {
