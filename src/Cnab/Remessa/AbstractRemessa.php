@@ -89,6 +89,7 @@ abstract class AbstractRemessa
      * @var
      */
     protected $idremessa;
+
     /**
      * A data que será informada no header da remessa
      *

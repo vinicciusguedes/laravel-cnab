@@ -1,8 +1,10 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400;
 
-use VinicciusGuedes\LaravelCnab\Cnab\Remessa\AbstractRemessa as AbstractRemessaGeneric;
 use ForceUTF8\Encoding;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
+use VinicciusGuedes\LaravelCnab\Cnab\Remessa\AbstractRemessa as AbstractRemessaGeneric;
 
 abstract class AbstractRemessa extends AbstractRemessaGeneric
 {
@@ -76,17 +78,17 @@ abstract class AbstractRemessa extends AbstractRemessaGeneric
      * Gera o arquivo, retorna a string.
      *
      * @return string
-     * @throws \Exception
+     * @throws ValidationException
      */
     public function gerar()
     {
         if (!$this->isValid($messages)) {
-            throw new \Exception('Campos requeridos pelo banco, aparentam estar ausentes ' . $messages);
+            throw new ValidationException('Campos requeridos pelo banco, aparentam estar ausentes ' . $messages);
         }
 
         $stringRemessa = '';
         if ($this->iRegistros < 1) {
-            throw new \Exception('Nenhuma linha detalhe foi adicionada');
+            throw new ValidationException('Nenhuma linha detalhe foi adicionada');
         }
 
         $this->header();
@@ -98,7 +100,6 @@ abstract class AbstractRemessa extends AbstractRemessaGeneric
             } else {
                 $stringRemessa .= $this->valida($detalhe) . $this->fimLinha;
             }
-
         }
 
         $this->trailer();
@@ -107,4 +108,3 @@ abstract class AbstractRemessa extends AbstractRemessaGeneric
         return Encoding::toUTF8($stringRemessa);
     }
 }
-

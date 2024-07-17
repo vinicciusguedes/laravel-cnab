@@ -200,7 +200,7 @@ class TrailerLote implements TrailerLoteContract
     /**
      * @param mixed $qtdTitulosCobrancaVinculada
      *
-     * @return $this
+     * @return TrailerLote
      */
     public function setQtdTitulosCobrancaVinculada($qtdTitulosCobrancaVinculada)
     {

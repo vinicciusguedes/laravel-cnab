@@ -25,7 +25,7 @@ class Trailer implements TrailerContract
     protected $qtdLotesArquivo;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $qtdRegistroArquivo;
 
