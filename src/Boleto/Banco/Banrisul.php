@@ -4,8 +4,8 @@ namespace VinicciusGuedes\LaravelCnab\Boleto\Banco;
 
 use VinicciusGuedes\LaravelCnab\Util;
 use VinicciusGuedes\LaravelCnab\CalculoDV;
-use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 use VinicciusGuedes\LaravelCnab\Boleto\AbstractBoleto;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 
 class Banrisul extends AbstractBoleto implements BoletoContract
