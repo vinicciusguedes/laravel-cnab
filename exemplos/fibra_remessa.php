@@ -42,7 +42,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Fibra([
     'especieDoc'             => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Fibra([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Fibra([
     'agencia'       => '0001',
     'conta'         => '1234567',
     'contaDv'       => 9,

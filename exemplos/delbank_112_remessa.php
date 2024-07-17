@@ -41,7 +41,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Delbank([
     'especieDoc'          => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Delbank([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Delbank([
     'idRemessa'     => 1,
     'agencia'       => 19,
     'carteira'      => '112',

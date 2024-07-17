@@ -42,7 +42,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Pine([
     'especieDoc'             => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Pine([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Pine([
     'agencia'       => '0001',
     'conta'         => '1234',
     'contaDv'       => 9,

@@ -42,7 +42,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Sicredi([
     'especieDoc'             => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Sicredi([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Sicredi([
     'agencia'       => 2606,
     'carteira'      => '1',
     'conta'         => 12510,

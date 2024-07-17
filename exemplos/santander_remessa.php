@@ -40,7 +40,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Santander([
     'especieDoc'             => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Santander([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Santander([
     'agencia'       => 1111,
     'carteira'      => 101,
     'conta'         => 99999999,

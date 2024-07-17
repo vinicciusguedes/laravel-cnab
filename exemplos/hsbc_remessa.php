@@ -41,7 +41,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Hsbc([
     'especieDoc'             => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Hsbc([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Hsbc([
     'agencia'      => 1111,
     'carteira'     => 'CSB',
     'conta'        => 999999,

@@ -40,7 +40,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Itau([
     'especieDoc'             => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Itau([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Itau([
     'agencia'      => 1111,
     'conta'        => 99999,
     'contaDv'      => 9,

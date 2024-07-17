@@ -37,7 +37,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Inter([
     'especieDoc'      => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Inter([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Inter([
     'idRemessa'    => 1,
     'agencia'      => '0001',
     'conta'        => '123456789',

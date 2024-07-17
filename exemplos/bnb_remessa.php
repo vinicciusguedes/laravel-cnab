@@ -40,7 +40,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Bnb([
     'especieDoc'             => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Bnb([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Bnb([
     'agencia'      => '0232',
     'conta'        => '0000559',
     'contaDv'      => '1',

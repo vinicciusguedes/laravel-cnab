@@ -40,7 +40,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Banrisul([
     'especieDoc'             => 'DM',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Banrisul([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Banrisul([
     'agencia'       => 1111,
     'conta'         => 22222,
     'carteira'      => 1,

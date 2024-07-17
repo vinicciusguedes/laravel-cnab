@@ -41,7 +41,7 @@ $boleto = new VinicciusGuedes\LaravelCnab\Boleto\Banco\Ourinvest([
     'chaveNfe'               => '12345678901234567890123456789012345678901234',
 ]);
 
-$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Ourinvest([
+$remessa = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Ourinvest([
     'idRemessa'    => 1,
     'agencia'      => 1111,
     'carteira'     => '19',
