@@ -1,15 +1,13 @@
 <?php
-/**
- * Versão CNAB 085
- */
 
 namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Pagamento\Banco;
 
+use VinicciusGuedes\LaravelCnab\Util;
 use VinicciusGuedes\LaravelCnab\CalculoDV;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\AbstractRemessa;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Remessa as RemessaContract;
-use VinicciusGuedes\LaravelCnab\Util;
 
 class Itau extends AbstractRemessa implements RemessaContract
 {
@@ -30,7 +28,6 @@ class Itau extends AbstractRemessa implements RemessaContract
     const OCORRENCIA_EXC_NEGATIVACAO = '68';
     const OCORRENCIA_CANC_NEGATIVACAO = '69';
     const OCORRENCIA_DESCONTAR_TITULOS_DIA = '93';
-
     const PROTESTO_SEM = '0';
     const PROTESTO_DIAS_CORRIDOS = '1';
     const PROTESTO_DIAS_UTEIS = '2';
@@ -45,7 +42,6 @@ class Itau extends AbstractRemessa implements RemessaContract
      */
     protected $codigoBanco = BoletoContract::COD_BANCO_ITAU;
 
-
     /**
      * Define as carteiras disponíveis para cada banco
      *
@@ -56,8 +52,8 @@ class Itau extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Itau
+     * @throws ValidationException
      */
     public function addBoleto(BoletoContract $boleto)
     {
@@ -67,14 +63,15 @@ class Itau extends AbstractRemessa implements RemessaContract
         if($boleto->getPixQrCode()) {
             $this->segmentoJ52Pix($boleto);
         }
+
         return $this;
     }
 
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Itau
+     * @throws ValidationException
      */
     public function segmentoJ(BoletoContract $boleto)
     {
@@ -119,8 +116,8 @@ class Itau extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Itau
+     * @throws ValidationException
      */
     public function segmentoJ52(BoletoContract $boleto)
     {
@@ -155,8 +152,8 @@ class Itau extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Itau
+     * @throws ValidationException
      */
     public function segmentoJ52Pix(BoletoContract $boleto)
     {
@@ -181,8 +178,8 @@ class Itau extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Itau
+     * @throws ValidationException
      */
     protected function header()
     {
@@ -191,7 +188,6 @@ class Itau extends AbstractRemessa implements RemessaContract
         /**
          * HEADER DE ARQUIVO
          */
-
         $this->add(1, 3, Util::onlyNumbers($this->getCodigoBanco()));
         $this->add(4, 7, '0000');
         $this->add(8, 8, '0');
@@ -220,8 +216,8 @@ class Itau extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Itau
+     * @throws ValidationException
      */
     protected function headerLote()
     {
@@ -262,14 +258,14 @@ class Itau extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Itau
+     * @throws ValidationException
      */
     protected function trailerLote()
     {
         $this->iniciaTrailerLote();
 
-        $valor = array_reduce($this->boletos, function($valor, $boleto) {
+        $valor = array_reduce($this->boletos, function ($valor, $boleto) {
             return $valor + $boleto->getValor();
         }, 0);
 
@@ -287,8 +283,8 @@ class Itau extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Itau
+     * @throws ValidationException
      */
     protected function trailer()
     {

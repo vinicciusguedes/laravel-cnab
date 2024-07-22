@@ -1,22 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: simetriatecnologia
- * Date: 15/09/16
- * Time: 14:02
- */
 
 namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Pagamento\Banco;
 
-use VinicciusGuedes\LaravelCnab\CalculoDV;
+use VinicciusGuedes\LaravelCnab\Util;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\AbstractRemessa;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Remessa as RemessaContract;
-use VinicciusGuedes\LaravelCnab\Util;
 
 class Sicredi extends AbstractRemessa implements RemessaContract
 {
-
     const OCORRENCIA_REMESSA = '01';
     const OCORRENCIA_PEDIDO_BAIXA = '02';
     const OCORRENCIA_CONCESSAO_ABATIMENTO = '04';
@@ -32,7 +25,6 @@ class Sicredi extends AbstractRemessa implements RemessaContract
     const OCORRENCIA_ALT_DESCONTO = '16';
     const OCORRENCIA_NAO_CONCEDER_DESCONTO = '17';
     const OCORRENCIA_ALT_OUTROS_DADOS = '31';
-
     const PROTESTO_SEM = '3';
     const PROTESTO_DIAS_CORRIDOS = '1';
     const PROTESTO_NAO_PROTESTAR = '3';
@@ -76,14 +68,15 @@ class Sicredi extends AbstractRemessa implements RemessaContract
     public function setCarteira($carteira)
     {
         $this->carteira = 'A';
+
         return $this;
     }
 
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Sicredi
+     * @throws ValidationException
      */
     public function addBoleto(BoletoContract $boleto)
     {
@@ -91,17 +84,18 @@ class Sicredi extends AbstractRemessa implements RemessaContract
         $this->segmentoP($boleto);
         $this->segmentoQ($boleto);
         $this->segmentoR($boleto);
-        if($boleto->getSacadorAvalista()) {
+        if ($boleto->getSacadorAvalista()) {
             $this->segmentoY01($boleto);
         }
+
         return $this;
     }
 
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Sicredi
+     * @throws ValidationException
      */
     protected function segmentoP(BoletoContract $boleto)
     {
@@ -140,7 +134,7 @@ class Sicredi extends AbstractRemessa implements RemessaContract
         $this->add(110, 117, $boleto->getDataDocumento()->format('dmY'));
         $this->add(118, 118, $boleto->getJuros() ? '1' : '3'); //'1' = Valor por Dia, '3' = Isento
         $this->add(119, 126, $boleto->getJurosApos() == 0 ? '00000000' :
-               $boleto->getDataVencimentoApos()->format('dmY'));
+            $boleto->getDataVencimentoApos()->format('dmY'));
         $this->add(127, 141, Util::formatCnab('9', $boleto->getMoraDia(), 15, 2)); //Valor da mora/dia ou Taxa mensal
         $this->add(142, 142, $boleto->getDesconto() > 0 ? '1' : '0');
         $this->add(143, 150, $boleto->getDesconto() > 0 ? $boleto->getDataDesconto()->format('dmY') : '00000000');
@@ -165,12 +159,12 @@ class Sicredi extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Sicredi
+     * @throws ValidationException
      */
     protected function segmentoR(BoletoContract $boleto)
     {
-        if (!$boleto->getMulta() > 0 && !$boleto->getDesconto() > 0) {
+        if (! $boleto->getMulta() > 0 && ! $boleto->getDesconto() > 0) {
             return $this;
         }
 
@@ -225,7 +219,7 @@ class Sicredi extends AbstractRemessa implements RemessaContract
         $this->add(211, 215, Util::formatCnab('9', $this->getAgencia(), 5));
         $this->add(216, 216, '');
         $this->add(217, 228, Util::formatCnab('9', $this->getConta(), 12));
-        $this->add(229, 229, Util::modulo11($this->getConta()));
+        $this->add(229, 229, Util::formatCnab('9', $this->getContaDv(), 1));
         $this->add(230, 230, '');
         $this->add(231, 231, '');
         $this->add(232, 240, Util::formatCnab('X', '', 9));
@@ -236,8 +230,8 @@ class Sicredi extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Sicredi
+     * @throws ValidationException
      */
     public function segmentoQ(BoletoContract $boleto)
     {
@@ -277,7 +271,7 @@ class Sicredi extends AbstractRemessa implements RemessaContract
         $this->add(213, 232, '');
         $this->add(233, 240, '');
 
-        if($boleto->getSacadorAvalista()) {
+        if ($boleto->getSacadorAvalista()) {
             $this->add(154, 154, strlen(Util::onlyNumbers($boleto->getSacadorAvalista()->getDocumento())) == 14 ? 2 : 1);
             $this->add(155, 169, Util::formatCnab('9', Util::onlyNumbers($boleto->getSacadorAvalista()->getDocumento()), 15));
             $this->add(170, 209, Util::formatCnab('X', $boleto->getSacadorAvalista()->getNome(), 30));
@@ -289,8 +283,8 @@ class Sicredi extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Sicredi
+     * @throws ValidationException
      */
     public function segmentoY01(BoletoContract $boleto)
     {
@@ -323,8 +317,8 @@ class Sicredi extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Sicredi
+     * @throws ValidationException
      */
     protected function header()
     {
@@ -358,13 +352,12 @@ class Sicredi extends AbstractRemessa implements RemessaContract
         $this->add(192, 211, '');
         $this->add(212, 240, '');
 
-
         return $this;
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Sicredi
+     * @throws ValidationException
      */
     protected function headerLote()
     {
@@ -400,14 +393,14 @@ class Sicredi extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Sicredi
+     * @throws ValidationException
      */
     protected function trailerLote()
     {
         $this->iniciaTrailerLote();
 
-        $valor = array_reduce($this->boletos, function($valor, $boleto) {
+        $valor = array_reduce($this->boletos, function ($valor, $boleto) {
             return $valor + $boleto->getValor();
         }, 0);
 
@@ -431,8 +424,8 @@ class Sicredi extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Sicredi
+     * @throws ValidationException
      */
     protected function trailer()
     {

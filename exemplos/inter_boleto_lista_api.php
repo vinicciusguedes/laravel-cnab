@@ -1,19 +1,15 @@
 <?php
 
-use VinicciusGuedes\LaravelCnab\Boleto\Banco\Inter;
-
 require 'autoload.php';
 
-$beneficiario = new \VinicciusGuedes\LaravelCnab\Pessoa(
-    [
-        'nome' => 'ACME',
-        'endereco' => 'Rua um, 123',
-        'cep' => '99999-999',
-        'uf' => 'UF',
-        'cidade' => 'CIDADE',
-        'documento' => '99.999.999/9999-99',
-    ]
-);
+$beneficiario = new VinicciusGuedes\LaravelCnab\Pessoa([
+    'nome'      => 'ACME',
+    'endereco'  => 'Rua um, 123',
+    'cep'       => '99999-999',
+    'uf'        => 'UF',
+    'cidade'    => 'CIDADE',
+    'documento' => '99.999.999/9999-99',
+]);
 
 $api = new VinicciusGuedes\LaravelCnab\Api\Banco\Inter([
     'conta'            => '123456789',
@@ -27,4 +23,3 @@ dd($retorno);
 //$pdf = new VinicciusGuedes\LaravelCnab\Boleto\Render\Pdf();
 //$pdf->addBoletos($retorno);
 //$pdf->gerarBoleto($pdf::OUTPUT_SAVE, __DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . 'inter_lista_v2.pdf');
-

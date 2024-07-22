@@ -1,29 +1,30 @@
 <?php
+
 namespace VinicciusGuedes\LaravelCnab\Cnab\Retorno;
 
-use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
-use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Retorno;
 use VinicciusGuedes\LaravelCnab\Util;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 
 class Factory
 {
     /**
      * @param $file
      *
-     * @return Retorno
-     * @throws \Exception
+     * @return AbstractRetorno
+     * @throws ValidationException
      */
     public static function make($file, $type = 'C')
     {
         if (!$file_content = Util::file2array($file)) {
-            throw new \Exception("Arquivo: não existe");
+            throw new ValidationException('Arquivo: não existe');
         }
 
         if (!Util::isHeaderRetorno($file_content[0])) {
-            throw new \Exception("Arquivo: $file, não é um arquivo de retorno");
+            throw new ValidationException("Arquivo: $file, não é um arquivo de retorno");
         }
 
         $instancia = self::getBancoClass($file_content, $type);
+
         return $instancia->processar();
     }
 
@@ -31,7 +32,7 @@ class Factory
      * @param $file_content
      *
      * @return mixed
-     * @throws \Exception
+     * @throws ValidationException
      */
     private static function getBancoClass($file_content, $type = 'C')
     {
@@ -58,7 +59,7 @@ class Factory
         $bancoClass = $namespace . Util::getBancoClass($banco);
 
         if (!class_exists($bancoClass)) {
-            throw new \Exception("Banco não possui essa versão de CNAB");
+            throw new ValidationException('Banco não possui essa versão de CNAB');
         }
 
         return new $bancoClass($file_content);

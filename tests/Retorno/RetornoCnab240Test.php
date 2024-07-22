@@ -1,13 +1,10 @@
 <?php
 
-namespace VinicciusGuedes\LaravelCnab\Tests\Retorno;
+namespace Retorno;
 
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Detalhe;
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\DetalheSegmentoT;
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\DetalheSegmentoU;
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\DetalheSegmentoY;
-use VinicciusGuedes\LaravelCnab\Tests\TestCase;
 use Illuminate\Support\Collection;
+use VinicciusGuedes\LaravelCnab\Tests\TestCase;
+use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab240\Detalhe;
 
 class RetornoCnab240Test extends TestCase
 {
@@ -34,5 +31,4 @@ class RetornoCnab240Test extends TestCase
             $this->assertArrayHasKey('numeroDocumento', $detalhe->toArray());
         }
     }
-
 }

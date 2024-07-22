@@ -1,25 +1,13 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: simetriatecnologia
- * Date: 15/09/16
- * Time: 14:02
- *
- * Updated by Guilherme Couto.
- * User: guicouto
- * Email: ccoutoguilherme@gmail.com
- * Date: 09/07/2018
- * Time: 23:11
- */
-
 namespace VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Pagamento\Banco;
 
+use VinicciusGuedes\LaravelCnab\Util;
 use VinicciusGuedes\LaravelCnab\CalculoDV;
+use VinicciusGuedes\LaravelCnab\Exception\ValidationException;
 use VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\AbstractRemessa;
 use VinicciusGuedes\LaravelCnab\Contracts\Boleto\Boleto as BoletoContract;
 use VinicciusGuedes\LaravelCnab\Contracts\Cnab\Remessa as RemessaContract;
-use VinicciusGuedes\LaravelCnab\Util;
 
 class Santander extends AbstractRemessa implements RemessaContract
 {
@@ -32,7 +20,6 @@ class Santander extends AbstractRemessa implements RemessaContract
     const OCORRENCIA_NAO_PROTESTAR = '10';
     const OCORRENCIA_SUSTAR_PROTESTO = '18';
     const OCORRENCIA_ALT_OUTROS_DADOS = '31';
-
     const PROTESTO_SEM = '0';
     const PROTESTO_DIAS_CORRIDOS = '1';
     const PROTESTO_DIAS_UTEIS = '2';
@@ -80,7 +67,7 @@ class Santander extends AbstractRemessa implements RemessaContract
     /**
      * Seta o codigo do cliente.
      *
-     * @param  mixed $codigoCliente
+     * @param mixed $codigoCliente
      * @return Santander
      */
     public function setCodigoCliente($codigoCliente)
@@ -93,8 +80,8 @@ class Santander extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Santander
+     * @throws ValidationException
      */
     public function addBoleto(BoletoContract $boleto)
     {
@@ -107,8 +94,8 @@ class Santander extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Santander
+     * @throws ValidationException
      */
     public function segmentoJ(BoletoContract $boleto)
     {
@@ -141,8 +128,8 @@ class Santander extends AbstractRemessa implements RemessaContract
     /**
      * @param BoletoContract $boleto
      *
-     * @return $this
-     * @throws \Exception
+     * @return Santander
+     * @throws ValidationException
      */
     public function segmentoJ52(BoletoContract $boleto)
     {
@@ -176,8 +163,8 @@ class Santander extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Santander
+     * @throws ValidationException
      */
     protected function header()
     {
@@ -219,7 +206,7 @@ class Santander extends AbstractRemessa implements RemessaContract
      * Retorna o codigo de transmissão.
      *
      * @return string
-     * @throws \Exception
+     * @throws ValidationException
      */
     public function getCodigoTransmissao()
     {
@@ -229,8 +216,8 @@ class Santander extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Santander
+     * @throws ValidationException
      */
     protected function headerLote()
     {
@@ -270,8 +257,8 @@ class Santander extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Santander
+     * @throws ValidationException
      */
     protected function trailerLote()
     {
@@ -296,8 +283,8 @@ class Santander extends AbstractRemessa implements RemessaContract
     }
 
     /**
-     * @return $this
-     * @throws \Exception
+     * @return Santander
+     * @throws ValidationException
      */
     protected function trailer()
     {

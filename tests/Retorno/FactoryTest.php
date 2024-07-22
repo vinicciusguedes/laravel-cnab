@@ -2,32 +2,34 @@
 
 namespace VinicciusGuedes\LaravelCnab\Tests\Retorno;
 
-use VinicciusGuedes\LaravelCnab\Cnab\Retorno\Cnab400\Detalhe;
-use VinicciusGuedes\LaravelCnab\Tests\TestCase;
 use Exception;
-use Illuminate\Support\Collection;
+use VinicciusGuedes\LaravelCnab\Tests\TestCase;
 
 class FactoryTest extends TestCase
 {
-    public function testCriarEmBranco(){
+    public function testCriarEmBranco()
+    {
         $this->expectException(Exception::class);
         $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make('');
         $retorno->processar();
     }
 
-    public function testCriarComRemessa(){
+    public function testCriarComRemessa()
+    {
         $this->expectException(Exception::class);
         $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/remessa.txt');
         $retorno->processar();
     }
 
-    public function testCriarComPathQueNaoExiste(){
+    public function testCriarComPathQueNaoExiste()
+    {
         $this->expectException(Exception::class);
         $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/naoexiste.txt');
         $retorno->processar();
     }
 
-    public function testCriarComRetornoBancoNaoExiste(){
+    public function testCriarComRetornoBancoNaoExiste()
+    {
         $this->expectException(Exception::class);
         $retorno = \VinicciusGuedes\LaravelCnab\Cnab\Retorno\Factory::make(__DIR__ . '/files/cnab400/retorno_banco_fake.ret');
         $retorno->processar();
