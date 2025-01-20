@@ -1,5 +1,5 @@
-[![Packagist](https://img.shields.io/packagist/v/vinicciusguedes/laravel-cnab.svg?style=flat-square)](https://github.com/vinicciusguedes/laravel-cnab)
-[![Packagist](https://img.shields.io/packagist/dt/vinicciusguedes/laravel-cnab.svg?style=flat-square)](https://github.com/vinicciusguedes/laravel-cnab)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/vinicciusguedes/laravel-cnab.svg?style=flat-square)](https://packagist.org/packages/vinicciusguedes/laravel-cnab/)
+[![Download](https://img.shields.io/packagist/dt/vinicciusguedes/laravel-cnab.svg?style=flat-square)](https://github.com/vinicciusguedes/laravel-cnab)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/vinicciusguedes/laravel-bitwise/build.yml?style=flat-square)](https://github.com/vinicciusguedes/laravel-cnab/actions)
 [![GitHub forks](https://img.shields.io/github/forks/vinicciusguedes/laravel-cnab.svg?style=social&label=Fork)](https://github.com/vinicciusguedes/laravel-cnab)
