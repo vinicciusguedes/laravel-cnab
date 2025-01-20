@@ -11,10 +11,10 @@ This bank has the following mandatory fields:
 .. code-block:: php
 
     // for 400 positions
-    $send = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Sicredi;
+    $send = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Sicredi;
 
     // Or, for 240 positions
-    $send = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Banco\Sicredi;
+    $send = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Cobranca\Banco\Sicredi;
 
     $send->setBeneficiario($beneficiario)
         ->setIdremessa(1)
@@ -37,10 +37,10 @@ Or, Simply:
     ];
 
     // for 400 positions
-    $send = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Banco\Sicredi($sendArray);
+    $send = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab400\Cobranca\Banco\Sicredi($sendArray);
 
     // Or, for 240 positions
-    $send = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Banco\Sicredi($sendArray);
+    $send = new VinicciusGuedes\LaravelCnab\Cnab\Remessa\Cnab240\Cobranca\Banco\Sicredi($sendArray);
 
 
 .. ATTENTION::
