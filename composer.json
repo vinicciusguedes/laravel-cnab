@@ -3,7 +3,12 @@
     "description": "Biblioteca para gerar boletos, remessas e leitura de retorno em laravel",
     "keywords": [
         "vinicciusguedes",
-        "laravel-cnab"
+        "laravel-cnab",
+        "cnab",
+        "cnab240",
+        "cnab400",
+        "remessa",
+        "boleto"
     ],
     "homepage": "https://github.com/vinicciusguedes/laravel-cnab",
     "license": "MIT",

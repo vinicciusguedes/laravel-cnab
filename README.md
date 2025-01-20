@@ -1,19 +1,18 @@
 [![Packagist](https://img.shields.io/packagist/v/vinicciusguedes/laravel-cnab.svg?style=flat-square)](https://github.com/vinicciusguedes/laravel-cnab)
 [![Packagist](https://img.shields.io/packagist/dt/vinicciusguedes/laravel-cnab.svg?style=flat-square)](https://github.com/vinicciusguedes/laravel-cnab)
-[![Packagist](https://img.shields.io/packagist/l/vinicciusguedes/laravel-cnab.svg?style=flat-square)](https://github.com/vinicciusguedes/laravel-cnab)
-[![build](https://github.com/vinicciusguedes/laravel-cnab/actions/workflows/build.yml/badge.svg)](https://github.com/vinicciusguedes/laravel-cnab/actions/workflows/build.yml)
+[![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/vinicciusguedes/laravel-bitwise/build.yml?style=flat-square)](https://github.com/vinicciusguedes/laravel-cnab/actions)
 [![GitHub forks](https://img.shields.io/github/forks/vinicciusguedes/laravel-cnab.svg?style=social&label=Fork)](https://github.com/vinicciusguedes/laravel-cnab)
 
 # Laravel Cnab
-Pacote para gerar boletos, remessas e leitura de retorno.
+Pacote PHP para geração de boletos bancários, criação de remessas no formato padrão de bancos e leitura de arquivos de retorno. Facilita a integração com sistemas financeiros e bancários, proporcionando funcionalidades para a emissão e controle de boletos, bem como a interpretação dos arquivos de retorno para atualização de status e conciliação bancária.
 
-**Projeto atualizado para o PHP 7.2, utilize sempre a última versão do PHP**
 
-[Documentação do Projeto](https://laravel-cnab.readthedocs.io/)
+[Documentação do Projeto](https://github.com/vinicciusguedes/laravel-cnab/tree/master/docs/source/usage)
 
 ## Instalação
 
-Via linha de comando:
+Você pode instalar o pacote através do Composer:
 ```composer
 composer require vinicciusguedes/laravel-cnab
 ```
@@ -25,10 +24,5 @@ Ou, coloque em seu arquivo composer.json:
 }
 ```
 
-## Doações
-
-**Estamos em busca de *doadores* e *patrocinadores* para ajudar a financiar parte do desenvolvimento deste pacote**
-
-Este é um projeto totalmente *OpenSource*, para usa-lo, copia-lo e modifica-lo você não paga absolutamente nada. Porém para continuarmos a mante-lo de forma adequada é necessária alguma contribuição seja feita, seja auxiliando na codificação, na documentação, na realização de testes e identificação de falhas e BUGs.
-
-Mas também, caso você ache que qualquer informação obtida aqui, lhe foi útil e que isso vale de algum dinheiro e está disposto a doar algo, sinta-se livre para enviar qualquer quantia, seja diretamente ao autor ou através do PayPal e do PagSeguro.
+___ 
+**Desenvolvedor:** Viníccius Guedes
