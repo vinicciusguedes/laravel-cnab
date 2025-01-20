@@ -1,4 +1,4 @@
-Laravel Boleto's Docs
+Laravel CNAB Docs
 =====================
 
 .. toctree::
